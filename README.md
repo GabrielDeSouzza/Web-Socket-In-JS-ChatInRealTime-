@@ -6,5 +6,6 @@ serviço criado acrescentendo novas camadas como DB, compartinhamento de arquivo
 # Instalação
 $ npm install
 Executando App
+<br />
 $ npm run dev
 $acesse: http://localhost:3000/
