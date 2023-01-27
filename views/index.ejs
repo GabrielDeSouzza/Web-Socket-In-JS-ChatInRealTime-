@@ -8,7 +8,7 @@
     <title>Socket IO</title>
   </head>
   <body>
-    <form action="chat.html">
+    <form method="post">
       <div class="container">
         <div class="row">
           <select name="select_room" id="select_room">
@@ -29,8 +29,17 @@
 
         <div class="row">
           <button type="submit" class="btn btn-primary mb-3">Entrar</button>
+          <% if (typeof(msg_error)!= undefined) { %>
+            <p> <%=msg_error%></p>
+            <%} else { %>
+            <p> Not Allowed </p>
+            <% } %>
         </div>
       </div>
     </form>
+    <div>
+      
+      
+    </div>
   </body>
 </html>

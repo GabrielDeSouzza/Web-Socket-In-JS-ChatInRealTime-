@@ -29,8 +29,13 @@
       <footer></footer>
     </div>
 
+    <script type="text/javascript">
+      this.room = "<%=room%>"
+      this.username = "<%=username %>"
+    </script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"></script>
-    <script src="./chat.js"></script>
+    <script src="/clientWS.js"></script>
   </body>
 </html>

@@ -1,6 +1,5 @@
 import { io } from "./http";
-
-
+const db = require('./db')
 interface IRomUser{
     socketId: string,
     username: string,
@@ -15,16 +14,16 @@ interface IMessage{
 }
 
 const messages: IMessage[] = []
+
 //array de usuarios
 const users: IRomUser[] = []
 
 //conectando usuario ao servidor
-io.on("connection", (socket) =>{
-    socket.on("userData", (data,callbabk) =>{
+ io.on("connection",  (socket) =>{
+    socket.on("userData", async(data, callbabk) =>{
 
         //jogando o usuario para sala que ele selecionou
         socket.join(data.room)
-
         //verificando se o usuario já está sala que entrou 
         const userInRoom = users.find(user=> user.username === data.username && user.room === data.room)
 
@@ -42,7 +41,8 @@ io.on("connection", (socket) =>{
             })
         }
 
-        callbabk(getMessagensRoom(data.room))
+         callbabk(await getMessagensRoom(data.room))
+  
     })
 
     //recebendo messages dos usuarios 
@@ -63,8 +63,9 @@ io.on("connection", (socket) =>{
         
     })
 
-    function getMessagensRoom(room:string){
-        const messageInRoom = messages.filter(messase=> messase.room === room)
+    async function getMessagensRoom(room:string){
+        const sql:string = `select rooms.message, users.username from rooms INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}'` 
+        const messageInRoom = await db.exec(sql)
         return messageInRoom
     }
 })  

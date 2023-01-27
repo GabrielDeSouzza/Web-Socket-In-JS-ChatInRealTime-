@@ -12,7 +12,23 @@ const db: object= {
         const connetDB = mysql.createConnection(connectstring);
         const query = util.promisify(connetDB.query).bind(connetDB)
         try{
-            const data = await query(sql,values);
+            const data = await  query(sql,values);
+            return data
+        }
+        catch(e){
+            console.log(e)
+            return []
+        }
+        finally{
+            connetDB.end();
+        }
+    },
+    getUser:async (user:string) => {
+        const connetDB = mysql.createConnection(connectstring);
+        const query = util.promisify(connetDB.query).bind(connetDB)
+        try{
+            const sql:string = "SELECT users.username, users.password from users where users.username='"+user+"'"
+            const data = await query(sql)
             return data
         }
         catch(e){
@@ -23,6 +39,7 @@ const db: object= {
             connetDB.end();
         }
     }
+     
 };
 
 module.exports = db

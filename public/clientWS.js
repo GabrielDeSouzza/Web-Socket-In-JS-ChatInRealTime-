@@ -1,9 +1,9 @@
 const socket = io();
 
-const urlSearch = new URLSearchParams(window.location.search);
+const username = window.username
 
-const username = urlSearch.get("username");
-const room = urlSearch.get("select_room");
+const room = window.room
+
 
 function createMessage(data) {
   const messagesDiv = document.getElementById("messages");
@@ -12,8 +12,8 @@ function createMessage(data) {
       <div class="new_message">
           <label class="form-label">
               <strong>${data.username}</strong> <span>${data.message} - ${dayjs(
-    data.createdAt
-  ).format("DD/MM HH:mm")}</span>
+                data.createdAt
+              ).format("DD/MM HH:mm")}</span>
           </label>
       </div>
     `;
@@ -30,8 +30,8 @@ socket.emit(
     username,
     room,
   },
-  (messages) => {
-    messages.forEach((message) => {
+(messages) => {
+     messages.forEach(( message) => {
       createMessage(message);
     });
   }
@@ -50,7 +50,6 @@ document
       };
 
       event.target.value = "";
-
       socket.emit("message", data);
     }
   });
@@ -61,5 +60,5 @@ socket.on("message", (data) => {
 });
 
 document.getElementById("logout").addEventListener("click", () => {
-  window.location.href = "index.html";
+  window.location.href = "/";
 });
