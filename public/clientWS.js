@@ -12,11 +12,12 @@ function createMessage(data) {
       <div class="new_message">
           <label class="form-label">
               <strong>${data.username}</strong> <span>${data.message} - ${dayjs(
-                data.createdAt
-              ).format("DD/MM HH:mm")}</span>
+                data.date
+              ).format("DD/MM/YYYY HH:mm")}</span>
           </label>
       </div>
     `;
+  console.log(Date(data.date))
 }
 
 document.getElementById(
@@ -55,7 +56,6 @@ document
   });
 
 socket.on("message", (data) => {
-  console.log(data)
   createMessage(data);
 });
 

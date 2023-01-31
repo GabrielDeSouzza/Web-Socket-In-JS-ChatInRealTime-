@@ -1,5 +1,6 @@
 import { io } from "./http";
 const db = require('./db')
+const moment = require('moment')
 interface IRomUser{
     socketId: string,
     username: string,
@@ -12,8 +13,6 @@ interface IMessage{
     message:string,
     username:string
 }
-
-const messages: IMessage[] = []
 
 //array de usuarios
 const users: IRomUser[] = []
@@ -44,28 +43,26 @@ const users: IRomUser[] = []
          callbabk(await getMessagensRoom(data.room))
   
     })
-
     //recebendo messages dos usuarios 
     socket.on("message", data=>{
         const message:IMessage = {
             room: data.room,
-            creatDate: new Date(),
+            creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
             message: data.message,
             username: data.username
         }
 
-        messages.push(message)
-
+        db.saveMessages(message)
         //enviando mensagem para todos os usuarios na sala
         //objervação caso eu quisesse mandar a mensagem penas para um usuario 
         //usa-se o socket não o io
         io.to(data.room).emit("message",message)
         
     })
-
+   
     async function getMessagensRoom(room:string){
-        const sql:string = `select rooms.message, users.username from rooms INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}'` 
-        const messageInRoom = await db.exec(sql)
+        
+        const messageInRoom = await db.getMessagesRoom(room)
         return messageInRoom
     }
 })  

@@ -29,17 +29,15 @@
 
         <div class="row">
           <button type="submit" class="btn btn-primary mb-3">Entrar</button>
-          <% if (typeof(msg_error)!= undefined) { %>
+          <% if (typeof(msg_error)!= "undefined") { %>
             <p> <%=msg_error%></p>
-            <%} else { %>
-            <p> Not Allowed </p>
-            <% } %>
+          <%}  %>
+            
         </div>
       </div>
     </form>
-    <div>
-      
-      
+    <div class="">
+      <a href="/cadastro">Cadastrar-se</a>
     </div>
   </body>
 </html>

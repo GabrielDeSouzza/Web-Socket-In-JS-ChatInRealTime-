@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        <div class="container">
+            <div class="row">
+                <label for="form-label">Crie um username </label>
+                <input type="text" name="username" placeholder="Username">
+                <label for="form-label">Crie um senha</label>
+                <input type="password" name="password" placeholder="senha">
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary mb-3">
+                    Cadastrar
+                </button>
+                <% if (typeof(result_msg)!= "undefined") { %>
+                    <p> <%=result_msg%></p>
+                  <%}  %>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

@@ -29,6 +29,32 @@ app.get('/',(req,res)=>{
     res.render("index")
 })
 
+app.get('/cadastro',(req,res)=>{
+    res.render('cadastro')
+})
+
+app.post('/cadastro', async(req,res)=>{
+    if(await db.verifyUser(req.body.username)){
+        res.render('cadastro',{
+            result_msg: 'Cadastro já cadastrado'
+        })
+    }
+    else{
+        const username = req.body.username
+        const password = req.body.password
+        console.log(username, 'dsf')
+        if(username === '' || password === ''){
+            res.render('cadastro',{
+                result_msg: "Preencha todos os campos"
+            })
+        }
+        await db.registerUser(username,password)
+        res.render('cadastro',{
+            result_msg : "Usuario Cadastrado"
+        })
+    }
+})
+
 app.post('/',async (req,res)=>{
     if(req.body.select_room == -1){
         res.render("index",{

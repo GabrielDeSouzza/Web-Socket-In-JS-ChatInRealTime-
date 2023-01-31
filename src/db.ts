@@ -7,27 +7,19 @@ const util = require('util')
 
 const connectstring  =process.env.DATABASE_URL;
 
+interface IMessage{
+    room:string,
+    creatDate:Date,
+    message:string,
+    username:string
+}
+
 const db: object= {
-    exec : async function(sql:string, values:any) {
-        const connetDB = mysql.createConnection(connectstring);
-        const query = util.promisify(connetDB.query).bind(connetDB)
-        try{
-            const data = await  query(sql,values);
-            return data
-        }
-        catch(e){
-            console.log(e)
-            return []
-        }
-        finally{
-            connetDB.end();
-        }
-    },
     getUser:async (user:string) => {
         const connetDB = mysql.createConnection(connectstring);
         const query = util.promisify(connetDB.query).bind(connetDB)
         try{
-            const sql:string = "SELECT users.username, users.password from users where users.username='"+user+"'"
+            const sql:string = `SELECT users.username, users.password from users where users.username='${user}'`
             const data = await query(sql)
             return data
         }
@@ -38,7 +30,83 @@ const db: object= {
         finally{
             connetDB.end();
         }
+    },
+    getMessagesRoom: async(room:string)=>{
+        const connetDB = mysql.createConnection(connectstring);
+        const query = util.promisify(connetDB.query).bind(connetDB)
+        try{
+            const sql:string = `select rooms.message, users.username, rooms.date from rooms INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}'` 
+            const data = await query(sql)
+            return data
+        }
+        catch(e){
+            console.log(e)
+            return []
+        }
+        finally{
+            connetDB.end()
+        }
+    },
+    verifyUser: async(username:string)=>{
+        const connetDB = mysql.createConnection(connectstring);
+        const query = util.promisify(connetDB.query).bind(connetDB)
+        try{
+            const sql:string = `select users.username from users where users.username ='${username}'`
+            const data = await query(sql)
+            if(data.length == 0)
+                return false
+            else
+                return true
+        }
+        catch(e){
+            console.log(e)
+            return []
+        }
+        finally{
+            connetDB.end()
+        }
+        
+
+    },
+    registerUser: async(username:string,password:string)=>{
+        const connetDB = mysql.createConnection(connectstring);
+        const query = util.promisify(connetDB.query).bind(connetDB)
+        try{
+            const sql = `INSERT INTO users(username, password) VALUES ('${username}','${password}')`
+            await query(sql)
+            return "Cadastrado com sucesso"
+        }
+        catch(e){
+            console.log(e)
+            return "Erro ao cadastrar"
+        }
+        finally{
+            connetDB.end()
+        }
+    },
+    saveMessages: async(message:IMessage)=>{
+        const connetDB = mysql.createConnection(connectstring);
+        const query = util.promisify(connetDB.query).bind(connetDB)
+        try{
+            console.log(message)
+            let sql:string = `SELECT users.id from users where users.username='${message.username}'`
+            const userId = await query(sql)
+
+            sql = `INSERT INTO rooms(room, usersId, message, date) VALUES ('${message.room}','${userId[0].id}','${message.message}','${message.creatDate}')`
+            await query(sql)
+            console.log("salvou")
+        }
+        catch(e){
+            console.log(e)
+            return "Erro ao cadastrar"
+        }
+        finally{
+            connetDB.end()
+        }
+
     }
+    
+
      
 };
 
