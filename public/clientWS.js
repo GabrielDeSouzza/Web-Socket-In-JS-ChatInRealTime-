@@ -7,13 +7,18 @@ const room = window.room
 
 function createMessage(data) {
   const messagesDiv = document.getElementById("messages");
-
+  let classMessage = 'new_message'
+  if(data.username === username)
+    classMessage = 'user_input'
   messagesDiv.innerHTML += `
-      <div class="new_message">
+      <div class="${classMessage}">
           <label class="form-label">
-              <strong>${data.username}</strong> <span>${data.message} - ${dayjs(
-                data.date
-              ).format("DD/MM/YYYY HH:mm")}</span>
+              <span>${data.username} - 
+              ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
+              </span>
+              <div>
+                ${data.message}
+              </div>
           </label>
       </div>
     `;

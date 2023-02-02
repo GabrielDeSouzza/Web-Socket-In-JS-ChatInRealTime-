@@ -1,6 +1,8 @@
 body {
     outline: none;
     cursor: pointer;
+    background-color: #1A1924;
+    color: white;
   }
   
   form {
@@ -12,18 +14,21 @@ body {
   
     margin-top: 140px;
   }
+
+  a:visited{
+    color: inherit;
+  }
   
   button {
     width: 400px;
     height: 40px;
-  
-    background: #4b9847;
+    background: #07847E;
   
     outline: none;
     border: none;
   
     color: #fff;
-  
+    margin-bottom: 5px;
     cursor: pointer;
   }
   
@@ -33,21 +38,24 @@ body {
   
   select,
   input {
-    width: 400px;
+    width: 395px;
     height: 30px;
-  
-    padding: 5px 0px;
-  
+    border-radius: 10px;
+    background-color: #07847E;
+    color: #E1E1E6;
+    padding: 5px 5px;
     outline: none;
+  }
+
+  ::placeholder{
+    color: rgb(216, 216, 216);
   }
   
   .row {
     display: flex;
     justify-content: center;
     flex-direction: column;
-  
     padding: 5px 0px;
-  
     margin-top: 18px;
   }
   
@@ -63,14 +71,28 @@ body {
   
   .new_message {
     padding: 5px;
-  }
-  
-  #message_input {
-    margin-top: 50px;
+    border-radius: 10px;
+    background-color: #07847E;
+    width: 200px;
+    margin-left: 220px;
   }
   
   .logout {
     background: rgb(56, 3, 3);
-  
     cursor: pointer;
   }
+
+  .user_input{
+    
+    background-color: #633BBC;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 2px;
+    width: 200px;
+    position: relative;
+  }
+  .user_input > label > div, .new_message > label > div{
+    font-size: 1.2em;
+  }
+
+ 

@@ -79,7 +79,7 @@ app.post('/',async (req,res)=>{
     }
     else if(user.password != req.body.password){
         res.render("index",{
-            msg_error: "Senha ou usuario não encontrado"
+            msg_error: "Senha invalida ou usuario não encontrado"
         })
         return
     }
