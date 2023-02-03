@@ -3,13 +3,7 @@ Projeto criado com o intuito de conhecer e aprimorar
 conhecimentos sobre web-sockets, visando aprimorar o 
 serviço criado acrescentando novas camadas como DB, compartilhamento de arquivos, etc.
 
-<<<<<<< HEAD
-# Instalação execução
-$ npm install 
-Executando App
-<br />
-$ npm run dev
-=======
+
 # Requisitos
 $ Node: https://nodejs.org/en/download/ <br />
 $ Mysql: https://dev.mysql.com/downloads/installer/ <br />
@@ -34,7 +28,8 @@ FOREIGN KEY (usersid) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE) 
 
 # Executando App
 $ Vá no prompt de comando e localize a pasta do projeto então execute o comando:  npm run dev
->>>>>>> 251d4e8be13cd846b34818091fe009e1bc8728f0
+<br /> 
+$inicie o servidor no MySql
 <br />
 $acesse: http://localhost:3000/
 
