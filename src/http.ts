@@ -49,7 +49,7 @@ app.post('/cadastro', async(req,res)=>{
             })
         }
         await db.registerUser(username,password)
-        res.render('cadastro',{
+        res.render('index',{
             result_msg : "Usuario Cadastrado"
         })
     }
@@ -67,11 +67,16 @@ app.post('/',async (req,res)=>{
         password:string
     }
 
+    if(req.body.username ==="" || req.body.password === ""){
+        res.render("index",{
+            msg_error : "Preencha todos os campos"
+        })
+    }
     const userData:IUserData[] = await db.getUser(req.body.username)
 
     const user:IUserData|undefined= userData.find(element=> element.username ==req.body.username)
   
-    if(user == undefined){
+    if(user == undefined ){
         res.render("index",{
             msg_error: "Usuario não encontrado"
         })

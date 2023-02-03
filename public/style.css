@@ -1,6 +1,5 @@
 body {
     outline: none;
-    cursor: pointer;
     background-color: #1A1924;
     color: white;
   }
@@ -15,10 +14,7 @@ body {
     margin-top: 140px;
   }
 
-  a:visited{
-    color: inherit;
-  }
-  
+ 
   button {
     width: 400px;
     height: 40px;
@@ -26,7 +22,7 @@ body {
   
     outline: none;
     border: none;
-  
+    border-radius: 4px;
     color: #fff;
     margin-bottom: 5px;
     cursor: pointer;
@@ -47,33 +43,56 @@ body {
     outline: none;
   }
 
+  a{
+    color: white;
+    text-decoration: none;
+  }
   ::placeholder{
     color: rgb(216, 216, 216);
   }
   
   .row {
     display: flex;
-    justify-content: center;
+    
     flex-direction: column;
     padding: 5px 0px;
     margin-top: 18px;
+    max-height: 500px;
+    overflow: auto;
+    
   }
+  .row::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 5px; 
+  }
+
+  .row::-webkit-scrollbar {
+    width: 6px;
+    background: #f4f4f4da;
+    border-radius: 6px;
   
+  }
+  .row::-webkit-scrollbar-thumb {
+    background: #8d0d0d;
+    border-radius: 5px;
+  }
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-  
+    height: 100%;
     width: 100%;
-  
     margin-top: 10px;
+    flex-wrap: wrap;
   }
-  
+
   .new_message {
     padding: 5px;
+    margin: 3px;
     border-radius: 10px;
     background-color: #07847E;
     width: 200px;
+    word-break: break-all;
     margin-left: 220px;
   }
   
@@ -83,16 +102,40 @@ body {
   }
 
   .user_input{
-    
+    display: flexbox;
     background-color: #633BBC;
     border-radius: 10px;
     padding: 5px;
-    margin: 2px;
-    width: 200px;
+    margin: 3px;
+    min-width: 200px;
+    max-width: 400px; 
+    word-break: break-all;
     position: relative;
   }
   .user_input > label > div, .new_message > label > div{
     font-size: 1.2em;
   }
+
+  .register-btn{
+    display: block;
+    width: 400px;
+    height: 40px;
+    background-color: #07847E;
+    color: #FFF;
+    line-height: 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-family: Arial;
+  }
+  .register-btn:hover{
+    background-color: #07847e80;
+  }
+  .register-btn:visited{
+    color: #FFF;
+  }
+
+
+
 
  

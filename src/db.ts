@@ -35,7 +35,9 @@ const db: object= {
         const connetDB = mysql.createConnection(connectstring);
         const query = util.promisify(connetDB.query).bind(connetDB)
         try{
-            const sql:string = `select rooms.message, users.username, rooms.date from rooms INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}'` 
+            const sql:string = `select rooms.message, users.username, rooms.date from rooms
+             INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}' 
+            order by rooms.date asc` 
             const data = await query(sql)
             return data
         }
