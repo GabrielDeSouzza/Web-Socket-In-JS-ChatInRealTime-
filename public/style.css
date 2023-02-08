@@ -33,14 +33,15 @@ body {
   }
   
   select,
-  input {
+  .input-patter {
     width: 395px;
     height: 30px;
     border-radius: 10px;
     background-color: #07847E;
     color: #E1E1E6;
-    padding: 5px 5px;
+    padding: 5px 6px;
     outline: none;
+    border-color: transparent ;
   }
 
   a{
@@ -53,7 +54,6 @@ body {
   
   .row {
     display: flex;
-    
     flex-direction: column;
     padding: 5px 0px;
     margin-top: 18px;
@@ -90,7 +90,7 @@ body {
     padding: 5px;
     margin: 3px;
     border-radius: 10px;
-    background-color: #07847E;
+    background-color: #633BBC;
     width: 200px;
     word-break: break-all;
     margin-left: 220px;
@@ -103,7 +103,7 @@ body {
 
   .user_input{
     display: flexbox;
-    background-color: #633BBC;
+    background-color: #07847E;
     border-radius: 10px;
     padding: 5px;
     margin: 3px;
@@ -134,6 +134,71 @@ body {
   .register-btn:visited{
     color: #FFF;
   }
+
+  .input-user{
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap ;
+  }
+  #inp-upload-arq{
+    max-width: 0px; 
+  }
+  #message_input{
+    max-width: 350px; 
+  }
+  
+  #inp-upload-arq::-webkit-file-upload-button{
+    visibility: hidden;
+  }
+
+  #div-upload-arq{
+    max-width: 45px;
+    max-height: 45px;
+    display: flex;
+    border-radius: 5px;
+    border: 2px;
+    height: inherit;
+    margin-left: 2px;
+    cursor: pointer;
+  }
+  #div-upload-arq > label > img:nth-child(1), #div-upload-arq > label{
+    height: 100%;
+    cursor: pointer;
+  }
+ 
+  .image-div{
+    margin: 2px;
+    display: flexbox;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 347px;
+    width: 250px;
+    background-color: #633BBC;
+  }
+
+  .upImage{
+    max-height: 320px;
+    max-width: 320px;
+    height: auto;
+    width: auto;
+  }
+  #image-user{
+    width: inherit;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #07847E;
+    padding: 5px 0 5px 0;
+
+    margin-top: 5px;
+    border-radius: 5px;
+    margin-right: 42px;
+  }
+ 
+
 
 
 

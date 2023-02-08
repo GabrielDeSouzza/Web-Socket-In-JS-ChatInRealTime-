@@ -49,8 +49,8 @@ app.post('/cadastro', async(req,res)=>{
             })
         }
         await db.registerUser(username,password)
-        res.render('index',{
-            result_msg : "Usuario Cadastrado"
+        res.render('index   ',{
+            msg_error: "Usuario Cadastrado com sucesso"
         })
     }
 })
