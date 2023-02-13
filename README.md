@@ -11,8 +11,8 @@ $ Npm : É instalado junto com o Node <br />
 $ Obs: Qualquer dúvida sobre a instalação do node
 e do npm acesse: https://dicasdejavascript.com.br/instalacao-do-nodejs-e-npm-no-windows-passo-a-passo/
 
-# Instalação execução
-$ npm install  /* Instalar Dependências */ <br />
+# Instalação
+$ Vá no prompt de comando localize a pasta do projeto e digite: npm install  /* Instalar Dependências */ <br />
 $ No MySQL cole este código:
 
 CREATE DATABASE chat;
@@ -26,10 +26,14 @@ CREATE TABLE rooms
  usersid INT NOT NULL , date DATETIME NOT NULL , PRIMARY KEY (id),
 FOREIGN KEY (usersid) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB;
 
+$após criar o banco de dados entre na pasta do projeto e crie um arquivo com o nome '.env' e siga 
+o modelo de string´s de conexões deixado no arquivo '.env.sample' passando os dados lá requisitados
+$Por último será necessário criar um conta no serviço de nuvem da <a href="http://example.com/" target="_blank">Cloudinary </a>
+e configurar a sua conexão com o serviço seguindo o modelo do arquivo '.env.sample'
+
 # Executando App
-$ Vá no prompt de comando e localize a pasta do projeto então execute o comando:  npm run dev
-<br /> 
 $inicie o servidor no MySql
 <br />
+$ Vá no prompt de comando e localize a pasta do projeto então execute o comando:  npm run dev
+<br /> 
 $acesse: http://localhost:3000/
-
