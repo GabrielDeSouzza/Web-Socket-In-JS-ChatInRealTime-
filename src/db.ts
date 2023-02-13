@@ -11,7 +11,8 @@ interface IMessage{
     room:string,
     creatDate:Date,
     message:string,
-    username:string
+    username:string,
+    upImage:string
 }
 
 const db: object= {
@@ -35,7 +36,7 @@ const db: object= {
         const connetDB = mysql.createConnection(connectstring);
         const query = util.promisify(connetDB.query).bind(connetDB)
         try{
-            const sql:string = `select rooms.message, users.username, rooms.date from rooms
+            const sql:string = `select rooms.message, users.username, rooms.date, rooms.imagename from rooms
              INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}' 
             order by rooms.date asc` 
             const data = await query(sql)
@@ -94,7 +95,7 @@ const db: object= {
             let sql:string = `SELECT users.id from users where users.username='${message.username}'`
             const userId = await query(sql)
 
-            sql = `INSERT INTO rooms(room, usersId, message, date) VALUES ('${message.room}','${userId[0].id}','${message.message}','${message.creatDate}')`
+            sql = `INSERT INTO rooms(room, usersId, message, date, imagename) VALUES ('${message.room}','${userId[0].id}','${message.message}','${message.creatDate}','${message.upImage}')`
             await query(sql)
             console.log("salvou")
         }

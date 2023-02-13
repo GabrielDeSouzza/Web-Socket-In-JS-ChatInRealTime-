@@ -3,10 +3,13 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import path from "path"
+
+const route_upload = require('../routers/route_uploader')
 const app = express();
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const db =require('./db')
+
 
 //configurando a sessões
 app.use(session({
@@ -49,7 +52,7 @@ app.post('/cadastro', async(req,res)=>{
             })
         }
         await db.registerUser(username,password)
-        res.render('index   ',{
+        res.render('index',{
             msg_error: "Usuario Cadastrado com sucesso"
         })
     }
@@ -90,10 +93,13 @@ app.post('/',async (req,res)=>{
     }
     res.render('chat', {
         room: req.body.select_room,
-        username: req.body.username
+        username: req.body.username,
     })
 })
 
+
+
+app.use("/",route_upload)
 const httpServer = http.createServer(app)
 const io = new Server(httpServer)
 

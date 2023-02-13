@@ -11,7 +11,8 @@ interface IMessage{
     room:string,
     creatDate:Date,
     message:string,
-    username:string
+    username:string,
+    upImage?:string
 }
 
 //array de usuarios
@@ -20,7 +21,6 @@ const users: IRomUser[] = []
 //conectando usuario ao servidor
  io.on("connection",  (socket) =>{
     socket.on("userData", async(data, callbabk) =>{
-
         //jogando o usuario para sala que ele selecionou
         socket.join(data.room)
         //verificando se o usuario já está sala que entrou 
@@ -43,20 +43,35 @@ const users: IRomUser[] = []
          callbabk(await getMessagensRoom(data.room))
   
     })
+    console.log('test')
     //recebendo messages dos usuarios 
     socket.on("message", data=>{
-        const message:IMessage = {
+        console.log(data)
+        let messagem:IMessage;
+        if(data.upImage){
+         messagem =  {
             room: data.room,
             creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
             message: data.message,
-            username: data.username
+            username: data.username,
+            upImage: data.upImage
         }
-
-        db.saveMessages(message)
+        
+        }
+        else{
+             messagem = {
+                room: data.room,
+                creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
+                message: data.message,
+                username: data.username,
+            } 
+        }
+ 
+        db.saveMessages(messagem)
         //enviando mensagem para todos os usuarios na sala
         //objervação caso eu quisesse mandar a mensagem penas para um usuario 
         //usa-se o socket não o io
-        io.to(data.room).emit("message",message)
+        io.to(data.room).emit("message",messagem)
         
     })
    
