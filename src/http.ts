@@ -8,7 +8,7 @@ const route_upload = require('../routers/route_uploader')
 const app = express();
 const session = require('express-session')
 const bodyParser = require('body-parser')
-const db =require('./db')
+const db = require('./db')
 
 
 //configurando a sessões
@@ -25,10 +25,9 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname,"..","public")))
 app.set('public', path.join(__dirname, '/public'))
-
+app.use("*/uploads",express.static(__dirname+"/public/uploads") )
 //ajustando endpoint´s 
 app.get('/',(req,res)=>{
-    console.log(req, res)
     res.render("index")
 })
 
@@ -45,7 +44,7 @@ app.post('/cadastro', async(req,res)=>{
     else{
         const username = req.body.username
         const password = req.body.password
-        console.log(username, 'dsf')
+   
         if(username === '' || password === ''){
             res.render('cadastro',{
                 result_msg: "Preencha todos os campos"

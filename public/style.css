@@ -92,7 +92,7 @@ body {
     margin: 3px;
     border-radius: 10px;
     background-color: #633BBC;
-    width: 200px;
+    min-width: 200px;
     word-break: break-all;
     margin-left: 220px;
   }
@@ -170,18 +170,26 @@ body {
  
   .image-div{
     margin: 2px;
-    display: flexbox;
+    display: flex;
+    min-height: 50px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 347px;
-    width: 250px;
-    background-color: #633BBC;
+    height: auto;
+    width: auto;
+    max-width: 330px;
+    max-height: 330px;
+    border-radius: 5px;
+    border: 5px;
+    background-color: #08b9b1f8;
+    padding: 5px;
   }
 
   .upImage{
     max-height: 320px;
     max-width: 320px;
+    min-height: 50px;
+    min-width: 50px;
     height: auto;
     width: auto;
   }
@@ -201,6 +209,21 @@ body {
   #image-user > span{
     cursor: pointer;
   }
+
+  .upImage-status{
+    
+    margin-top: 10px;
+    height: 10px;
+    width: inherit;
+    border: solid 1px gray;
+}
+.upImage-status > div{
+    background-color: rgb(49, 49, 49);
+    color: rgb(141, 3, 3);
+    height: 100%;
+    text-align: right;
+    width: 0%;
+}
  
 
 

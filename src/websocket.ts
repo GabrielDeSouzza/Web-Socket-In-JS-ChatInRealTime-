@@ -1,6 +1,10 @@
+import { Module } from "module";
 import { io } from "./http";
 const db = require('./db')
 const moment = require('moment')
+require("dotenv").config();
+const cloudinary = require('cloudinary').v2;
+
 interface IRomUser{
     socketId: string,
     username: string,
@@ -13,6 +17,7 @@ interface IMessage{
     message:string,
     username:string,
     upImage?:string
+    nameUpImage?:string
 }
 
 //array de usuarios
@@ -43,10 +48,8 @@ const users: IRomUser[] = []
          callbabk(await getMessagensRoom(data.room))
   
     })
-    console.log('test')
     //recebendo messages dos usuarios 
-    socket.on("message", data=>{
-        console.log(data)
+    socket.on("message", async data=>{
         let messagem:IMessage;
         if(data.upImage){
          messagem =  {
@@ -54,7 +57,10 @@ const users: IRomUser[] = []
             creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
             message: data.message,
             username: data.username,
-            upImage: data.upImage
+            upImage: await cloudinary.url('wsChatAppUploads/'+data.upImage, {transformation: [
+                {height: 320, width: 320, crop: "limit"}
+                ]}),
+            nameUpImage: data.upImage
         }
         
         }
@@ -72,7 +78,6 @@ const users: IRomUser[] = []
         //objervação caso eu quisesse mandar a mensagem penas para um usuario 
         //usa-se o socket não o io
         io.to(data.room).emit("message",messagem)
-        
     })
    
     async function getMessagensRoom(room:string){

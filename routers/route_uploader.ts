@@ -6,27 +6,30 @@ const cloudinary = require('cloudinary').v2;
 const express = require('express')
 const router = express.Router()
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'wsChatAppUploads',
-        public_id: (req:Request, file:Express.Multer.File) =>file.originalname,
-        resourse_type: 'image',
-
+const storage = multer.diskStorage({
+    destination: 'public/uploads',
+    filename: function (req:Request, file:Express.Multer.File, cb:any) {
+        console.log(file)
+      cb(null, file.originalname )
     }
-})
+  })
 
-const upload = multer({ storage: storage });
+const upload = multer({ 
+    storage:storage
+
+});
 
 router.post("/uploads/images", upload.single('userUpload'),(req:Request,res:Response)=>{
-    
-    console.log(req.file?.originalname)
+    cloudinary.uploader.upload("public/uploads/"+req.file?.originalname,{
+      folder:"wsChatAppUploads",
+      use_filename:true,
+      unique_filename:false
+    })
 })
 
 
-
+module.exports = "re"
 
 
 
