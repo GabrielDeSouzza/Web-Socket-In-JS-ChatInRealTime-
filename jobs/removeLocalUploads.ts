@@ -5,7 +5,8 @@ const cloudinary = require('cloudinary').v2;
 
 const pathUploads: string = path.join(__dirname, "../public/uploads")
 
-nodeSchedule.scheduleJob("*/5JKHGKL; * * * *", () => {
+nodeSchedule.scheduleJob("5 * * * *", () => {
+ 
     fs.readdir(pathUploads, (err: any, data: Array<string>) => {
         data.forEach((element) => {
             fetch(cloudinary.url('wsChatAppUploads/' + element))

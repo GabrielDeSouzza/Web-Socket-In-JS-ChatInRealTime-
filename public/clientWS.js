@@ -26,7 +26,6 @@ socket.emit(
     room,
   },
 (messages) => {
-  console.log(messages)
      messages.forEach(( message) => {
       createMessage(message);
       
@@ -58,7 +57,6 @@ function captureEnter ( event){
         if (e.lengthComputable) {
           let percentage = (e.loaded / e.total) * 100;
           progressbar.innerText = percentage+"%"
-          console.log(percentage + "%");
         }
       }
       request.onerror = function(e) {
@@ -67,7 +65,6 @@ function captureEnter ( event){
         deleteImage()
       };
       request.upload.onload = function() {
-        console.log("hello")
         const message = event.target.value;
         const data = {
           room,
@@ -99,13 +96,12 @@ function captureEnter ( event){
 }
 
 function createMessage(data) {
-  console.log(data)
   const messagesDiv = document.getElementById("messages");
   let classMessage = 'new_message'
   if(data.username === username)
     classMessage = 'user_input'
 
-    if(data.nameUpImage !== "undefined"){
+    if(data.nameUpImage !== "undefined" && data.nameUpImage !== undefined){
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
@@ -148,11 +144,21 @@ document.querySelector("#inp-upload-arq").addEventListener("input",()=>{
   insertImg()
 })
 
+function checkTypeFile(fileName){
+  const typeFile = fileName.split('.').pop();
+  if(typeFile!=="png" && typeFile!=="jpg")
+    return false
+  return true
+}
 function insertImg(){
   deleteImage()
   const image = document.querySelector("#inp-upload-arq").files
   upImage = image[0]
    if(upImage.length!==0){
+    if(checkTypeFile(upImage.name)== false){
+      alert("Tipo de arquivo invalido!!")
+      return;
+    }
     let inputUser = document.querySelector(".input-user")
     inputUser.innerHTML += `<div id="image-user">
     <span onclick="deleteImage()">&times;</span>
