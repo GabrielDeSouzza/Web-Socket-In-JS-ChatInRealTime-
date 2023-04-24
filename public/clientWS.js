@@ -39,13 +39,14 @@ socket.on("message", (data) => {
 });
 
 
- //funciton criada para resolver bug do evento keypress quando seleciona uma img
+ //function criada para resolver bug do evento keypress quando seleciona uma img
  //o evento não funcionava mais
 function captureEnter ( event){
   if(event.key === "Enter") {
     if(upImage!= undefined || upImage!= null){
-      let imagename = new Date().getTime() + upImage.name.split('.')[0].replace(/[^a-z0-9]/gi,"")
-      
+      console.log(upImage)
+      let imagename = new Date().getTime() + upImage.name
+      console.log(imagename.trim()+ 'test')
       const newNameFile = new File([upImage],imagename)
       const formData = new FormData()
       formData.append("userUpload",newNameFile)
@@ -108,11 +109,11 @@ function createMessage(data) {
                 <span>${data.username} - 
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
                 </span>
-                <div>
+                <p>
                   ${data.message}
-                </div>
+                </p>
                 <div class="image-div">
-                  <img src="${data.upImage}" onerror="this.src='${window.location.href+"uploads/"+data.nameUpImage}'" alt="image from ${data.username}" name="userUp" class="upImage">
+                  <img src="${data.upImage}" onerror="this.src='${"/uploads/"+data.nameUpImage}'" alt="image from ${data.username}" name="userUp" class="upImage">
                 </div>
                 
             </label>
@@ -126,9 +127,9 @@ function createMessage(data) {
               <span>${data.username} - 
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
               </span>
-              <div>
+              <p>
                 ${data.message}
-              </div> 
+              </p> 
           </label>
         </div>`
     }

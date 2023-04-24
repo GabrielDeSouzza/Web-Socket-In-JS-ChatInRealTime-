@@ -1,6 +1,6 @@
 import { Module } from "module";
 import { io } from "./http";
-const db = require('./db')
+import db from "./db";
 const moment = require('moment')
 require("dotenv").config();
 const cloudinary = require('cloudinary').v2;
@@ -49,18 +49,19 @@ const users: IRomUser[] = []
   
     })
     //recebendo messages dos usuarios 
-    socket.on("message", async data=>{
+    socket.on("message", async data =>{
         let messagem:IMessage;
         if(data.upImage){
+            console.log(data)
          messagem =  {
             room: data.room,
             creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
             message: data.message,
             username: data.username,
-            upImage: await cloudinary.url('wsChatAppUploads/'+data.upImage, {transformation: [
+            upImage: await cloudinary.url('wsChatAppUploads/'+data.upImage.replace(/[^a-zA-Z0-9\.]/g, ""), {transformation: [
                 {height: 320, width: 320, crop: "limit"}
                 ]}),
-            nameUpImage: data.upImage
+            nameUpImage: data.upImage.replace(/[^a-zA-Z0-9\.]/g, "")
         }
         
         }
@@ -72,7 +73,7 @@ const users: IRomUser[] = []
                 username: data.username,
             } 
         }
- 
+        console.log(messagem)
         db.saveMessages(messagem)
         //enviando mensagem para todos os usuarios na sala
         //objervação caso eu quisesse mandar a mensagem penas para um usuario 

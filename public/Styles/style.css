@@ -1,0 +1,101 @@
+body {
+    outline: none;
+    background-color: #1a1924;
+    color: white;
+    width: 95vw;
+  }
+
+  input{
+   
+    background-color: #1A1924;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  
+    margin: 10px;
+    padding: 5px;
+  
+    margin-top: 140px;
+  }
+
+ 
+  button {
+    width: 400px;
+    height: 40px;
+    background: #07847E;
+  
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  select,
+  .input-patter {
+    width: 395px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #07847E;
+    color: #E1E1E6;
+    padding: 5px 6px;
+    outline: none;
+    border-color: transparent ;
+  }
+
+  a{
+    color: white;
+    text-decoration: none;
+  }
+  ::placeholder{
+    color: rgb(216, 216, 216);
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0px;
+    margin-top: 18px;
+    max-height: 500px;
+    height: auto;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: max-content;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+
+  .register-btn{
+    display: block;
+    width: 400px;
+    height: 40px;
+    background-color: #07847E;
+    color: #FFF;
+    line-height: 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-family: Arial;
+  }
+  .register-btn:hover{
+    background-color: #07847e80;
+  }
+  .register-btn:visited{
+    color: #FFF;
+  }
+
+
+
+  

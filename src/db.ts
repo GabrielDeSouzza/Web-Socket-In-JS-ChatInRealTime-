@@ -7,109 +7,67 @@ const util = require('util')
 
 const env = process.env;
 
-interface IMessage {
-    room: string,
-    creatDate: Date,
-    message: string,
-    username: string,
-    upImage: string,
-    nameUpImage: string
+interface IMessage{
+    room:string,
+    creatDate:Date,
+    message:string,
+    username:string,
+    upImage?:string
+    nameUpImage?:string
+}
+async function dbConnection(SQL: string, erroReturn: any) {
+    const connetDB = mysql.createConnection({
+        host: env.HOST,
+        user: env.USER,
+        password: env.PASSWORD,
+        database: env.DATABASE
+    }
+
+    );
+    const query = util.promisify(connetDB.query).bind(connetDB)
+    try {
+        const data = await query(SQL)
+        return data
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            erro: true,
+            return: erroReturn,
+            messageErro: e
+        }
+    }
+    finally {
+        connetDB.end();
+    }
 }
 
-const db: object = {
-    
-    getUser: async (user: string) => {
-        const connetDB = mysql.createConnection({
-            host: env.HOST,
-            user: env.USER,
-            password: env.PASSWORD,
-            database: env.DATABASE
-        }
+const db = {
 
-        );
-        const query = util.promisify(connetDB.query).bind(connetDB)
-        try {
-            const sql: string = `SELECT users.username, users.password from users where users.username='${user}'`
-            const data = await query(sql)
-            return data
-        }
-        catch (e) {
-            console.log(e)
-            return []
-        }
-        finally {
-            connetDB.end();
-        }
+    getUser: async (user: string) => {
+        const sql: string = `SELECT users.username, users.password, id from users where users.username='${user}'`
+        const data = await dbConnection(sql, [])
+        return data
     },
     getMessagesRoom: async (room: string) => {
-        const connetDB = mysql.createConnection({
-            host: env.HOST,
-            user: env.USER,
-            password: env.PASSWORD,
-            database: env.DATABASE
-        })
-        const query = util.promisify(connetDB.query).bind(connetDB)
-        try {
-            const sql: string = `select rooms.message, users.username, rooms.date, rooms.upImage, rooms.nameUpImage from rooms
+        const sql: string = `select rooms.message, users.username, rooms.date, rooms.upImage, rooms.nameUpImage from rooms
              INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}' 
             order by rooms.date asc`
-            const data = await query(sql)
-            return data
-        }
-        catch (e) {
-            console.log(e)
-            return []
-        }
-        finally {
-            connetDB.end()
-        }
+        const data = await dbConnection(sql, [])
+        return data
     },
     verifyUser: async (username: string) => {
-        const connetDB = mysql.createConnection({
-            host: env.HOST,
-            user: env.USER,
-            password: env.PASSWORD,
-            database: env.DATABASE
-        })
-        const query = util.promisify(connetDB.query).bind(connetDB)
-        try {
-            const sql: string = `select users.username from users where users.username ='${username}'`
-            const data = await query(sql)
-            if (data.length == 0)
-                return false
-            else
-                return true
-        }
-        catch (e) {
-            console.log(e + " adsad")
-            return []
-        }
-        finally {
-            connetDB.end()
-        }
-
-
+        const sql: string = `select users.username from users where users.username ='${username}'`
+        const data = await dbConnection(sql, [])
+        if (data.length == 0)
+            return false
+        else
+            return true
     },
     registerUser: async (username: string, password: string) => {
-        const connetDB = mysql.createConnection({
-            host: env.HOST,
-            user: env.USER,
-            password: env.PASSWORD,
-            database: env.DATABASE
-        })
-        const query = util.promisify(connetDB.query).bind(connetDB)
-        try {
-            const sql = `INSERT INTO users(username, password) VALUES ('${username}','${password}')`
-            await query(sql)
-            return "Cadastrado com sucesso"
-        }
-        catch (e) {
-            console.log(e)
-            return "Erro ao cadastrar"
-        }
-        finally {
-            connetDB.end()
-        }
+        const sql = `INSERT INTO users(username, password) VALUES ('${username}','${password}')`
+        const data = await dbConnection(sql, "Erro ao cadastrar Usuario")
+        return data
     },
     saveMessages: async (message: IMessage) => {
         const connetDB = mysql.createConnection({
@@ -135,10 +93,35 @@ const db: object = {
             connetDB.end()
         }
 
+    },
+    CreateRoom: async (data: createRoom) => {
+        const sql = `INSERT INTO roomscreated (fk_nome_user,name_room, description, date_create)
+                    VALUES ('${data.userCreator}','${data.nameRoom}','${data.descriptionRoom}','${Date.now}')`
+        const result = await dbConnection(sql, "criado com sucesso")
+        if(result.erro == true){
+            console.log(result.messageErro)
+            return 'erro ao criar sala'
+        }
+        const sql_createTable = `CREATE TABLE ${data.nameRoom} (fk_name_user VARCHAR(20) NOT NULL , messages VARCHAR(250) NULL , nameUpimage VARCHAR(50) NULL , url_image INT NULL , date DATE NOT NULL , id INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (id),
+        CONSTRAINT FK_name_user FOREIGN KEY (fk_name_user) REFERENCES users(username)
+        ON UPDATE CASCADE ON DELETE CASCADE)`
+
+        const result_create = await dbConnection(sql_createTable, 'erro ao criar sala')
+        if(result.erro == true){
+            console.log(result.messageErro)
+            return 'erro ao criar sala'
+        }
+    },
+    getRooms: async()=> {
+        const sql = `SELECT (name_room) from roomscreated`
+        const result = await dbConnection(sql, [])
+        return result
     }
-
-
-
 };
+type createRoom = {
+    userCreator: string,
+    nameRoom: string,
+    descriptionRoom: string
+}
 
-module.exports = db
+export default db

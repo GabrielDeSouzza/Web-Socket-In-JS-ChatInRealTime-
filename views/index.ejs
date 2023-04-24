@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Socket IO</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./Styles/style.css" />
+  <title>Socket IO</title>
+</head>
+
+<body>
+  <div class="container">
     <form method="post">
-      <div class="container">
-        <div class="row">
-          <select name="select_room" id="select_room">
-            <option value="-1">Selecione a sala</option>
-            <option value="node">Node</option>
-            <option value="java">Java</option>
-            <option value="reactjs">ReactJS</option>
-            <option value="elixir">Elixir</option>
-          </select>
-        </div>
+      <div class="row">
+        <select name="select_room" id="select_room">
+          <option value="-1">Selecione a sala</option>
+          <option value="Criar Sala">Criar Sala</option>
+          <% if (typeof(rooms)!="undefined" ) { %>
+            <% for( let index=0; index < rooms.length; index++ ) { %>
+              <option value="<%= rooms[index].name_room %>">
+                <%= rooms[index].name_room %>
+              </option>
+              <% } %>
+                <%} %>
+        </select>
+      </div>
 
-        <div class="row">
-          <label for="form-label">Digite seu usuário</label>
-          <input type="text" name="username" placeholder="Username" class="input-patter"/>
-          <label for="form-label">Digite sua senha</label>
-          <input type="password" name="password" placeholder="Senha" class="input-patter"/>
-        </div>
+      <div class="row">
+        <label for="form-label">Digite seu usuário</label>
+        <input type="text" name="username" placeholder="Username" class="input-patter" />
+        <label for="form-label">Digite sua senha</label>
+        <input type="password" name="password" placeholder="Senha" class="input-patter" />
+      </div>
 
-        <div class="row">
-          <button type="submit" class="btn btn-primary mb-3">Entrar</button>
-          <a   class="register-btn" href="/cadastro">Cadastrar-se</a> 
-          <% if (typeof(msg_error)!= "undefined") { %>
-            <p> <%=msg_error%></p>
-          <%}  %>
-          
-        </div>
+      <div class="row">
+        <button type="submit" class="btn btn-primary mb-3">Entrar</button>
+        <a class="register-btn" href="/cadastro">Cadastrar-se</a>
+        <% if (typeof(msg_error)!="undefined" ) { %>
+          <p>
+            <%=msg_error%>
+          </p>
+          <%} %>
+
       </div>
     </form>
+  </div>
+</body>
 
-
-  </body>
 </html>

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Multer } from "multer";
 
 require("dotenv").config();
 const cloudinary = require('cloudinary').v2;
@@ -10,8 +9,8 @@ const multer = require('multer');
 const storage = multer.diskStorage({
     destination: 'public/uploads',
     filename: function (req:Request, file:Express.Multer.File, cb:any) {
-        console.log(file)
-      cb(null, file.originalname )
+      console.log("tsad")
+      cb(null, file.originalname.replace(/[^a-zA-Z0-9\.]/g, ""))
     }
   })
 
@@ -21,16 +20,16 @@ const upload = multer({
 });
 
 router.post("/uploads/images", upload.single('userUpload'),(req:Request,res:Response)=>{
-    cloudinary.uploader.upload("public/uploads/"+req.file?.originalname,{
+  const filename = req.file?.originalname
+  
+  if(filename ){
+    cloudinary.uploader.upload("public/uploads/"+filename.replace(/[^a-zA-Z0-9\.]/g, ""),{
       folder:"wsChatAppUploads",
       use_filename:true,
       unique_filename:false
     })
+  }
 })
 
 
-module.exports = "re"
-
-
-
-module.exports = router
+export default router
