@@ -12,29 +12,33 @@
 
 <body>
   <div class="container">
-    <form method="post" >
+    <form method="post">
+     
       <div class="row">
         
-      </div>
-
-      <div class="row">
         <label for="form-label">Nome da Sala</label>
-        <input type="text" name="username" placeholder="Node da Sala" class="input-patter" />
+        <input type="text" name="nameRoom" placeholder="Node da Sala" class="input-patter" />
         <label for="form-label">Descrição da Sala</label>
-        <textarea type="text" maxlength="240"name="password" placeholder="Descricão"
-         class="input-patter" cols="50" rows="10" id="descriptionTxtArea">
+        <textarea type="text" maxlength="240" placeholder="Descricão"
+         class="input-patter" cols="50" rows="10" id="descriptionTxtArea" name="descriptionRoom">
         </textarea>
       </div>
 
       <div class="row">
         <button type="submit" class="btn btn-primary mb-3">Criar Sala</button>
+
         <% if (typeof(msg_error)!="undefined" ) { %>
           <p>
             <%=msg_error%>
           </p>
           <%} %>
-
       </div>
+    </form>
+    <form action="/logout" method="post">
+      <button type="submit" class="logout">Logout</button>
+    </form>
+    <form action="/" method="post">
+      <button type="submit" class="btn btn-primary mb-3">Voltar para Home</button>
     </form>
   </div>
 </body>

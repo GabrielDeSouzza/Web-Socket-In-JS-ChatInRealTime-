@@ -1,3 +1,5 @@
+import IUserCreateRoom from "./types/IUserCreateRoom";
+
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config()
 }
@@ -94,9 +96,10 @@ const db = {
         }
 
     },
-    CreateRoom: async (data: createRoom) => {
-        const sql = `INSERT INTO roomscreated (fk_nome_user,name_room, description, date_create)
-                    VALUES ('${data.userCreator}','${data.nameRoom}','${data.descriptionRoom}','${Date.now}')`
+    CreateRoom: async (data: IUserCreateRoom) => {
+        const date = new Date()
+        const sql = `INSERT INTO roomscreated (fk_name_user,name_room, description)
+                    VALUES ('${data.username}','${data.nameRoom}','${data.descriptionRoom}')`
         const result = await dbConnection(sql, "criado com sucesso")
         if(result.erro == true){
             console.log(result.messageErro)
@@ -118,10 +121,6 @@ const db = {
         return result
     }
 };
-type createRoom = {
-    userCreator: string,
-    nameRoom: string,
-    descriptionRoom: string
-}
+
 
 export default db

@@ -3,29 +3,31 @@ import jwt from "jsonwebtoken";
 import { type } from "os";
 import { env } from "process";
 import "express-session";
+import {verifyToken} from '../src/tokens/tokens/controller_Tokens'
 declare module "express-session" {
-  interface SessionData {
-    msg_error: string;
-    token: string;
-    username: string;
-    room: string;
-  }
-}
+    interface SessionData  {
+     msg_error: string;
+     token: string;
+     username: string;
+     room: string;
+     [key: string]: any;
+   } 
+ }
 export default  
+
      async(req: Request, res: Response, next: Function)=>{
+
         type msg_error = {
             msg_error:string
         }
-        const token = req.session.token
-        delete req.session.token
+        const token = req.cookies.token
         if(!token){
-            return res.status(400).json({
-                erro: true,
-                messagem: "usuario não autorizado"
-            })
+            req.session.msg_error = "Acesso a area restrita, loga-se para acessar URL"
+            res.redirect("/")
+            return
         }
         try{
-            var decoded = jwt.verify(token as string, env.SECRET_TOKEN as string)
+            verifyToken(token)
             return next()
         }
         catch(e){

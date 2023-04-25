@@ -44,9 +44,7 @@ socket.on("message", (data) => {
 function captureEnter ( event){
   if(event.key === "Enter") {
     if(upImage!= undefined || upImage!= null){
-      console.log(upImage)
       let imagename = new Date().getTime() + upImage.name
-      console.log(imagename.trim()+ 'test')
       const newNameFile = new File([upImage],imagename)
       const formData = new FormData()
       formData.append("userUpload",newNameFile)
@@ -61,8 +59,6 @@ function captureEnter ( event){
         }
       }
       request.onerror = function(e) {
-        console.log('Error');
-        console.log(e);
         deleteImage()
       };
       request.upload.onload = function() {
@@ -181,4 +177,5 @@ function deleteImage(){
   if(divImg)
     divImg.parentNode.removeChild(divImg)
 }
+
 

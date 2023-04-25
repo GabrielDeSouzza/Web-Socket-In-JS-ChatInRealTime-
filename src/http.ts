@@ -7,14 +7,19 @@ import login from "../routers/route_login"
 import cadastrar from '../routers/route_cadastro'
 import route_upload from '../routers/route_uploader'
 import pageChat from '../routers/route_chat'
+import rotaLogout from "../routers/route_logout";
 import { env } from "process";
-import  flash from 'connect-flash'
+
+
+const cookieParser = require("cookie-parser")
 
 const app = express();
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const db = require('./db')
 const route_createRoom = require('../routers/route_createRoom')
+
+app.use(cookieParser())
 //configurando a sessões
 app.use(session({
     secret:env.SECRET_SESSION,
@@ -32,6 +37,7 @@ app.use(express.static(path.join(__dirname,"..","public")))
 app.set('public', path.join(__dirname, '/public'))
 app.use("*/uploads",express.static(__dirname+"/public/uploads") )
 
+app.use(rotaLogout)
 app.use(pageChat)
 app.use(cadastrar)
 app.use("/",route_upload)

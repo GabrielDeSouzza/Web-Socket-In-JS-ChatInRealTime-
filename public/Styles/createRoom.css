@@ -2,3 +2,15 @@
     height: 100px;
     resize: none;
 }
+
+.logout {
+    width: 400px;
+    height: 40px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    margin-bottom: 5px;
+    background: rgb(56, 3, 3);
+    cursor: pointer;
+  }

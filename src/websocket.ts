@@ -1,24 +1,12 @@
 import { Module } from "module";
 import { io } from "./http";
 import db from "./db";
+import IRomUser from "./types/IRoomUser";
+import IMessage from "./types/IMessage";
 const moment = require('moment')
 require("dotenv").config();
 const cloudinary = require('cloudinary').v2;
 
-interface IRomUser{
-    socketId: string,
-    username: string,
-    room: string
-}
-
-interface IMessage{
-    room:string,
-    creatDate:Date,
-    message:string,
-    username:string,
-    upImage?:string
-    nameUpImage?:string
-}
 
 //array de usuarios
 const users: IRomUser[] = []
