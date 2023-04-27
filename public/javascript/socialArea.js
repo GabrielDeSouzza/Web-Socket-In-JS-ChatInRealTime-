@@ -1,28 +1,31 @@
+document.querySelector(".create-room").addEventListener("click",(e)=>{
+    e.preventDefault()
+    sendData({
+        url: "/createRoom"
+    })
+})
+document.querySelector("#btn-logout").addEventListener("click",(e)=>{
+    e.preventDefault()
+    sendData({
+        url: "/logout"
+    })
+})
 
-function CreateSectionRooms(rooms) {
-    const div = document.createElement("div")
-    div.setAttribute("class", "div-room")
-    const spanUserCreate = document.createElement("span")
-    spanUserCreate.setAttribute("class", "user-crete-room")
-    spanNameRoom.textContent = rooms.username
-
-    const spanNameRoom = document.createElement("span")
-    spanNameRoom.setAttribute("class", "sp-name-room")
-    spanNameRoom.textContent = rooms.nameRoom
-
-    const pDescription = document.createElement("p")
-    pDescription.setAttribute("class", "p-description-room")
-    pDescription.textContent = rooms.Description
-
-    div.appendChild(spanUserCreate)
-    div.appendChild(spanNameRoom)
-    div.appendChild(pDescription)
-    document.querySelector(".lateral-menu").appendChild(div)
-}
+document.querySelector(".room-created").addEventListener("click",(e)=>{
+    e.preventDefault()
+    const data = {
+        nameUser: e.currentTarget.querySelector("#nameUser").textContent,
+        nameRoom: e.currentTarget.querySelector(".sp-name-room").textContent
+    }
+    sendData({
+        url: "/socilArea",
+        room: data.room,
+        username: data.nameUser
+    })
+})
 
 function sendData(data) {
-    
-    let form = $(`<form method="post"> 
+    let form = $(`<form action="${data.url}" method="POST"> 
         <input type="text" name="room" value=${data.room}> +
         <input type="text" name="username" value=${data.username}>` +
         '</form>'

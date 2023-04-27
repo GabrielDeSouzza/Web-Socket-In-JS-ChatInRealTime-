@@ -43,7 +43,7 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
         res.redirect("/")
         return
     }
-    req.session.msg_error = "Erro ao criar sala"
+    req.session.msg_error = ""
     res.redirect("/createRoom")
 
 })

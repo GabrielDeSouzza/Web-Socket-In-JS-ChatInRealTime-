@@ -110,7 +110,7 @@ const db = {
     },
 
     getRooms: async()=> {
-        const sql = `SELECT (name_room) from roomscreated`
+        const sql = `SELECT * from roomscreated`
         const result = await dbConnection(sql, [])
         return result
     }

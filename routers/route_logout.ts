@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/logout', async (req: Request, res: Response)=>{
     delete req.cookies.token
-    req.session.msg_error = "Logout com sucesso"
+    res.clearCookie("token")
     res.redirect("/")
     return
 })

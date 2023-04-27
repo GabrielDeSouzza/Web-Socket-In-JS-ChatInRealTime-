@@ -13,20 +13,6 @@
   <div class="container">
     <form method="post">
       <div class="row">
-        <select name="select_room" id="select_room">
-          <option value="-1">Selecione a sala</option>
-          <option value="Criar Sala">Criar Sala</option>
-          <% if (typeof(rooms)!="undefined" ) { %>
-            <% for( let index=0; index < rooms.length; index++ ) { %>
-              <option value="<%= rooms[index].name_room %>">
-                <%= rooms[index].name_room %>
-              </option>
-              <% } %>
-                <%} %>
-        </select>
-      </div>
-
-      <div class="row">
         <label for="form-label">Digite seu usuário</label>
         <input type="text" name="username" placeholder="Username" class="input-patter" />
         <label for="form-label">Digite sua senha</label>
