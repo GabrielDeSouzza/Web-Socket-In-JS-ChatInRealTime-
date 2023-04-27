@@ -1,5 +1,5 @@
 import IUserCreateRoom from "./types/IUserCreateRoom";
-
+import IMessage from "./types/IMessage";
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config()
 }
@@ -9,14 +9,7 @@ const util = require('util')
 
 const env = process.env;
 
-interface IMessage{
-    room:string,
-    creatDate:Date,
-    message:string,
-    username:string,
-    upImage?:string
-    nameUpImage?:string
-}
+
 async function dbConnection(SQL: string, erroReturn: any) {
     const connetDB = mysql.createConnection({
         host: env.HOST,
@@ -52,10 +45,9 @@ const db = {
         return data
     },
     getMessagesRoom: async (room: string) => {
-        const sql: string = `select rooms.message, users.username, rooms.date, rooms.upImage, rooms.nameUpImage from rooms
-             INNER join users on (rooms.usersId = users.id) where rooms.room = '${room}' 
-            order by rooms.date asc`
+        const sql: string = `SELECT * from ${room} ORDER BY ${room}.date ASC;`
         const data = await dbConnection(sql, [])
+        console.log(data)
         return data
     },
     verifyUser: async (username: string) => {
@@ -80,11 +72,9 @@ const db = {
         })
         const query = util.promisify(connetDB.query).bind(connetDB)
         try {
-            let sql: string = `SELECT users.id from users where users.username='${message.username}'`
-            const userId = await query(sql)
 
-            sql = `INSERT INTO rooms(room, usersId, message, date, upImage, nameUpImage) VALUES
-             ('${message.room}','${userId[0].id}','${message.message}','${message.creatDate}','${message.upImage}','${message.nameUpImage}')`
+            const sql = `INSERT INTO ${message.room}(fk_name_user, messages,nameUpImage , url_Image,date ) VALUES
+             ('${message.username}','${message.messages}','${message.nameUpImage}','${message.url_Image}','${message.date}')`
             await query(sql)
         }
         catch (e) {
@@ -105,16 +95,20 @@ const db = {
             console.log(result.messageErro)
             return 'erro ao criar sala'
         }
-        const sql_createTable = `CREATE TABLE ${data.nameRoom} (fk_name_user VARCHAR(20) NOT NULL , messages VARCHAR(250) NULL , nameUpimage VARCHAR(50) NULL , url_image INT NULL , date DATE NOT NULL , id INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (id),
-        CONSTRAINT FK_name_user FOREIGN KEY (fk_name_user) REFERENCES users(username)
+        const sql_createTable = `CREATE TABLE ${data.nameRoom} (fk_name_user VARCHAR(20) NOT NULL ,
+         messages VARCHAR(250) NULL , nameUpimage VARCHAR(50) NULL ,
+          url_Image VARCHAR(200) NULL , date DATETIME NOT NULL ,
+           id INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (id),
+        CONSTRAINT FK_user_${data.username.replace(/[^a-zA-Z]/g, "")+"_room_"+data.nameRoom} FOREIGN KEY (fk_name_user) REFERENCES users(username)
         ON UPDATE CASCADE ON DELETE CASCADE)`
 
-        const result_create = await dbConnection(sql_createTable, 'erro ao criar sala')
-        if(result.erro == true){
+        const result_create = await dbConnection(sql_createTable, true)
+        if(result.erro || result_create == true){
             console.log(result.messageErro)
             return 'erro ao criar sala'
         }
     },
+
     getRooms: async()=> {
         const sql = `SELECT (name_room) from roomscreated`
         const result = await dbConnection(sql, [])

@@ -37,31 +37,29 @@ const users: IRomUser[] = []
   
     })
     //recebendo messages dos usuarios 
-    socket.on("message", async data =>{
+    socket.on("message", async (data: IMessage) =>{
         let messagem:IMessage;
-        if(data.upImage){
-            console.log(data)
+        console.log(data)
+        if(data.nameUpImage){
          messagem =  {
             room: data.room,
-            creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
-            message: data.message,
+            date: moment().format("YYYY/MM/DD HH:mm:ss"),
+            messages: data.messages,
             username: data.username,
-            upImage: await cloudinary.url('wsChatAppUploads/'+data.upImage.replace(/[^a-zA-Z0-9\.]/g, ""), {transformation: [
+            url_Image: await cloudinary.url('wsChatAppUploads/'+data.nameUpImage.replace(/[^a-zA-Z0-9\.]/g, ""), {transformation: [
                 {height: 320, width: 320, crop: "limit"}
                 ]}),
-            nameUpImage: data.upImage.replace(/[^a-zA-Z0-9\.]/g, "")
+            nameUpImage: data.nameUpImage.replace(/[^a-zA-Z0-9\.]/g, "")
         }
-        
         }
         else{
              messagem = {
-                room: data.room,
-                creatDate: moment().format("YYYY/MM/DD HH:mm:ss"),
-                message: data.message,
+                room:data.room,
+                date: moment().format("YYYY/MM/DD HH:mm:ss"),
+                messages: data.messages,
                 username: data.username,
             } 
         }
-        console.log(messagem)
         db.saveMessages(messagem)
         //enviando mensagem para todos os usuarios na sala
         //objervação caso eu quisesse mandar a mensagem penas para um usuario 
@@ -72,6 +70,17 @@ const users: IRomUser[] = []
     async function getMessagensRoom(room:string){
         
         const messageInRoom = await db.getMessagesRoom(room)
-        return messageInRoom
+        const messages = new Array()
+        messageInRoom.forEach((element: any) => {
+            messages.push({
+                username: element.fk_name_user,
+                messages: element.messages,
+                nameUpImage: element.nameUpimage,
+                url_image: element.url_Image,
+                date: element.date
+            })
+        });
+        console.log(messages)
+        return messages
     }
 })  

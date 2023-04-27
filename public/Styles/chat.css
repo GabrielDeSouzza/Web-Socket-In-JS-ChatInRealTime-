@@ -135,7 +135,7 @@ body {
     padding: 5px;
   }
 
-  .upImage{
+  .uploadArq{
     max-height: 320px;
     max-width: 320px;
     min-height: 50px;
@@ -160,14 +160,14 @@ body {
     cursor: pointer;
   }
 
-  .upImage-status{
+  .uploadArq-status{
     
     margin-top: 10px;
     height: 10px;
     width: inherit;
     border: solid 1px gray;
 }
-.upImage-status > div{
+.uploadArq-status > div{
     background-color: rgb(49, 49, 49);
     color: rgb(141, 3, 3);
     height: 100%;

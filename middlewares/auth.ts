@@ -27,7 +27,9 @@ export default
             return
         }
         try{
-            verifyToken(token)
+            const user = verifyToken(token)
+            const username = typeof user  !== 'string' && user.username
+            req.session.username = username
             return next()
         }
         catch(e){

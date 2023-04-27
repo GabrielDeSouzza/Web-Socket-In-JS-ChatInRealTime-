@@ -1,18 +1,13 @@
 const socket = io();
 
-const username = window.username
+let uploadArq= null;
 
-const room = window.room
+const username = document.querySelector("#username").textContent
+const room = document.querySelector("#room").textContent
 
-let upImage= null;
 
-document.getElementById("logout").addEventListener("click", () => {
-  window.location.href = "/";
-});
 
-document.getElementById(
-  "username"
-).innerHTML = `Olá ${username} - Você está na sala: ${room}`;
+
 
 document
   .getElementById("message_input")
@@ -43,15 +38,15 @@ socket.on("message", (data) => {
  //o evento não funcionava mais
 function captureEnter ( event){
   if(event.key === "Enter") {
-    if(upImage!= undefined || upImage!= null){
-      let imagename = new Date().getTime() + upImage.name
-      const newNameFile = new File([upImage],imagename)
+    if (uploadArq!= undefined || uploadArq!= null){
+      let imagename = new Date().getTime() + uploadArq.name
+      const newNameFile = new File( [uploadArq],imagename)
       const formData = new FormData()
       formData.append("userUpload",newNameFile)
       const request = new XMLHttpRequest();
       request.open("post", "/uploads/images",true)
       request.upload.onprogress = (e)=>{
-        const progressbar = document.querySelector(".upImage-status")
+        const progressbar = document.querySelector("uploadArq-status")
         progressbar.style.display= "block"
         if (e.lengthComputable) {
           let percentage = (e.loaded / e.total) * 100;
@@ -62,12 +57,12 @@ function captureEnter ( event){
         deleteImage()
       };
       request.upload.onload = function() {
-        const message = event.target.value;
+        const messages = event.target.value;
         const data = {
           room,
-          message,
+          messages,
           username,
-          upImage : imagename
+          nameUpImage : imagename
         };
         event.target.value = "";
         socket.emit("message", data);
@@ -76,29 +71,31 @@ function captureEnter ( event){
       request.send(formData)
     }
     else{
-      const message = event.target.value;
+      const messages = event.target.value;
       const data = {
         room,
-        message,
+        messages,
         username,
-        upImage : null
+        nameUpImage : null
       };
 
 
       event.target.value = "";
       socket.emit("message", data);
     }
-    upImage = null
+   uploadArq = null
   }
 }
 
 function createMessage(data) {
+  console.log(data)
   const messagesDiv = document.getElementById("messages");
   let classMessage = 'new_message'
   if(data.username === username)
     classMessage = 'user_input'
 
     if(data.nameUpImage !== "undefined" && data.nameUpImage !== undefined){
+      console.log(data)
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
@@ -106,10 +103,13 @@ function createMessage(data) {
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
                 </span>
                 <p>
-                  ${data.message}
+                  ${data.messages}
                 </p>
                 <div class="image-div">
-                  <img src="${data.upImage}" onerror="this.src='${"/uploads/"+data.nameUpImage}'" alt="image from ${data.username}" name="userUp" class="upImage">
+                  <img src="${data.url_image}" 
+                  onerror="this.src='${"/uploads/"+data.nameUpImage}'"
+                   alt="image from ${data.username}"
+                    name="userUp" class= "uploadArq">
                 </div>
                 
             </label>
@@ -124,7 +124,7 @@ function createMessage(data) {
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
               </span>
               <p>
-                ${data.message}
+                ${data.messages}
               </p> 
           </label>
         </div>`
@@ -150,17 +150,17 @@ function checkTypeFile(fileName){
 function insertImg(){
   deleteImage()
   const image = document.querySelector("#inp-upload-arq").files
-  upImage = image[0]
-   if(upImage.length!==0){
-    if(checkTypeFile(upImage.name)== false){
+ uploadArq = image[0]
+   if (uploadArq.length!==0){
+    if(checkTypeFile (uploadArq.name)== false){
       alert("Tipo de arquivo invalido!!")
       return;
     }
     let inputUser = document.querySelector(".input-user")
     inputUser.innerHTML += `<div id="image-user">
     <span onclick="deleteImage()">&times;</span>
-    <img src="${URL.createObjectURL(upImage)}" alt="userUp" name="upImage" class="upImage">
-    <div class="upImage-status">
+    <img src="${URL.createObjectURL (uploadArq)}" alt="userUp" name= "uploadArq" class= "uploadArq">
+    <div class= uploadArq-status">
       <div></div>
     </div>
   </div>`

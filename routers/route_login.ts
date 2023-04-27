@@ -29,21 +29,10 @@ router.get('/', async(req:Request,res:Response)=>{
     })
 })
 router.post('/',async (req:Request,res:Response)=>{
-    const rooms = await db.getRooms()
-    console.log(rooms)
-    if(req.body.select_room == -1){
-        res.render("index",{
-            msg_error: "Escolha uma Sala",
-            rooms: rooms
-        })
-        return
-    }
-    
 
     if(req.body.username ==="" || req.body.password === ""){
         res.render("index",{
             msg_error : "Preencha todos os campos",
-            rooms: rooms
         })
         return
     }
@@ -54,32 +43,21 @@ router.post('/',async (req:Request,res:Response)=>{
     if(user == undefined ){
         res.render("index",{
             msg_error: "Usuario não encontrado",
-            rooms: rooms
         })
         return
     }
     else if(!(await bcrtypt.compare(req.body.password, user.password))){
         res.render("index",{
             msg_error: "Senha invalida ou usuario não encontrado",
-            rooms: rooms
         })
         return
     }
 
     const token = createToken(user)
     res.cookie("token",token, {httpOnly: true})
-    if (req.body.select_room == "Criar Sala"){
-        console.log(req.body)
-        req.session.username = req.body.username
-        res.redirect("/createRoom")
-        console.log(res.cookie)
-        return;
-    }
-
     req.session.username = req.body.username
     console.log(req.body.room)
-    req.session.room = req.body.select_room
-    res.redirect('/chat')
+    res.redirect('/socialArea')
  
 })
 

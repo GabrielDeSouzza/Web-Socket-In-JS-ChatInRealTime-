@@ -1,0 +1,80 @@
+html,body{
+    height: 99.9%;
+    width: 99.5%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background-color: #1a1924;
+    color: white;
+}
+.container{
+    height: 100%;
+    width: 100%;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    height: 100%;
+}
+
+.lateral-menu{
+    background-color: #25242f;
+    width: 20%;
+    flex-direction: column;
+    display: flex;
+    padding-left: 8px;
+    padding-right: 2px;
+    height: 100%;
+}
+.lateral-menu > h3 {
+    align-self: center;
+}
+.itens-menu{
+    display: flex;
+    flex-direction: column;
+}
+.itens-menu > span{
+    margin: 5px;
+}
+.itens-menu > section {
+    margin-top: 10px;
+}
+.container-rooms{
+    display: flex;
+    margin-left: 2px;
+    width: 80%;
+}
+.div-room{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.personal-rooms{
+    max-height: 200px;
+    margin-bottom: 5px;
+    display: flex; 
+    flex-direction: column;
+    width: 100%;
+    border-radius: 5px;
+    border-left: 5px;
+    background-color: #2f2d41;
+    cursor: pointer;
+}
+.personal-rooms:hover{
+    background-color: #07847E;
+    transition: background-color 200ms linear;
+
+}
+.sp-name-room{
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.p-description-room{
+    max-width: 300px;
+    margin-left: 25px;
+   letter-spacing: 0.1rem;
+}

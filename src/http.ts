@@ -9,7 +9,7 @@ import route_upload from '../routers/route_uploader'
 import pageChat from '../routers/route_chat'
 import rotaLogout from "../routers/route_logout";
 import { env } from "process";
-
+import pagSocialArea from "../routers/route_socialArea";
 
 const cookieParser = require("cookie-parser")
 
@@ -43,6 +43,7 @@ app.use(cadastrar)
 app.use("/",route_upload)
 app.use(route_createRoom)
 app.use(login)
+app.use(pagSocialArea)
 const httpServer = http.createServer(app)
 const io = new Server(httpServer)
 

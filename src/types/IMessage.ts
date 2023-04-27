@@ -1,8 +1,8 @@
 export default interface IMessage{
     room:string,
-    creatDate:Date,
-    message:string,
+    date:Date,
+    messages:string,
     username:string,
-    upImage?:string
+    url_Image?:string
     nameUpImage?:string
 }
