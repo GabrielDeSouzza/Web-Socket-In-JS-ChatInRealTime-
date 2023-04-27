@@ -18,13 +18,18 @@ $ No MySQL cole este código:
 CREATE DATABASE chat;
 USE chat;
 
-CREATE TABLE  users (id INT NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL UNIQUE, password VARCHAR(50) NOT NULL,
+CREATE TABLE  users (id INT NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL UNIQUE, password VARCHAR(150) NOT NULL,
 PRIMARY KEY  (id)) ENGINE = InnoDB;
 
 CREATE TABLE rooms
  (id INT NOT NULL AUTO_INCREMENT, room VARCHAR(20) NOT NULL , message VARCHAR(500) NOT NULL ,
  usersid INT NOT NULL , date DATETIME NOT NULL , PRIMARY KEY (id),
 FOREIGN KEY (usersid) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB;
+
+CREATE TABLE roomscreated 
+    (id INT NOT NULL AUTO_INCREMENT , fk_name_user VARCHAR(20),
+    description VARCHAR(250), date DATETIME DEFAULT CURRENT_TIMESTAMP, name_room VARCHAR(20), PRIMARY KEY (id), 
+    FOREIGN KEY (fk_name_user) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE = InnoDB;
 
 $após criar o banco de dados entre na pasta do projeto e crie um arquivo com o nome '.env' e siga 
 o modelo de string´s de conexões deixado no arquivo '.env.sample' passando os dados lá requisitados
