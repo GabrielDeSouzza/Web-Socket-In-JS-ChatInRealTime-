@@ -11,7 +11,7 @@ import rotaLogout from "../routers/route_logout";
 import { env } from "process";
 import pagSocialArea from "../routers/route_socialArea";
 import pagEditProfile from "../routers/route_editProfile"
-import pagManagerUsers from "../routers/route_ManageUsers"
+import pagManagerUsers from "../routers/route_UsersManager"
 
 const cookieParser = require("cookie-parser")
 

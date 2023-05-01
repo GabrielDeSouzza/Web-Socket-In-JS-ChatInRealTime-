@@ -5,7 +5,7 @@ import db from "../src/db";
 const express = require('express');
 const router = express.Router();
 
-router.get("/managerUsers", auth, async(req:Request, res: Response)=>{
+router.get("/usersManager", auth, async(req:Request, res: Response)=>{
     if(req.session.user?.isadm !=1){
         req.session.msg_error = "Você não tem permissão para acessar essa área"
         res.redirect("/socialArea")
@@ -13,17 +13,17 @@ router.get("/managerUsers", auth, async(req:Request, res: Response)=>{
         return
     }
     const usersNotAdm = await db.getUsersNotAdm();
-    res.render("managerUsers", {
+    res.render("usersManager", {
         msg_error: req.session.msg_error,
         user: req.session.user,
         usersNotAdm
     })
 })
 
-router.post("/managerUsers", auth, async(req:Request, res: Response)=>{
+router.post("/usersManager", auth, async(req:Request, res: Response)=>{
     const usersNotAdm = await db.getUsersNotAdm();
     if(await db.desableUser(req.body.username) == false){
-        res.render("managerUsers", {
+        res.render("usersManager", {
             msg_error: "Não foi possível deletar usuario",
             user: req.session.user,
             usersNotAdm
@@ -31,7 +31,7 @@ router.post("/managerUsers", auth, async(req:Request, res: Response)=>{
         return
     }
     req.session.msg_error= `Funcionario ${req.body.nomeFuncionario} com sucesso`
-    res.redirect("/managerUsers")
+    res.redirect("/usersManager")
     delete req.session.msg_error
     return
 })
