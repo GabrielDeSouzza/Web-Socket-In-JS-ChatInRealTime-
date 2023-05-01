@@ -45,10 +45,24 @@ const db = {
         const data = await dbConnection(sql, [])
         return data
     },
+    getUsersNotAdm: async()=>{
+        const sql: string = `Select nomeFuncionario, username, setor,
+         cargo FROM users WHERE isadm = 0 AND isdeleted =0`
+        const data = await dbConnection(sql, [])
+        return data
+    },
     updateUser: async (user: IUserData)=>{
         const sql: string = `UPDATE users SET password='${user.password}',
         username='${user.username}' where id = ${user.id}`
         return  await dbConnection(sql, false)
+    },
+    desableUser: async(username:string)=>{
+        const sql = `UPDATE users SET isdeleted= 1 WHERE users.username = '${username}'`
+        return await await dbConnection(sql,false).then((response)=>{
+            if(response.erro == true){
+                return false
+            }
+        })
     },
     getMessagesRoom: async (room: string) => {
         const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
@@ -68,7 +82,7 @@ const db = {
             return true
     },
     registerUser: async (user: IUserData) => {
-        const sql = `INSERT INTO users(username, password, nome, setor, cargo, isadm) VALUES ('${user.username}',
+        const sql = `INSERT INTO users(username, password, nomeFuncionario, setor, cargo, isadm) VALUES ('${user.username}',
         '${user.password}','${user.nomeFuncionario}' ,'${user.setor}', '${user.cargo}', '${user.isadm}')`
         const isSucess = await dbConnection(sql, false)
         return isSucess

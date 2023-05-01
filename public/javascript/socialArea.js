@@ -1,34 +1,21 @@
-if (document.querySelector(".create-room")) {
-    document.querySelector(".create-room").addEventListener("click", (e) => {
-        e.preventDefault()
-        sendData({
-            url: "/createRoom"
+function clickButtomAction(button, url,methodIsGet){
+    if (document.querySelector(button)) {
+        document.querySelector(button).addEventListener("click", (e) => {
+            e.preventDefault()
+            sendData({
+                url: url,
+                method: methodIsGet
+            })
         })
-    })
+    }
 }
 
-document.querySelector("#btn-logout").addEventListener("click", (e) => {
-    e.preventDefault()
-    sendData({
-        url: "/logout"
-    })
-})
-document.querySelector("#btn-editar").addEventListener("click", (e) => {
-    e.preventDefault()
-    sendData({
-        url: "/editProfile",
-        method: "GET"
-    })
-})
-if (document.querySelector("#btn-cadastrar-usuarios")) {
-    document.querySelector("#btn-cadastrar-usuarios").addEventListener("click", (e) => {
-        e.preventDefault()
-        sendData({
-            url: "/cadastro",
-            method: "GET"
-        })
-    })
-}
+clickButtomAction(".create-room", "/createRoom")
+clickButtomAction("#btn-logout","/logout")
+clickButtomAction("#btn-editar","/editProfile","GET")
+clickButtomAction("#btn-cadastrar-usuarios","/cadastro","GET")
+clickButtomAction("#btn-manager-user","/managerUsers","GET")
+
 
 const rooms = document.querySelectorAll(".room-created")
 rooms.forEach((room) => {

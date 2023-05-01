@@ -37,6 +37,12 @@ export default
         }
         try{
             const user =  verifyToken(token)
+            if(user.isdeleted ==1){
+                req.session.msg_error = "Este usuario não possui mais acesso ao sistema"
+                res.redirect("/")
+                delete req.session.msg_error
+                return
+            }
             req.session.user =  user
             return next()
         }

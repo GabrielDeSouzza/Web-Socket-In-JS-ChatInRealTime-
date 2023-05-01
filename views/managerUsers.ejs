@@ -36,19 +36,24 @@
         <main>
             <h3>Gerenciar Usuarios</h3>
             <div class="conteiner-users">
-                <div class="cart-user">
-                    <p>
-                        nome: <br>
-                        username: <br>
-                        cargo: <br>
-                        setor: <br>
-                    </p>
-                    <form method="post" class="form-delete">
-                        <button type="submit">
-                            Deletar Usuario
-                        </button>
-                    </form>
-                </div>
+                <% usersNotAdm.forEach(element => { %>
+                    <div class="card-user">
+                        <p>
+                            nome: <%= element.nomeFuncionario %><br>
+                            username: <%= element.username %><br>
+                            cargo: <%= element.cargo %><br>
+                            setor: <%= element.setor %><br>
+                        </p>
+                        <form method="post" class="form-delete">
+                            <input type="hidden" value="<%= element.username %>" name="username">
+                            <input type="hidden" value="<%= element.nomeFuncionario %>" name="nomeFuncionario">
+                            <button type="submit">
+                                Deletar Usuario
+                            </button>
+                        </form>
+                    </div>
+                <% }) %>
+                
             </div>
         </main>
     </div>

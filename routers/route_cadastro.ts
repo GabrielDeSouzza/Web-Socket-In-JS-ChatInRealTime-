@@ -42,7 +42,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
             setor: req.body.setor,
             cargo: req.body.cargo,
             isadm: req.body.isadm?1: 0,
-            isatv: 1
+            isdeleted: 0
         }
    
         if(user.username === '' || user.password === ''){
