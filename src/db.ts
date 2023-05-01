@@ -1,5 +1,6 @@
 import IUserCreateRoom from "./types/IUserCreateRoom";
 import IMessage from "./types/IMessage";
+import IUserData from "./types/IUserData";
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config()
 }
@@ -40,14 +41,22 @@ async function dbConnection(SQL: string, erroReturn: any) {
 const db = {
 
     getUser: async (user: string) => {
-        const sql: string = `SELECT users.username, users.password, id from users where users.username='${user}'`
+        const sql: string = `SELECT * from users where users.username='${user}'`
         const data = await dbConnection(sql, [])
         return data
     },
+    updateUser: async (user: IUserData)=>{
+        const sql: string = `UPDATE users SET password='${user.password}',
+        username='${user.username}' where id = ${user.id}`
+        return  await dbConnection(sql, false)
+    },
     getMessagesRoom: async (room: string) => {
-        const sql: string = `SELECT * from ${room} ORDER BY ${room}.date ASC;`
+        const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
+        ${room}.fk_name_user, 
+         ${room}.messages, ${room}.nameUpimage, ${room}.url_Image, ${room}.date FROM users
+          INNER JOIN ${room} On users.username = ${room}.fk_name_user
+           ORDER BY ${room}.date ASC;`
         const data = await dbConnection(sql, [])
-        console.log(data)
         return data
     },
     verifyUser: async (username: string) => {
@@ -58,10 +67,11 @@ const db = {
         else
             return true
     },
-    registerUser: async (username: string, password: string) => {
-        const sql = `INSERT INTO users(username, password) VALUES ('${username}','${password}')`
-        const data = await dbConnection(sql, "Erro ao cadastrar Usuario")
-        return data
+    registerUser: async (user: IUserData) => {
+        const sql = `INSERT INTO users(username, password, nome, setor, cargo, isadm) VALUES ('${user.username}',
+        '${user.password}','${user.nomeFuncionario}' ,'${user.setor}', '${user.cargo}', '${user.isadm}')`
+        const isSucess = await dbConnection(sql, false)
+        return isSucess
     },
     saveMessages: async (message: IMessage) => {
         const connetDB = mysql.createConnection({
@@ -74,7 +84,8 @@ const db = {
         try {
 
             const sql = `INSERT INTO ${message.room}(fk_name_user, messages,nameUpImage , url_Image,date ) VALUES
-             ('${message.username}','${message.messages}','${message.nameUpImage}','${message.url_Image}','${message.date}')`
+             ('${message.username}','${message.messages}','${message.nameUpImage}','${message.url_Image}',
+             '${message.date}')`
             await query(sql)
         }
         catch (e) {

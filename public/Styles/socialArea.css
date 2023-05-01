@@ -49,8 +49,9 @@ body {
     border: 0;
     color:  white;
     border-radius: 5px;
+    cursor: pointer;
 }
-#btn-editar:hover {
+#btn-editar:hover, #btn-cadastrar-usuarios:hover,#btn-manager-user:hover {
     background-color: #07847E;
     transition: background-color 200ms linear;
 }
@@ -69,7 +70,9 @@ body {
     align-items: center;
     width: 100%;
 }
-.create-room, .room-created{
+
+.create-room{
+    margin-left: 5px;
     max-height: 200px;
     margin-bottom: 5px;
     display: flex; 
@@ -79,11 +82,29 @@ body {
     border-left: 5px;
     background-color: #2f2d41;
     cursor: pointer;
+    word-wrap: break-word;
 }
+.div-rooms-created{
+    margin-left: 5px;
+    max-height: 200px;
+    margin-bottom: 5px;
+    display: flex; 
+    flex-direction: column;
+    width: 100%;
+    border-radius: 5px;
+    border-left: 5px;
+    cursor: pointer;
+    word-wrap: break-word;
+}
+
 .create-room:hover,.room-created:hover{
     background-color: #07847E;
     transition: background-color 200ms linear;
-
+}
+.room-created{
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background-color: #2f2d41;
 }
 .sp-name-room{
     margin-top: 10px;
@@ -91,7 +112,7 @@ body {
 }
 
 .p-description-room{
-    max-width: 300px;
+    max-width: 95%;
     margin-left: 25px;
    letter-spacing: 0.1rem;
 }

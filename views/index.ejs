@@ -21,12 +21,12 @@
 
       <div class="row">
         <button type="submit" class="btn btn-primary mb-3">Entrar</button>
-        <a class="register-btn" href="/cadastro">Cadastrar-se</a>
         <% if (typeof(msg_error)!="undefined" ) { %>
           <p>
             <%=msg_error%>
           </p>
-          <%} %>
+          <%} 
+        %>
 
       </div>
     </form>

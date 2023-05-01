@@ -39,13 +39,15 @@ const users: IRomUser[] = []
     //recebendo messages dos usuarios 
     socket.on("message", async (data: IMessage) =>{
         let messagem:IMessage;
-        console.log(data)
         if(data.nameUpImage){
          messagem =  {
             room: data.room,
             date: moment().format("YYYY/MM/DD HH:mm:ss"),
             messages: data.messages,
             username: data.username,
+            setor: data.setor,
+            cargo: data.cargo,
+            nomeFuncionario: data.nomeFuncionario,
             url_Image: await cloudinary.url('wsChatAppUploads/'+data.nameUpImage.replace(/[^a-zA-Z0-9\.]/g, ""), {transformation: [
                 {height: 320, width: 320, crop: "limit"}
                 ]}),
@@ -58,6 +60,9 @@ const users: IRomUser[] = []
                 date: moment().format("YYYY/MM/DD HH:mm:ss"),
                 messages: data.messages,
                 username: data.username,
+                cargo: data.cargo,
+                setor: data.setor,
+                nomeFuncionario: data.nomeFuncionario
             } 
         }
         db.saveMessages(messagem)
@@ -77,10 +82,12 @@ const users: IRomUser[] = []
                 messages: element.messages,
                 nameUpImage: element.nameUpimage,
                 url_image: element.url_Image,
-                date: element.date
+                date: element.date,
+                setor: element.setor,
+                nomeFuncionario: element.nomeFuncionario,
+                cargo: element.cargo
             })
         });
-        console.log(messages)
         return messages
     }
 })  

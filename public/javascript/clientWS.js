@@ -4,10 +4,9 @@ let uploadArq= null;
 
 const username = document.querySelector("#username").textContent
 const room = document.querySelector("#room").textContent
-
-
-
-
+const nomeFuncionario = document.querySelector("#nomeFuncionario").textContent
+const setor = document.querySelector("#setor").textContent
+const cargo = document.querySelector("#cargo").textContent
 
 document
   .getElementById("message_input")
@@ -62,7 +61,10 @@ function captureEnter ( event){
           room,
           messages,
           username,
-          nameUpImage : imagename
+          nameUpImage : imagename,
+          nomeFuncionario,
+          setor,
+          cargo
         };
         event.target.value = "";
         socket.emit("message", data);
@@ -76,7 +78,10 @@ function captureEnter ( event){
         room,
         messages,
         username,
-        nameUpImage : null
+        nameUpImage : null,
+        nomeFuncionario,
+        setor,
+        cargo
       };
 
 
@@ -88,18 +93,17 @@ function captureEnter ( event){
 }
 
 function createMessage(data) {
-  console.log(data)
   const messagesDiv = document.getElementById("messages");
   let classMessage = 'new_message'
   if(data.username === username)
     classMessage = 'user_input'
 
     if(data.nameUpImage !== "undefined" && data.nameUpImage !== undefined){
-      console.log(data)
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
-                <span>${data.username} - 
+                <span>${data.username}(${data.nomeFuncionario}) <br/>
+                Cargo: ${data.cargo} - Setor: ${data.setor} <br/>
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
                 </span>
                 <p>
@@ -120,9 +124,10 @@ function createMessage(data) {
       messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
-              <span>${data.username} - 
-                ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
-              </span>
+            <span>${data.username}(${data.nomeFuncionario}) <br/>
+            Cargo: ${data.cargo} - Setor: ${data.setor} <br/>
+            ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
+            </span>
               <p>
                 ${data.messages}
               </p> 

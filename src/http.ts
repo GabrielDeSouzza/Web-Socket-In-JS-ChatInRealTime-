@@ -10,8 +10,11 @@ import pageChat from '../routers/route_chat'
 import rotaLogout from "../routers/route_logout";
 import { env } from "process";
 import pagSocialArea from "../routers/route_socialArea";
+import pagEditProfile from "../routers/route_editProfile"
+import pagManagerUsers from "../routers/route_ManageUsers"
 
 const cookieParser = require("cookie-parser")
+
 
 const app = express();
 const session = require('express-session')
@@ -37,6 +40,7 @@ app.use(express.static(path.join(__dirname,"..","public")))
 app.set('public', path.join(__dirname, '/public'))
 app.use("*/uploads",express.static(__dirname+"/public/uploads") )
 
+app.use(pagEditProfile)
 app.use(rotaLogout)
 app.use(pageChat)
 app.use(cadastrar)
@@ -44,6 +48,7 @@ app.use("/",route_upload)
 app.use(route_createRoom)
 app.use(login)
 app.use(pagSocialArea)
+app.use(pagManagerUsers)
 const httpServer = http.createServer(app)
 const io = new Server(httpServer)
 

@@ -12,11 +12,16 @@
       <form action="/logout" method="post">
         <button type="submit" class="logout" id="logout">Logout</button>
       </form>
+      <form action="/socialArea" method="post">
+        <button type="submit" class="socialArea" id="socialArea">Volta para area Social</button>
+      </form>
       
       <div class="row">
         
         <div>
-          <span>olá <strong id="username"><%=username%></strong> - Você está na sala <strong id="room"><%=room %></strong></span>
+          <span>olá <strong id="username"><%=username%></strong> (<strong id="nomeFuncionario"><%= nome %></strong>)
+            - Você está na sala <strong id="room"><%=room %></strong></span> <br/>
+            Setor:<span id="setor"><%= setor %></span> - cargo: <span id="cargo"><%= cargo %></span>
         </div>
 
         

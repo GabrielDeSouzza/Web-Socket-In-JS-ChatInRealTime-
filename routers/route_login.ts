@@ -10,9 +10,10 @@ declare module "express-session" {
     interface SessionData  {
      msg_error: string;
      token: string;
-     username: string;
+     user: IUserData;
      room: string;
-     rooms: []
+     rooms: [];
+
      [key: string]: any;
    } 
  }
@@ -37,16 +38,15 @@ router.post('/',async (req:Request,res:Response)=>{
         return
     }
     const userData:IUserData[] = await db.getUser(req.body.username)
-
     const user:IUserData|undefined= userData.find(element=> element.username ==req.body.username)
-
+    console.log(user?.nomeFuncionario+"test")
     if(user == undefined ){
         res.render("index",{
             msg_error: "Usuario não encontrado",
         })
         return
     }
-    else if(!(await bcrtypt.compare(req.body.password, user.password))){
+    else if(!(await bcrtypt.compare(req.body.password, user.password as string))){
         res.render("index",{
             msg_error: "Senha invalida ou usuario não encontrado",
         })
@@ -54,11 +54,11 @@ router.post('/',async (req:Request,res:Response)=>{
     }
 
     const token = createToken(user)
+    console.log(user.nomeFuncionario+"+sdas")
     res.cookie("token",token, {httpOnly: true})
     req.session.username = req.body.username
     console.log(req.body.room)
     res.redirect('/socialArea')
- 
 })
 
 export default router

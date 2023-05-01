@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Styles/managerUsers.css" />
+
+    <title>Socket IO</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="lateral-menu">
+            <section class="itens-menu">
+                <span>Nome </span>
+                <span> Username: </span>
+                <span>Setor: </span>
+                <span>Cargo: </span>
+                <section>Pessoal Online: </section>
+                <button id="btn-editar">Editar conta</button>
+
+                <button id="btn-cadastrar-usuarios">Cadastrar novos usuarios</button>
+                <button id="btn-manager-user">Gerenciar Usuarios</button>
+
+
+                <button id="btn-logout">Logout</button>
+                <% if (typeof(msg_error)!="undefined" ) { %>
+                    <p>
+                        <%=msg_error%>
+                    </p>
+                    <%} %>
+            </section>
+        </header>
+        <main>
+            <h3>Gerenciar Usuarios</h3>
+            <div class="conteiner-users">
+                <div class="cart-user">
+                    <p>
+                        nome: <br>
+                        username: <br>
+                        cargo: <br>
+                        setor: <br>
+                    </p>
+                    <form method="post" class="form-delete">
+                        <button type="submit">
+                            Deletar Usuario
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+<script src="/javascript/socialArea.js"></script>
+
+</html>

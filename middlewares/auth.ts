@@ -4,19 +4,28 @@ import { type } from "os";
 import { env } from "process";
 import "express-session";
 import {verifyToken} from '../src/tokens/tokens/controller_Tokens'
+import IUserData from "../src/types/IUserData";
+
+
+
 declare module "express-session" {
     interface SessionData  {
-     msg_error: string;
-     token: string;
-     username: string;
-     room: string;
-     [key: string]: any;
-   } 
+        msg_error: string;
+        token: string;
+        user: IUserData
+        room: string;
+        rooms: [];
+  
+        isatv?: number;
+        [key: string]: any;
+      } 
  }
+ 
+
 export default  
 
      async(req: Request, res: Response, next: Function)=>{
-
+        
         type msg_error = {
             msg_error:string
         }
@@ -27,9 +36,8 @@ export default
             return
         }
         try{
-            const user = verifyToken(token)
-            const username = typeof user  !== 'string' && user.username
-            req.session.username = username
+            const user =  verifyToken(token)
+            req.session.user =  user
             return next()
         }
         catch(e){

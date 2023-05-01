@@ -15,7 +15,7 @@ router.get('/createRoom', auth, async (req: Request, res: Response) => {
 
 router.post('/createRoom',auth, async (req: Request, res: Response) => {
     const roomsAlreadyCreated = await db.getRooms()
-    if (req.session.username && req.body.nameRoom && req.body.descriptionRoom) {
+    if (req.session.user?.username && req.body.nameRoom && req.body.descriptionRoom) {
         const usedNameRoom = roomsAlreadyCreated.find((room:any)=>{
             console.log(room)
             return room.name_room.toLowerCase() === req.body.nameRoom.toLowerCase()
@@ -26,7 +26,7 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
             })
         }
         const dataNewRoom: IUserCreateRoom = {
-            username: req.session.username,
+            username: req.session.user?.username as string,
             nameRoom: req.body.nameRoom,
             descriptionRoom: req.body.descriptionRoom
         }

@@ -4,5 +4,8 @@ export default interface IMessage{
     messages:string,
     username:string,
     url_Image?:string
-    nameUpImage?:string
+    nameUpImage?:string,
+    setor:string,
+    cargo: string,
+    nomeFuncionario: string
 }

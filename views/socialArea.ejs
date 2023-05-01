@@ -14,38 +14,59 @@
   <div class="container">
     <header class="lateral-menu">
       <section class="itens-menu">
-        <span>Nome </span>
-        <span> Username:</span>
-        <span>Setor: </span>
-        <span>Cargo: </span>
+        <span>Nome <%= user.nomeFuncionario %></span>
+        <span> Username: <%= user.username %></span>
+        <span>Setor: <%= user.setor %></span>
+        <span>Cargo: <%= user.cargo %></span>
         <section>Pessoal Online: </section>
         <button id="btn-editar">Editar conta</button>
-        <button id="btn-logout">Logout</button>
+        <% if (user.isadm==1) { %>
+          <button id="btn-cadastrar-usuarios">Cadastrar novos usuarios</button>
+          <button id="btn-manager-user">Gerenciar Usuarios</button>
+          <% } %>
+
+            <button id="btn-logout">Logout</button>
+            <% if (typeof(msg_error)!="undefined" ) { %>
+              <p>
+                <%=msg_error%>
+              </p>
+              <%} %>
       </section>
 
     </header>
     <main class="container-rooms">
-      <div class="div-room">
-        <h3>Salas de Bate Papo</h3>
-        <div class="create-room">
-          <span class="sp-name-room">Criar Sala</span>
-          <p class="p-description-room">
-            Crie Suas Proprias Salas Para Discutir Assuntos do seu setor
-            ou qualquer outro assunto
-          </p>
-        </div>
-        <% for( let i = 0; i < dataRooms.length; i++ ) { %>
-          <div div class="room-created">
-            <span>Criador: <span id="nameUser"><%= dataRooms[i].fk_name_user %></span></span>
-            <span class="sp-name-room"><%=dataRooms[i].name_room %></span>
-            <p class="p-description-room"><%=dataRooms[i].description%>
-         <% } %>
-      </div>
       
+          <div class="div-room">
+            <h3>Salas de Bate Papo</h3>
+            <% if (user.isadm==1) { %>
+              <div class="create-room">
+                <span class="sp-name-room">Criar Sala</span>
+                <p class="p-description-room">
+                  Crie Suas Proprias Salas Para Discutir Assuntos do seu setor
+                  ou qualquer outro assunto
+                </p>
+              </div>
+              <% } %>
+            <div class="div-rooms-created">
+              <% for( let i=0; i < dataRooms.length; i++ ) { %>
+                <div div class="room-created">
+                  <span>Criador: <span id="nameUser">
+                      <%= dataRooms[i].fk_name_user %>
+                    </span></span>
+                  <span class="sp-name-room">
+                    <%=dataRooms[i].name_room %>
+                  </span>
+                  <p class="p-description-room">
+                    <%=dataRooms[i].description%>
+                </div>
+                <% } %>
+            </div>
+          </div>
+
     </main>
   </div>
 </body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
-  <script src="/javascript/socialArea.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/javascript/socialArea.js"></script>
 
 </html>
