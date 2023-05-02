@@ -1,9 +1,6 @@
 import db from '../src/db'
 import bcrtypt from 'bcryptjs'
-import auth from '../middlewares/auth'
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken'
-import { env } from 'process';
 import IUserData from '../src/types/IUserData';
 import { createToken } from '../src/tokens/tokens/controller_Tokens';
 declare module "express-session" {

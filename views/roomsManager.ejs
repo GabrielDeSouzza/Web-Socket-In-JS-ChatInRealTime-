@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./Styles/managerUsers.css" />
+    <link rel="stylesheet" href="./Styles/roomsManager.css" />
 
     <title>Socket IO</title>
 </head>
@@ -24,7 +24,7 @@
                 <form action="/logout" method="post">
                     <button type="submit" id="btn-logout">Logout</button>
                 </form>
-                
+
                 <% if (typeof(msg_error)!="undefined" ) { %>
                     <p>
                         <%=msg_error%>
@@ -33,26 +33,24 @@
             </section>
         </header>
         <main>
-            <h3>Gerenciar Usuarios</h3>
-            <div class="conteiner-users">
-                <% usersNotAdm.forEach(element => { %>
-                    <div class="card-user">
-                        <p>
-                            nome: <%= element.nomeFuncionario %><br>
-                            username: <%= element.username %><br>
-                            cargo: <%= element.cargo %><br>
-                            setor: <%= element.setor %><br>
-                        </p>
-                        <form method="post" class="form-delete">
-                            <input type="hidden" value="<%= element.username %>" name="username">
-                            <input type="hidden" value="<%= element.nomeFuncionario %>" name="nomeFuncionario">
-                            <button type="submit">
-                                Deletar Usuario
-                            </button>
-                        </form>
-                    </div>
-                <% }) %>
-                
+            <h3>Gerenciar Salas</h3>
+            <div class="manager-rooms">
+                <% rooms.forEach(element=> { %>
+                    <form method="post" class="room">
+                        <label for="name-room">Nome da Sala</label>
+                        <input type="text" value="<%= element.name_room %>" name="nameRoom" id="name-room">
+                        <label for="description-room">Descrição</label>
+                        <textarea type="text" name="description"
+                            id="description-room" maxlength="240" rows="10" cols="50">
+                            <%= element.description %>
+                        </textarea>
+                        <div class="div-buttons">
+                        <input type="hidden">
+                            <button type="submit" class="btn-alterar">Salvar Alterar</button>
+                            <button type="submit"class="btn-excluir">Excluir</button>
+                        </div>
+                    </form>
+                    <% }) %>
             </div>
         </main>
     </div>

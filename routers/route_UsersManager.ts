@@ -18,6 +18,7 @@ router.get("/usersManager", auth, async(req:Request, res: Response)=>{
         user: req.session.user,
         usersNotAdm
     })
+    delete req.session.msg_error
 })
 
 router.post("/usersManager", auth, async(req:Request, res: Response)=>{
@@ -30,7 +31,8 @@ router.post("/usersManager", auth, async(req:Request, res: Response)=>{
         })
         return
     }
-    req.session.msg_error= `Funcionario ${req.body.nomeFuncionario} com sucesso`
+    db.delMemberAllRoom(req.body.username)
+    req.session.msg_error= `Funcionario ${req.body.nomeFuncionario} deletado com sucesso`
     res.redirect("/usersManager")
     delete req.session.msg_error
     return

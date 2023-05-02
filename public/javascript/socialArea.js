@@ -14,8 +14,8 @@ clickButtomAction(".create-room", "/createRoom")
 clickButtomAction("#btn-logout","/logout")
 clickButtomAction("#btn-editar","/editProfile","GET")
 clickButtomAction("#btn-cadastrar-usuarios","/cadastro","GET")
-clickButtomAction("#btn-manager-user","/usersManager","GET")
-
+clickButtomAction("#btn-user-manager","/usersManager","GET")
+clickButtomAction("#btn-rooms-manager", "/roomsManager", "GET")
 
 const rooms = document.querySelectorAll(".room-created")
 rooms.forEach((room) => {

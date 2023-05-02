@@ -7,7 +7,13 @@ const express = require('express');
 const router = express.Router();
 
 router.get("/socialArea", auth, async (req: Request, res: Response) => {
-    const dataRooms = await db.getRooms()
+    let dataRooms = [];
+    if(req.session.user?.isadm ==1){
+        dataRooms = await db.getRooms()
+    }
+    else{
+        dataRooms = await db.getSpecificRoomUser(req.session.user?.username as string)
+    }
     res.render("socialArea", {
         dataRooms: dataRooms,
         msg_error: req.session.msg_error,

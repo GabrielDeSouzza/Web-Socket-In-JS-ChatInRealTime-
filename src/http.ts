@@ -12,7 +12,7 @@ import { env } from "process";
 import pagSocialArea from "../routers/route_socialArea";
 import pagEditProfile from "../routers/route_editProfile"
 import pagManagerUsers from "../routers/route_UsersManager"
-
+import pagRoomsManager from "../routers/route_roomsManager"
 const cookieParser = require("cookie-parser")
 
 
@@ -49,6 +49,7 @@ app.use(route_createRoom)
 app.use(login)
 app.use(pagSocialArea)
 app.use(pagManagerUsers)
+app.use(pagRoomsManager)
 const httpServer = http.createServer(app)
 const io = new Server(httpServer)
 

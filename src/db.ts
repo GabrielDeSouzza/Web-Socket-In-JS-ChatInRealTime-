@@ -64,15 +64,6 @@ const db = {
             }
         })
     },
-    getMessagesRoom: async (room: string) => {
-        const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
-        ${room}.fk_name_user, 
-         ${room}.messages, ${room}.nameUpimage, ${room}.url_Image, ${room}.date FROM users
-          INNER JOIN ${room} On users.username = ${room}.fk_name_user
-           ORDER BY ${room}.date ASC;`
-        const data = await dbConnection(sql, [])
-        return data
-    },
     verifyUser: async (username: string) => {
         const sql: string = `select users.username from users where users.username ='${username}'`
         const data = await dbConnection(sql, [])
@@ -86,6 +77,15 @@ const db = {
         '${user.password}','${user.nomeFuncionario}' ,'${user.setor}', '${user.cargo}', '${user.isadm}')`
         const isSucess = await dbConnection(sql, false)
         return isSucess
+    },
+    getMessagesRoom: async (room: string) => {
+        const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
+        ${room}.fk_name_user, 
+         ${room}.messages, ${room}.nameUpimage, ${room}.url_Image, ${room}.date FROM users
+          INNER JOIN ${room} On users.username = ${room}.fk_name_user
+           ORDER BY ${room}.date ASC;`
+        const data = await dbConnection(sql, [])
+        return data
     },
     saveMessages: async (message: IMessage) => {
         const connetDB = mysql.createConnection({
@@ -133,11 +133,57 @@ const db = {
             return 'erro ao criar sala'
         }
     },
-
     getRooms: async()=> {
         const sql = `SELECT * from roomscreated`
         const result = await dbConnection(sql, [])
         return result
+    },
+    getSpecificRoomUser:async(username:string)=>{
+        const sql = `SELECT roomscreated.* FROM roomscreated INNER JOIN usersmember ON usersmember.nametable = roomscreated.name_room
+        INNER JOIN users ON users.username = usersmember.username WHERE usersmember.username = '${username}';`
+        const data = await dbConnection(sql, [])
+        return data
+    }
+    ,
+    verifyUserIsMemberRoom: async(username:string, room:string)=>{
+        const sql = `SELECT username, nametable from usersmember
+        WHERE usersmember.username = '${username}' 
+        AND usersmember.nametable='${room}'`
+        const data = await dbConnection(sql, "Usuario não é membro desta sala").then(response=>{
+            if(response.erro == true){
+                return false
+            }
+            return true
+        })
+    },
+    addUsersMember: async(username:string, room:string)=>{
+        const sql: string = `INSERT INTO usersmember (username, nametable)
+        VALUES '${username}','${room}'`
+        dbConnection(sql, false).then(response=>{
+            if(response.erro == true){
+                return false
+            }
+            return true
+        })
+    },
+    delMemberRoom: async(username:string, room:string)=> {
+        const sql = `DELETE FROM usersmember WHERE usersmember.username= '${username}'
+        AND usersmember.nametable = '${room}'`
+        const data = dbConnection(sql, "Erro ao deletar usuario").then(response=>{
+            if(response.erro == true){
+                return response.erroReturn
+            }
+            return true
+        })
+    },
+    delMemberAllRoom: async(username:string)=> {
+        const sql = `DELETE FROM usersmember WHERE usersmember.username= '${username}'`
+        const data = dbConnection(sql, "Erro ao deletar usuario").then(response=>{
+            if(response.erro == true){
+                return response.erroReturn
+            }
+            return true
+        })
     }
 };
 

@@ -51,7 +51,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
-#btn-editar:hover, #btn-cadastrar-usuarios:hover,#btn-manager-user:hover {
+#btn-editar:hover, #btn-cadastrar-usuarios:hover,
+#btn-user-manager:hover, #btn-rooms-manager:hover {
     background-color: #07847E;
     transition: background-color 200ms linear;
 }
