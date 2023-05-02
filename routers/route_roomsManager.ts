@@ -22,5 +22,7 @@ router.get("/roomsManager", async(req:Request, res:Response)=>{
         msg_error: req.session.msg_error
     })
 })
-
+router.post("/roomsManager", async(req:Request, res:Response)=>{
+    console.log(req.body)
+})
 export default router

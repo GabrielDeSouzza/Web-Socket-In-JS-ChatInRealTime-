@@ -39,7 +39,7 @@ async function dbConnection(SQL: string, erroReturn: any) {
 }
 
 const db = {
-
+    //controle de usuarios
     getUser: async (user: string) => {
         const sql: string = `SELECT * from users where users.username='${user}'`
         const data = await dbConnection(sql, [])
@@ -78,6 +78,7 @@ const db = {
         const isSucess = await dbConnection(sql, false)
         return isSucess
     },
+    //constrole de salas
     getMessagesRoom: async (room: string) => {
         const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
         ${room}.fk_name_user, 

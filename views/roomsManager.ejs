@@ -40,20 +40,21 @@
                         <label for="name-room">Nome da Sala</label>
                         <input type="text" value="<%= element.name_room %>" name="nameRoom" id="name-room">
                         <label for="description-room">Descrição</label>
-                        <textarea type="text" name="description"
-                            id="description-room" maxlength="240" rows="10" cols="50">
+                        <textarea type="text" name="description" id="description-room" maxlength="240" rows="10"
+                            cols="50">
                             <%= element.description %>
                         </textarea>
                         <div class="div-buttons">
-                        <input type="hidden">
+                            <input type="hidden" id="inp-hidden"name="action">
                             <button type="submit" class="btn-alterar">Salvar Alterar</button>
-                            <button type="submit"class="btn-excluir">Excluir</button>
+                            <button type="submit" class="btn-excluir">Excluir</button>
                         </div>
                     </form>
                     <% }) %>
             </div>
         </main>
     </div>
+    <script src="/javascript/roomsManager.js"></script>
 </body>
 
 </html>
