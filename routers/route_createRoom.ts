@@ -40,7 +40,7 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
         }
 
         req.session.msg_error = "sala criado com sucesso"
-        res.redirect("/")
+        res.redirect("/socialArea")
         return
     }
     req.session.msg_error = ""

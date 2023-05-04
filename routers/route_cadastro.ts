@@ -32,6 +32,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
         res.render('cadastro',{
             result_msg: 'Usuario já cadastrado'
         })
+        delete req.session.msg_error
         return
     }
     else{
@@ -49,6 +50,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
             res.render('cadastro',{
                 result_msg: "Preencha todos os campos"
             })
+            delete req.session.msg_error
             return
         }
         const passwordEncry = await bcrtypt.hash(user.password as string, 8)
@@ -58,6 +60,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
             res.render('cadastro',{
                 result_msg: "Erro ao cadastrar usuario"
             })
+            delete req.session.msg_error
             return
         }
         req.session.msg_error=`Usuario ${user.username} cadastrado com sucesso`

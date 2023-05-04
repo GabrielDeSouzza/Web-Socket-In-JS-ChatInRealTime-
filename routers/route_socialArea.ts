@@ -19,6 +19,7 @@ router.get("/socialArea", auth, async (req: Request, res: Response) => {
         msg_error: req.session.msg_error,
         user: req.session.user
     })
+    delete req.session.msg_error
 })
 
 router.post("/socialArea", auth, (req: Request, res: Response) => {
@@ -26,6 +27,7 @@ router.post("/socialArea", auth, (req: Request, res: Response) => {
         res.render("/socialArea",{
             msg_error: "erro ao carregar chat",
         })
+        delete req.session.msg_error
     }
     else {
         req.session.user.username = req.body.username

@@ -84,11 +84,11 @@ body {
     color: white;
     border: 0;
     border-radius: 5px;
-    height: 20px;
+    height: 40px;
     cursor: pointer;
 }
 
-.btn-alterar:hover{
+.btn-alterar:hover,.btn-permisionUsers:hover{
     background-color: #07847E;
     border-radius: 5px;
     transition: background-color 150ms linear;

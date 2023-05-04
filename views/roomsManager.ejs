@@ -45,7 +45,9 @@
                             <%= element.description %>
                         </textarea>
                         <div class="div-buttons">
+                            <input type="hidden" name="oldName" value="<%=element.name_room %>">
                             <input type="hidden" id="inp-hidden"name="action">
+                            <button type="button" class="btn-permisionUsers">Dar acesso a usuarios</button>
                             <button type="submit" class="btn-alterar">Salvar Alterar</button>
                             <button type="submit" class="btn-excluir">Excluir</button>
                         </div>
