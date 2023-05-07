@@ -93,6 +93,7 @@ function captureEnter ( event){
 }
 
 function createMessage(data) {
+  console.log(data)
   const messagesDiv = document.getElementById("messages");
   let classMessage = 'new_message'
   if(data.username === username)

@@ -5,42 +5,47 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./Styles/style.css" />
-  <link rel="stylesheet" href="./Styles/createRoom.css" />
-  <title>Socket IO</title>
+  <%- include('./partials/latealMenuHead') %>
+    <link rel="stylesheet" href="./Styles/createRoom.css" />
+    <title>Socket IO</title>
 </head>
 
 <body>
   <div class="container">
-    <form method="post">
-     
-      <div class="row">
-        
-        <label for="form-label">Nome da Sala</label>
-        <input type="text" name="nameRoom" placeholder="Node da Sala" class="input-patter" />
-        <label for="form-label">Descrição da Sala</label>
-        <textarea type="text" maxlength="240" placeholder="Descrição"
-         class="input-patter" cols="50" rows="10" id="descriptionTxtArea" name="descriptionRoom">
-        </textarea>
-      </div>
+    <%- include('./partials/lateralMenu',{user}) %>
+      <div class="div-createdRoom">
+        <form method="post">
 
-      <div class="row">
-        <button type="submit" class="btn btn-primary mb-3">Criar Sala</button>
+          <div class="row">
 
-        <% if (typeof(msg_error)!="undefined" ) { %>
-          <p>
-            <%=msg_error%>
-          </p>
-          <%} %>
+            <label for="form-label">Nome da Sala</label>
+            <input type="text" name="nameRoom" placeholder="Node da Sala" class="input-patter" id="input-nameRoom" />
+            <span class="msgError"></span>
+            <label for="form-label">Descrição da Sala</label>
+            <textarea type="text" maxlength="240" placeholder="Descrição" class="input-patter" cols="50" rows="10"
+              id="descriptionTxtArea" name="descriptionRoom"></textarea>
+          </div>
+
+          <div class="row">
+            <button type="submit" class="input-patter">Criar Sala</button>
+
+            <% if (typeof(msg_error)!="undefined" ) { %>
+              <p>
+                <%=msg_error%>
+              </p>
+              <%} %>
+          </div>
+        </form>
+        <form action="/logout" method="post">
+          <button type="submit" class="logout">Logout</button>
+        </form>
+        <form action="/" method="post">
+          <button type="submit" class="input-patter">Voltar para Home</button>
+        </form>
       </div>
-    </form>
-    <form action="/logout" method="post">
-      <button type="submit" class="logout">Logout</button>
-    </form>
-    <form action="/" method="post">
-      <button type="submit" class="btn btn-primary mb-3">Voltar para Home</button>
-    </form>
   </div>
+
+  <script src="javascript/createRoom.js"></script>
 </body>
 
 </html>

@@ -3,7 +3,6 @@ import db from "../src/db";
 import IUserData from "../src/types/IUserData";
 import IAlterRoom from "../src/types/IAlterRoom";
 import auth from "../middlewares/auth";
-import { json } from "body-parser";
 
 const express = require('express');
 const router = express.Router();
@@ -14,28 +13,46 @@ declare module "express-session" {
         user: IUserData;
         room: string;
         rooms: [];
-
         [key: string]: any;
     }
 }
 router.get("/roomsManager",auth, async (req: Request, res: Response) => {
-    const rooms = await db.getRooms()
+    const rooms = await db.getRoomsCreatedBy(req.session.user?.username as string)
+    const usersMember = await db.getAllUsersMember()
+    const allUsers = await db.getUsersNotAdm()
     res.render("roomsManager", {
         rooms: rooms,
-        msg_error: req.session.msg_error
+        msg_error: req.session.msg_error,
+        usersMember: usersMember,
+        users: allUsers,
+        user: req.session.user
     })
     delete req.session.msg_error
 })
 router.post("/roomsManager",auth, async (req: Request, res: Response) => {
-    
     if (req.body.action == "alterar") {
         const room: IAlterRoom = {
-            description: req.body.description,
-            newName: req.body.nameRoom,
-            oldName: req.body.oldName
-        }  
+            description: req.body.description.trim(),
+            newName: req.body.nameRoom.trim(),
+            oldName: req.body.oldName.trim()
+        } 
+        const usersMember = await db.getAllUsersMember()
+        const newUsers = req.body.usersMember || []
+        usersMember.filter(async (user:any)=>{
+            if(newUsers.indexOf(user) == -1){
+                await db.delMemberRoom(user.username, req.body.nameRoom)
+            }
+        })
+        if( !(newUsers instanceof(Array))){
+            await db.addUsersMember(newUsers, req.body.nameRoom)
+        }
+        else if(newUsers.length > 1){
+            newUsers.forEach(async (newUser:any) => {
+                await db.addUsersMember(newUser, req.body.nameRoom)
+            });
+        }
         let message: string
-        if (room.newName !== room.oldName) {
+        if (room.newName != room.oldName) {
             message = await db.alterNameRoom(room)
         }
         else {
@@ -52,10 +69,5 @@ router.post("/roomsManager",auth, async (req: Request, res: Response) => {
     }
 })
 
-router.get("/roomsManager/getUsers", auth, async(req: Request, res: Response)=>{
-    console.log("Tste")
-    const json =JSON.stringify(await db.getUserNames())
-    console.log(json)
-    res.json(json)
-})
+
 export default router

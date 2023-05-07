@@ -6,50 +6,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./Styles/roomsManager.css" />
-
+    <%- include('./partials/latealMenuHead') %>
     <title>Socket IO</title>
 </head>
 
 <body>
     <div class="container">
-        <header class="lateral-menu">
-            <section class="itens-menu">
-                <span>Nome </span>
-                <span> Username: </span>
-                <span>Setor: </span>
-                <span>Cargo: </span>
-                <form action="/socialArea" method="post">
-                    <button type="submit" id="btn-logout">Volta para Social Area</button>
-                </form>
-                <form action="/logout" method="post">
-                    <button type="submit" id="btn-logout">Logout</button>
-                </form>
-
-                <% if (typeof(msg_error)!="undefined" ) { %>
-                    <p>
-                        <%=msg_error%>
-                    </p>
-                    <%} %>
-            </section>
-        </header>
+        <%- include('./partials/lateralMenu',{user}) %>
         <main>
             <h3>Gerenciar Salas</h3>
             <div class="manager-rooms">
-                <% rooms.forEach(element=> { %>
+                <% rooms.forEach(room=> { %>
                     <form method="post" class="room">
                         <label for="name-room">Nome da Sala</label>
-                        <input type="text" value="<%= element.name_room %>" name="nameRoom" id="name-room">
+                        <input type="text" value="<%=room.name_room%>" name="nameRoom" id="name-room">
                         <label for="description-room">Descrição</label>
                         <textarea type="text" name="description" id="description-room" maxlength="240" rows="10"
-                            cols="50">
-                            <%= element.description %>
-                        </textarea>
+                        cols="50"><%=room.description%></textarea>
                         <div class="div-buttons">
-                            <input type="hidden" name="oldName" value="<%=element.name_room %>">
-                            <input type="hidden" id="inp-hidden"name="action">
+                            <input type="hidden" name="oldName" value="<%=room.name_room%> " >
+                            <input type="hidden" id="inp-hidden" name="action">
                             <button type="button" class="btn-permisionUsers">Dar acesso a usuarios</button>
-                            <button type="submit" class="btn-alterar">Salvar Alterar</button>
+                            <button type="submit" class="btn-alterar">Salvar Alteração</button>
                             <button type="submit" class="btn-excluir">Excluir</button>
+                        </div>
+                        <div class="div-usersManager" style="display: none;">
+                            <span>Selecione os usuarios que terão acesso a sala </span>
+                            <div class="users-checkbox">
+                            <% users.forEach(user => { %>
+                                <%if (usersMember.find((member)=>{
+                                    if(member.username == user.username && member.nametable == room.name_room)
+                                        return true
+                                    return false
+                                })) { %>
+                                    <div class="div-usersPermission">
+                                        <span>
+                                            Nome:<%= user.nomeFuncionario%> <br>
+                                            Username:<%= user.username%> <br>
+                                            Setor: <%= user.setor%>
+                                            Cargo: <%= user.cargo%>
+
+                                        </span>
+                                        <div class="div-checkbox">
+                                            <input type="checkbox" name="usersMember" value="<%= user.username %>" checked>
+                                        </div>
+                                    </div>
+                                <% } else { %>
+                                    <div class="div-usersPermission">
+                                        <span>
+                                            Nome:<%= user.nomeFuncionario%> <br>
+                                            Username:<%= user.username%> <br>
+                                            Setor: <%= user.setor%>
+                                            Cargo: <%= user.cargo%>
+                                        </span>
+                                        <div class="div-checkbox">
+                                            <input type="checkbox" name="usersMember" value="<%= user.username %>" >
+                                        </div>
+                                    </div>
+                            <% } %>
+                            <% }) %>
+
+                            </div>
+
+
                         </div>
                     </form>
                     <% }) %>

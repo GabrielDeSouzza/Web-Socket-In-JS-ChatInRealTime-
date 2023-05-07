@@ -1,6 +1,7 @@
 html,body{
-    height: 99.9%;
-    width: 99.5%;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 body {
     margin: 0;
@@ -19,47 +20,7 @@ body {
     height: 100%;
 }
 
-.lateral-menu{
-    background-color: #25242f;
-    width: 20%;
-    flex-direction: column;
-    display: flex;
-    padding-left: 8px;
-    padding-right: 2px;
-    height: 100%;
-}
-.lateral-menu > h3 {
-    align-self: center;
-}
-.itens-menu{
-    display: flex;
-    flex-direction: column;
-}
-.itens-menu > span{
-    margin: 5px;
-}
-.itens-menu > section {
-    margin-top: 10px;
-}
-.itens-menu > button {
-    margin-right: 5px;
-    margin-top: 5px;
-    height: 30px;
-    background-color: #444164;
-    border: 0;
-    color:  white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-#btn-editar:hover, #btn-cadastrar-usuarios:hover,
-#btn-user-manager:hover, #btn-rooms-manager:hover {
-    background-color: #07847E;
-    transition: background-color 200ms linear;
-}
-#btn-logout:hover {
-    background-color: #8d0d0d;
-    transition: background-color 200ms linear;
-}
+
 .container-rooms{
     display: flex;
     margin-left: 2px;

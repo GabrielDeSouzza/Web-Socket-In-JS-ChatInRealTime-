@@ -5,9 +5,8 @@ import IRomUser from "./types/IRoomUser";
 import IMessage from "./types/IMessage";
 const moment = require('moment')
 require("dotenv").config();
-const cloudinary = require('cloudinary').v2;
 
-
+import { v2 as cloudinary } from 'cloudinary'
 //array de usuarios
 const users: IRomUser[] = []
 
@@ -48,9 +47,6 @@ const users: IRomUser[] = []
             setor: data.setor,
             cargo: data.cargo,
             nomeFuncionario: data.nomeFuncionario,
-            url_Image: await cloudinary.url('wsChatAppUploads/'+data.nameUpImage.replace(/[^a-zA-Z0-9\.]/g, ""), {transformation: [
-                {height: 320, width: 320, crop: "limit"}
-                ]}),
             nameUpImage: data.nameUpImage.replace(/[^a-zA-Z0-9\.]/g, "")
         }
         }
@@ -81,13 +77,15 @@ const users: IRomUser[] = []
                 username: element.fk_name_user,
                 messages: element.messages,
                 nameUpImage: element.nameUpimage,
-                url_image: element.url_Image,
+                url_image: cloudinary.url("wsChatAppUploads/"+element.nameUpimage),
                 date: element.date,
                 setor: element.setor,
                 nomeFuncionario: element.nomeFuncionario,
                 cargo: element.cargo
             })
+            
         });
+        console.log(messages)
         return messages
     }
 })  

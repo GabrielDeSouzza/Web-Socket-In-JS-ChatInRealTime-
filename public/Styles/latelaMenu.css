@@ -1,0 +1,36 @@
+body{
+    margin: 0;
+}
+
+.itens-menu{
+    background-color: #25242f;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+.itens-menu > span{
+    margin: 5px;
+}
+.itens-menu > section {
+    margin-top: 10px;
+}
+.itens-menu > form > button {
+    width: 100%;
+    margin-right: 5px;
+    margin-top: 5px;
+    height: 30px;
+    background-color: #444164;
+    border: 0;
+    color:  white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-patter:hover {
+    background-color: #07847E;
+    transition: background-color 200ms linear;
+}
+#btn-logout:hover {
+    background-color: #8d0d0d;
+    transition: background-color 200ms linear;
+}

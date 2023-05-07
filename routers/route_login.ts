@@ -36,7 +36,6 @@ router.post('/',async (req:Request,res:Response)=>{
     }
     const userData:IUserData[] = await db.getUser(req.body.username)
     const user:IUserData|undefined= userData.find(element=> element.username ==req.body.username)
-    console.log(user?.nomeFuncionario+"test")
     if(user == undefined ){
         res.render("index",{
             msg_error: "Usuario não encontrado",
@@ -51,10 +50,8 @@ router.post('/',async (req:Request,res:Response)=>{
     }
 
     const token = createToken(user)
-    console.log(user.nomeFuncionario+"+sdas")
     res.cookie("token",token, {httpOnly: true})
     req.session.username = req.body.username
-    console.log(req.body.room)
     res.redirect('/socialArea')
 })
 

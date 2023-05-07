@@ -14,7 +14,8 @@ router.get('/chat',auth,(req: Request, res:Response)=>{
         username: req.session.user?.username,
         setor: req.session.user?.setor,
         cargo: req.session.user?.cargo,
-        nome: req.session.user?.nomeFuncionario
+        nome: req.session.user?.nomeFuncionario,
+        user:req.session.user
     })
 })
 

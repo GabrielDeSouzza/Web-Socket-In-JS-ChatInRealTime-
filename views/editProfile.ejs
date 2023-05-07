@@ -5,38 +5,30 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./Styles/style.css" />
-  <title>Socket IO</title>
+  <link rel="stylesheet" href="./Styles/editProfile.css" />
+  <%- include('./partials/latealMenuHead') %>
+    <title>Socket IO</title>
 </head>
 
 <body>
   <div class="container">
+    <%- include('./partials/lateralMenu',{user}) %>
+      <div class="div-profile">
+        <form method="post" class="form-profile">
+          <h1>Editar Perfil</h1>
 
-    <form method="post">
-      <h1>Editar Perfil</h1>
-      <div class="row">
-        <h3>Olá <strong><%= username %></strong></h3>
-        <label for="form-username">Editar Username</label>
-        <input type="text" name="newUsername" placeholder="Username" class="input-patter" />
-        <label for="form-senha" >Digite sua senha atual</label>
-        <input type="oldPassword" name="oldPassword" class="input-patter" placeholder="Senha Atual">
-        <label for="form-label">Mudar Senha</label>
-        <input type="password" name="newPassword" placeholder="Senha" class="input-patter" />
+          <h3>Olá <strong>
+              <%= username %>
+            </strong></h3>
+          <label for="form-username">Editar Username</label>
+          <input type="text" name="newUsername" placeholder="Username" class="input-patter" />
+          <label for="form-senha">Digite sua senha atual</label>
+          <input type="password" name="oldPassword" class="input-patter" placeholder="Senha Atual">
+          <label for="form-label">Mudar Senha</label>
+          <input type="password" name="newPassword" placeholder="Senha" class="input-patter" />
+          <button type="submit" class="btn btn-primary mb-3">Salvar</button>
+        </form>
       </div>
-
-      <div class="row">
-        <button type="submit" class="btn btn-primary mb-3">Salvar</button>
-        <% if (typeof(msg_error)!="undefined" ) { %>
-          <p>
-            <%=msg_error%>
-          </p>
-          <%} %>
-
-      </div>
-    </form>
-    <form action="/socialArea">
-      <button type="submit">Voltar para area socialArea</button>
-    </form>
   </div>
 </body>
 

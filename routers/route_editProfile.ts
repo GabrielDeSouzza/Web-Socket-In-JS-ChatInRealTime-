@@ -9,34 +9,29 @@ const router = express.Router();
 
 router.get("/editProfile", auth, (req:Request, res:Response)=>{
     res.render("editProfile",{
-        username: req.session.user?.username 
+        username: req.session.user?.username,
+        user: req.session.user,
+        msg_error :req.session.msg_error
     })
 })
 
 router.post("/editProfile", auth, async(req:Request, res:Response)=>{
     if(!(req.session.user?.username)){
-        req.session.msg_error= "erro tente novamente"
-        res.redirect("/")
+        req.session.msg_error = "erro tente novamente"
+        res.redirect("/editProfile")
         return
     }
     if(await db.verifyUser(req.body.newUsername)){
-        res.render("editProfile",{
-            username: req.session.user.username,
-            msg_error: "Usuario já em uso" 
-        })
-        return
+        req.session.msg_error = "Usuario já em uso"
+        res.redirect("/editProfile")
     }
-    console.log(req.body)
    
     const user: IUserData = await db.getUser(req.session.user.username as string).then((response)=>{
         return response[0]
     })
-    console.log(user)
     if(!(await bcrtypt.compare(req.body.oldPassword, user.password as string))){
-        res.render("editProfile",{
-            username: req.session.user.username,
-            msg_error: "Digite sua antiga senha corretamente!"
-        })
+        req.session.msg_error = "Digite sua antiga senha corretamente!"
+        res.redirect("/editProfile")
         return
     }
     const username = req.body.newUsername? req.body.newUsername: req.session.user.username
@@ -45,17 +40,13 @@ router.post("/editProfile", auth, async(req:Request, res:Response)=>{
     user.password = await bcrtypt.hash(password, 8)
     const msgError = await db.updateUser(user)
     if(msgError ==false){
-        res.render("editProfile",{
-            username: req.session.user.username,
-            msg_error: "Não foi possível atualizar perfil"
-        })
+        req.session.msg_error = "Não foi possível atualizar perfil"
+        res.redirect("/editProfile")
         return
     }
     else{
-        res.render("editProfile",{
-            username: user.username,
-            msg_error: "Perfil atualizado com sucesso"
-        })
+        req.session.msg_error = "Perfil atualizado com sucesso"
+        res.redirect("/editProfile")
         return
     }
 })

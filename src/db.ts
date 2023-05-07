@@ -27,7 +27,6 @@ async function dbConnection(SQL: string, erroReturn: any) {
         return data
     }
     catch (e) {
-        console.log(e)
         return {
             erro: true,
             return: erroReturn,
@@ -79,7 +78,7 @@ const db = {
         const isSucess = await dbConnection(sql, false)
         return isSucess
     },
-    getUserNames: async()=>{
+    getUserNames: async () => {
         const sql = "SELECT users.username from users WHERE isadm = 0 AND isdeleted =0"
         const data = await dbConnection(sql, "Deu rui")
         return data
@@ -88,7 +87,7 @@ const db = {
     getMessagesRoom: async (room: string) => {
         const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
         ${room}.fk_name_user, 
-         ${room}.messages, ${room}.nameUpimage, ${room}.url_Image, ${room}.date FROM users
+         ${room}.messages, ${room}.nameUpimage, ${room}.date FROM users
           INNER JOIN ${room} On users.username = ${room}.fk_name_user
            ORDER BY ${room}.date ASC;`
         const data = await dbConnection(sql, [])
@@ -104,13 +103,12 @@ const db = {
         const query = util.promisify(connetDB.query).bind(connetDB)
         try {
 
-            const sql = `INSERT INTO ${message.room}(fk_name_user, messages,nameUpImage , url_Image,date ) VALUES
-             ('${message.username}','${message.messages}','${message.nameUpImage}','${message.url_Image}',
+            const sql = `INSERT INTO ${message.room}(fk_name_user, messages,nameUpImage,date ) VALUES
+             ('${message.username}','${message.messages}','${message.nameUpImage}',
              '${message.date}')`
             await query(sql)
         }
         catch (e) {
-            console.log(e)
             return "Erro ao cadastrar"
         }
         finally {
@@ -124,19 +122,17 @@ const db = {
                     VALUES ('${data.username}','${data.nameRoom}','${data.descriptionRoom}')`
         const result = await dbConnection(sql, "criado com sucesso")
         if (result.erro == true) {
-            console.log(result.messageErro)
             return 'erro ao criar sala'
         }
         const sql_createTable = `CREATE TABLE ${data.nameRoom} (fk_name_user VARCHAR(20) NOT NULL ,
          messages VARCHAR(250) NULL , nameUpimage VARCHAR(50) NULL ,
-          url_Image VARCHAR(200) NULL , date DATETIME NOT NULL ,
+         date DATETIME NOT NULL ,
            id INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (id),
         CONSTRAINT FK_user_${data.username.replace(/[^a-zA-Z]/g, "") + "_room_" + data.nameRoom} FOREIGN KEY (fk_name_user) REFERENCES users(username)
         ON UPDATE CASCADE ON DELETE CASCADE)`
 
         const result_create = await dbConnection(sql_createTable, true)
         if (result.erro || result_create == true) {
-            console.log(result.messageErro)
             return 'erro ao criar sala'
         }
     },
@@ -145,6 +141,12 @@ const db = {
         const result = await dbConnection(sql, [])
         return result
     },
+    getRoomsCreatedBy: async (username: string) => {
+        const sql = `SELECT * from roomscreated WHERE fk_name_user = '${username}'`
+        const result = await dbConnection(sql, [])
+        return result
+    }
+    ,
     getSpecificRoomUser: async (username: string) => {
         const sql = `SELECT roomscreated.* FROM roomscreated INNER JOIN usersmember ON usersmember.nametable = roomscreated.name_room
         INNER JOIN users ON users.username = usersmember.username WHERE usersmember.username = '${username}';`
@@ -162,10 +164,19 @@ const db = {
             }
             return true
         })
+        return data
+    },
+    getAllUsersMember: async () => {
+        const sql = "SELECT username, nametable from usersmember"
+        const data = await dbConnection(sql, "Erro ao procurar")
+        if (data.erro) {
+            return data.erroReturn
+        }
+        return data
     },
     addUsersMember: async (username: string, room: string) => {
         const sql: string = `INSERT INTO usersmember (username, nametable)
-        VALUES '${username}','${room}'`
+        VALUES ('${username}','${room}')`
         dbConnection(sql, false).then(response => {
             if (response.erro == true) {
                 return false
@@ -183,7 +194,7 @@ const db = {
             return true
         })
     },
-    delMemberAllRoom: async (username: string) => async (username: string) => {
+    delMemberAllRoom: async (username: string) => {
         const sql = `DELETE FROM usersmember WHERE usersmember.username= '${username}'`
         dbConnection(sql, "Erro ao deletar usuario").then(response => {
             if (response.erro == true) {
@@ -195,21 +206,21 @@ const db = {
     //Gerencia de salas
     alterNameRoom: async (alterRoom: IAlterRoom) => {
         const sql = `RENAME TABLE ${alterRoom.oldName} TO ${alterRoom.newName}`
-        const sql2 = `UPDATE roomscreated SET description = '${alterRoom.description}'
+        const sqlUpdadteroomsCreated = `UPDATE roomscreated SET description = '${alterRoom.description}'
         , name_room = '${alterRoom.newName}' WHERE name_room = '${alterRoom.oldName}'`
         const result: any = await dbConnection(sql, "Não Foi possivel atualizar a Sala")
         if (result.erro == true) {
             return result.erroReturn
         }
-        else {
-            const result2:any = await dbConnection(sql2, "Erro ao atualizar Tablea")        
-            if(result2.erro){
-                return result2.erroReturn
-            }
-            return "Sala atualizada com sucesso"
+        const result2: any = await dbConnection(sqlUpdadteroomsCreated, "Erro ao atualizar Tablea")
+        if (result2.erro) {
+            return result2.erroReturn
         }
+        return "Sala atualizada com sucesso"
+
     },
     alterDescriptionRoom: async (room: string, newDescription: string) => {
+        
         const sql = `UPDATE roomscreated SET description = '${newDescription}'
         WHERE name_room = '${room}'`
         const data = await dbConnection(sql, "Não Foi possivel atualizar a Sala")
@@ -218,19 +229,19 @@ const db = {
         }
         return "Alteração realizada com sucesso"
     },
-    deleteRoom: async(room:string)=>{
+    deleteRoom: async (room: string) => {
         const sql = `DROP TABLE ${room}`;
-        const result = await dbConnection(sql,'Erro ao deletar sala')
-        if(result.erro){
+        const result = await dbConnection(sql, 'Erro ao deletar sala')
+        if (result.erro) {
             return result.erroReturn
         }
-        else{
-            const sql2 = `DELETE FROM roomscreated WHERE name_room = ${room}`
-            const result2= await dbConnection(sql,"Erro ao deletar sala")
-            if(result2.erro){
+        else {
+            const sql2 = `DELETE FROM roomscreated WHERE name_room = '${room}'`
+            const result2 = await dbConnection(sql2, "Erro ao deletar sala")
+            if (result2.erro) {
                 return result2.erroReturn
             }
-            else{
+            else {
                 return "Sala deletada com sucesso"
             }
         }

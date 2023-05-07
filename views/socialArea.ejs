@@ -6,63 +6,41 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./Styles/socialArea.css" />
-
-  <title>Socket IO</title>
+  <%- include('./partials/latealMenuHead') %>
+    <title>Socket IO</title>
 </head>
 
 <body>
   <div class="container">
-    <header class="lateral-menu">
-      <section class="itens-menu">
-        <span>Nome <%= user.nomeFuncionario %></span>
-        <span> Username: <%= user.username %></span>
-        <span>Setor: <%= user.setor %></span>
-        <span>Cargo: <%= user.cargo %></span>
-        <section>Pessoal Online: </section>
-        <button id="btn-editar">Editar conta</button>
-        <% if (user.isadm==1) { %>
-          <button id="btn-cadastrar-usuarios">Cadastrar novos usuarios</button>
-          <button id="btn-user-manager">Gerenciar Usuarios</button>
-          <button id="btn-rooms-manager">Gerenciar Salas</button>
-          <% } %>
 
-            <button id="btn-logout">Logout</button>
-            <% if (typeof(msg_error)!="undefined" ) { %>
-              <p>
-                <%=msg_error%>
-              </p>
-              <%} %>
-      </section>
-
-    </header>
     <main class="container-rooms">
-      
-          <div class="div-room">
-            <h3>Salas de Bate Papo</h3>
-            <% if (user.isadm==1) { %>
-              <div class="create-room">
-                <span class="sp-name-room">Criar Sala</span>
-                <p class="p-description-room">
-                  Crie Suas Proprias Salas Para Discutir Assuntos do seu setor
-                  ou qualquer outro assunto
-                </p>
-              </div>
-              <% } %>
-            <div class="div-rooms-created">
-              <% for( let i=0; i < dataRooms.length; i++ ) { %>
-                <div div class="room-created">
-                  <span>Criador: <span id="nameUser">
-                      <%= dataRooms[i].fk_name_user %>
-                    </span></span>
-                  <span class="sp-name-room">
-                    <%=dataRooms[i].name_room %>
-                  </span>
-                  <p class="p-description-room">
-                    <%=dataRooms[i].description%>
-                </div>
-                <% } %>
+      <%- include('./partials/lateralMenu',{user}) %>
+        <div class="div-room">
+          <h3>Salas de Bate Papo</h3>
+          <% if (user.isadm==1) { %>
+            <div class="create-room">
+              <span class="sp-name-room">Criar Sala</span>
+              <p class="p-description-room">
+                Crie Suas Proprias Salas Para Discutir Assuntos do seu setor
+                ou qualquer outro assunto
+              </p>
             </div>
-          </div>
+            <% } %>
+              <div class="div-rooms-created">
+                <% for( let i=0; i < dataRooms.length; i++ ) { %>
+                  <div div class="room-created">
+                    <span>Criador: <span id="nameUser">
+                        <%= dataRooms[i].fk_name_user %>
+                      </span></span>
+                    <span class="sp-name-room">
+                      <%=dataRooms[i].name_room %>
+                    </span>
+                    <p class="p-description-room">
+                      <%=dataRooms[i].description%>
+                  </div>
+                  <% } %>
+              </div>
+        </div>
 
     </main>
   </div>

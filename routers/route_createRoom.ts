@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import auth from "../middlewares/auth";
 import IUserCreateRoom from "../src/types/IUserCreateRoom";
 import db from "../src/db";
-import { read } from "fs";
 const express = require('express');
 const router = express.Router();
 
 
 router.get('/createRoom', auth, async (req: Request, res: Response) => {
     res.render('createRoom',{
-        msg_error: req.session.msg_error
+        msg_error: req.session.msg_error,
+        user: req.session.user
     })
 })
 
@@ -17,8 +17,7 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
     const roomsAlreadyCreated = await db.getRooms()
     if (req.session.user?.username && req.body.nameRoom && req.body.descriptionRoom) {
         const usedNameRoom = roomsAlreadyCreated.find((room:any)=>{
-            console.log(room)
-            return room.name_room.toLowerCase() === req.body.nameRoom.toLowerCase()
+            return room.name_room.toLowerCase().trim() === req.body.nameRoom.toLowerCase().trim()
         })
         if (usedNameRoom) {
             return res.render("createRoom", {
@@ -27,11 +26,10 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
         }
         const dataNewRoom: IUserCreateRoom = {
             username: req.session.user?.username as string,
-            nameRoom: req.body.nameRoom,
-            descriptionRoom: req.body.descriptionRoom
+            nameRoom: req.body.nameRoom.trim(),
+            descriptionRoom: req.body.descriptionRoom.trim()
         }
         const erroCriate = await db.CreateRoom(dataNewRoom)
-        console.log(erroCriate)
         if (erroCriate) {
             res.render("createRoom", {
                 msg_error: "Não foi possivel criar a sala"

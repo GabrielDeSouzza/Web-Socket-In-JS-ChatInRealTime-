@@ -27,7 +27,6 @@ router.get('/cadastro',auth, async(req:Request,res:Response)=>{
     res.render('cadastro')
 })
 router.post('/cadastro', async(req:Request,res:Response)=>{
-    console.log(req.body)
     if(await db.verifyUser(req.body.username)){
         res.render('cadastro',{
             result_msg: 'Usuario já cadastrado'

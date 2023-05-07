@@ -1,0 +1,32 @@
+<section class="itens-menu">
+  <span>Nome <%= user.nomeFuncionario %></span>
+  <span> Username: <%= user.username %></span>
+  <span>Setor: <%= user.setor %></span>
+  <span>Cargo: <%= user.cargo %></span>
+  <section>Pessoal Online: </section>
+  <form action="/editProfile" method="GET">
+    <button class="btn-patter">Editar conta</button>
+  </form>
+  <% if (user.isadm==1) { %>
+    <form action="/cadastro">
+      <button class="btn-patter">Cadastrar novos usuarios</button>
+    </form>
+    <form action="/usersManager">
+      <button class="btn-patter">Gerenciar Usuarios</button>
+    </form>
+    <form action="/roomsManager">
+      <button class="btn-patter">Gerenciar Salas</button>
+    </form>
+    <% } %>
+      <form action="/socialArea">
+        <button class="btn-patter" type="submit">Volta para social Area</button>
+      </form>
+      <form action="/logout" method="post">
+        <button id="btn-logout">Logout</button>
+      </form>
+      <% if (typeof(msg_error)!="undefined" ) { %>
+        <p>
+          <%=msg_error%>
+        </p>
+        <%} %>
+</section>

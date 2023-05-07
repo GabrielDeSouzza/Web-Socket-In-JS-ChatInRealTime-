@@ -6,32 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./Styles/managerUsers.css" />
-
+    <%- include('./partials/latealMenuHead') %>
     <title>Socket IO</title>
 </head>
 
 <body>
     <div class="container">
-        <header class="lateral-menu">
-            <section class="itens-menu">
-                <span>Nome </span>
-                <span> Username: </span>
-                <span>Setor: </span>
-                <span>Cargo: </span>
-                <form action="/socialArea" method="post">
-                    <button type="submit" id="btn-logout">Volta para Social Area</button>
-                </form>
-                <form action="/logout" method="post">
-                    <button type="submit" id="btn-logout">Logout</button>
-                </form>
-                
-                <% if (typeof(msg_error)!="undefined" ) { %>
-                    <p>
-                        <%=msg_error%>
-                    </p>
-                    <%} %>
-            </section>
-        </header>
+        <%- include('./partials/lateralMenu',{user}) %>
         <main>
             <h3>Gerenciar Usuarios</h3>
             <div class="conteiner-users">

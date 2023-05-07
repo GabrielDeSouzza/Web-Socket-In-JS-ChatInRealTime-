@@ -6,26 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Socket IO</title>
     <link rel="stylesheet" href="./Styles/chat.css" />
+    <%- include('./partials/latealMenuHead') %>
   </head>
   <body>
     <div class="container">
-      <form action="/logout" method="post">
-        <button type="submit" class="logout" id="logout">Logout</button>
-      </form>
-      <form action="/socialArea" method="post">
-        <button type="submit" class="socialArea" id="socialArea">Volta para area Social</button>
-      </form>
-      
-      <div class="row">
-        
+      <%- include('./partials/lateralMenu',{user}) %>   
+      <div class="chat-content"> 
         <div>
           <span>olá <strong id="username"><%=username%></strong> (<strong id="nomeFuncionario"><%= nome %></strong>)
             - Você está na sala <strong id="room"><%=room %></strong></span> <br/>
             Setor:<span id="setor"><%= setor %></span> - cargo: <span id="cargo"><%= cargo %></span>
         </div>
-
-        
-
         <div id="chat_content">
           <div class="messages" id="messages"></div>
         </div>
@@ -34,7 +25,7 @@
             class="form-control input-patter"
             type="text"
             placeholder="Digite sua mensagem"
-            id="message_input"
+            id="message_input" maxlength="245"
           />
           <div id="div-upload-arq" >
             <label for="inp-upload-arq"><img src="/uploadIcon.png" alt=""></label>
@@ -42,12 +33,6 @@
           </div>
         </div>
       </div>
-
-     
-
-      
-
-      <footer></footer>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
