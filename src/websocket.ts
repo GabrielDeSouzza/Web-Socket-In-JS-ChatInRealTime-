@@ -38,7 +38,7 @@ const users: IRomUser[] = []
     //recebendo messages dos usuarios 
     socket.on("message", async (data: IMessage) =>{
         let messagem:IMessage;
-        if(data.nameUpImage){
+        if(data.nameFile){
          messagem =  {
             room: data.room,
             date: moment().format("YYYY/MM/DD HH:mm:ss"),
@@ -47,7 +47,7 @@ const users: IRomUser[] = []
             setor: data.setor,
             cargo: data.cargo,
             nomeFuncionario: data.nomeFuncionario,
-            nameUpImage: data.nameUpImage.replace(/[^a-zA-Z0-9\.]/g, "")
+            nameFile: data.nameFile.replace(/[^a-zA-Z0-9\.]/g, "")
         }
         }
         else{
@@ -63,7 +63,7 @@ const users: IRomUser[] = []
         }
         db.saveMessages(messagem)
         //enviando mensagem para todos os usuarios na sala
-        //objervação caso eu quisesse mandar a mensagem penas para um usuario 
+        //observação caso eu quisesse mandar a mensagem apenas para um usuario 
         //usa-se o socket não o io
         io.to(data.room).emit("message",messagem)
     })
@@ -71,21 +71,31 @@ const users: IRomUser[] = []
     async function getMessagensRoom(room:string){
         
         const messageInRoom = await db.getMessagesRoom(room)
-        const messages = new Array()
+        const messages = new Array<IMessage>()
         messageInRoom.forEach((element: any) => {
+            const extension = element.nameFile.split(".").pop().toLowerCase() 
+            let folderClodinary:string= "uploadsImage/";
+            let typecontent = "image"
+            if(extension != "png" && extension !="png" ){
+                folderClodinary = "uploadsFiles/"
+                typecontent = "raw"
+            }
             messages.push({
                 username: element.fk_name_user,
                 messages: element.messages,
-                nameUpImage: element.nameUpimage,
-                url_image: cloudinary.url("wsChatAppUploads/"+element.nameUpimage),
+                nameFile: element.nameFile,
+                url_file: cloudinary.url(folderClodinary+element.nameFile,{
+                    resource_type : typecontent
+
+                }),
                 date: element.date,
                 setor: element.setor,
                 nomeFuncionario: element.nomeFuncionario,
-                cargo: element.cargo
+                cargo: element.cargo,
+                room : ''
             })
-            
+            console.log(messages)
         });
-        console.log(messages)
         return messages
     }
 })  

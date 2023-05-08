@@ -24,7 +24,10 @@ router.get('/cadastro',auth, async(req:Request,res:Response)=>{
         res.redirect("/socialArea")
         return
     }
-    res.render('cadastro')
+    res.render('cadastro',{
+        user: req.session.user,
+        msg_error: req.session.msg_error
+    })
 })
 router.post('/cadastro', async(req:Request,res:Response)=>{
     if(await db.verifyUser(req.body.username)){

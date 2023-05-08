@@ -1,6 +1,6 @@
 const socket = io();
 
-let uploadArq= null;
+let uploadArq = null;
 
 const username = document.querySelector("#username").textContent
 const room = document.querySelector("#room").textContent
@@ -13,16 +13,16 @@ document
   .addEventListener("keypress", (event) => captureEnter(event));
 
 //enviando dados e mensagens para o servidor
-socket.emit(
+socket.emit( 
   "userData",
   {
     username,
     room,
   },
-(messages) => {
-     messages.forEach(( message) => {
+  (messages) => {
+    messages.forEach((message) => {
       createMessage(message);
-      
+
     });
   }
 );
@@ -33,52 +33,52 @@ socket.on("message", (data) => {
 });
 
 
- //function criada para resolver bug do evento keypress quando seleciona uma img
- //o evento não funcionava mais
-function captureEnter ( event){
-  if(event.key === "Enter") {
-    if (uploadArq!= undefined || uploadArq!= null){
-      let imagename = new Date().getTime() + uploadArq.name
-      const newNameFile = new File( [uploadArq],imagename)
+//function criada para resolver bug do evento keypress quando seleciona uma img
+//o evento não funcionava mais
+function captureEnter(event) {
+  if (event.key === "Enter") {
+    if (uploadArq) {
+      let filename = new Date().getTime() + uploadArq.name
+      const newNameFile = new File([uploadArq], filename)
       const formData = new FormData()
-      formData.append("userUpload",newNameFile)
+      formData.append("userUpload", newNameFile)
       const request = new XMLHttpRequest();
-      request.open("post", "/uploads/images",true)
-      request.upload.onprogress = (e)=>{
-        const progressbar = document.querySelector("uploadArq-status")
-        progressbar.style.display= "block"
+      request.open("post", "/uploads", true)
+      request.upload.onprogress = (e) => {
+        const progressbar = document.querySelector(".uploadArq-status")
+        progressbar.style.display = "block"
         if (e.lengthComputable) {
           let percentage = (e.loaded / e.total) * 100;
-          progressbar.innerText = percentage+"%"
+          progressbar.innerText = percentage + "%"
         }
       }
-      request.onerror = function(e) {
-        deleteImage()
+      request.onerror = function (e) {
+        deleteDivUpload()
       };
-      request.upload.onload = function() {
+      request.upload.onload = function () {
         const messages = event.target.value;
         const data = {
           room,
           messages,
           username,
-          nameUpImage : imagename,
+          nameFile: filename,
           nomeFuncionario,
           setor,
           cargo
         };
         event.target.value = "";
         socket.emit("message", data);
-        deleteImage()
+        deleteDivUpload()
       };
       request.send(formData)
     }
-    else{
+    else {
       const messages = event.target.value;
       const data = {
         room,
         messages,
         username,
-        nameUpImage : null,
+        fileName: null,
         nomeFuncionario,
         setor,
         cargo
@@ -88,7 +88,7 @@ function captureEnter ( event){
       event.target.value = "";
       socket.emit("message", data);
     }
-   uploadArq = null
+    uploadArq = null
   }
 }
 
@@ -96,10 +96,11 @@ function createMessage(data) {
   console.log(data)
   const messagesDiv = document.getElementById("messages");
   let classMessage = 'new_message'
-  if(data.username === username)
+  if (data.username === username)
     classMessage = 'user_input'
 
-    if(data.nameUpImage !== "undefined" && data.nameUpImage !== undefined){
+  if (data.nameFile !== "undefined" && data.nameFile !== undefined) {
+    const urlImg = retornImgTypeFiles(data.nameFile.split(".").pop().toLowerCase()) || data.url_file
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
@@ -111,18 +112,17 @@ function createMessage(data) {
                   ${data.messages}
                 </p>
                 <div class="image-div">
-                  <img src="${data.url_image}" 
-                  onerror="this.src='${"/uploads/"+data.nameUpImage}'"
+                  <img src="${urlImg}" 
+                  onerror="this.onerror=null; this.src='${"/uploads/" + data.nameFile}'"
                    alt="image from ${data.username}"
                     name="userUp" class= "uploadArq">
                 </div>
-                
             </label>
         </div>
       `
-    }
-    else{
-      messagesDiv.innerHTML += `
+  }
+  else {
+    messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
             <span>${data.username}(${data.nomeFuncionario}) <br/>
@@ -134,8 +134,8 @@ function createMessage(data) {
               </p> 
           </label>
         </div>`
-    }
-      scrollDown()
+  }
+  scrollDown()
 }
 
 function scrollDown() {
@@ -143,45 +143,101 @@ function scrollDown() {
 }
 
 //capturando imagem selecionado pelo usuario
-document.querySelector("#inp-upload-arq").addEventListener("input",()=>{
+document.querySelector("#inp-upload-img").addEventListener("input", () => {
   insertImg()
 })
 
-function checkTypeFile(fileName){
+function checkTipeImage(fileName) {
   const typeFile = fileName.split('.').pop();
-  if(typeFile!=="png" && typeFile!=="jpg")
+  if (typeFile !== "png" && typeFile !== "jpg")
     return false
   return true
 }
-function insertImg(){
-  deleteImage()
-  const image = document.querySelector("#inp-upload-arq").files
- uploadArq = image[0]
-   if (uploadArq.length!==0){
-    if(checkTypeFile (uploadArq.name)== false){
+function insertImg() {
+  deleteDivUpload()
+  const image = document.querySelector("#inp-upload-img").files
+  uploadArq = image[0]
+  if (uploadArq.length !== 0) {
+    if (checkTipeImage(uploadArq.name) == false) {
       alert("Tipo de arquivo invalido!!")
       return;
     }
     let inputUser = document.querySelector(".input-user")
     inputUser.innerHTML += `<div id="image-user">
-    <span onclick="deleteImage()">&times;</span>
-    <img src="${URL.createObjectURL (uploadArq)}" alt="userUp" name= "uploadArq" class= "uploadArq">
+    <span onclick="deleteDivUpload()">&times;</span>
+    <img src="${URL.createObjectURL(uploadArq)}" alt="userUp" name= "uploadArq" class= "uploadArq">
+    <div class="uploadArq-status">
+      <div></div>
+    </div>
+  </div>`
+    document
+      .getElementById("message_input")
+      .addEventListener("keypress", (event) => captureEnter(event));
+  }
+  document.querySelector("#inp-upload-img").addEventListener("change", () => insertImg())
+}
+
+function deleteDivUpload() {
+  let divImg = document.querySelector("#image-user")
+  if (divImg)
+    divImg.parentNode.removeChild(divImg)
+}
+
+
+function checkTipeFile(nameFile) {
+  const typesFile = ["mp3", "txt", "docx", "pdf", "pptx"]
+  const extension = nameFile.split('.').pop();
+  if (typesFile.indexOf(extension) == -1)
+    return false
+  return retornImgTypeFiles(extension)
+}
+function retornImgTypeFiles(extension){
+  const typesFile = ["mp3", "txt", "docx", "pdf", "pptx"]
+  if (extension.toLowerCase() == typesFile[0])
+    return "/icon-mp3.png"
+  else if (extension == typesFile[1])
+    return "/icon-txt.png"
+  else if (extension == typesFile[2])
+    return "/icon-docx.png"
+  else if (extension == typesFile[3])
+    return "/icon-pdf.png"
+  else if (extension == typesFile[0])
+    return "/icon-pptx.png"
+  else
+    return null
+}
+
+document.querySelector("#inp-upload-file").addEventListener("input", (e) => {
+  insertFile()
+})
+
+function insertFile() {
+  deleteDivUpload()
+  const file = document.querySelector("#inp-upload-file").files
+  if(file[0].name.length > 45){
+    alert("Nome do arquivo muito longo!")
+    return
+  }
+  uploadArq = file[0]
+  if (uploadArq.length!== 0) {
+    const extension = checkTipeFile(uploadArq.name.toLowerCase())
+    if (extension == false) {
+      alert("Tipo de arquivo invalido!!")
+      return;
+    }
+
+    let inputUser = document.querySelector(".input-user")
+    inputUser.innerHTML += `<div id="image-user">
+    <span onclick="deleteDivUpload()">&times;</span>
+    <img src="${extension}" alt="userUp" name= "uploadArq" class= "uploadArq">
     <div class= uploadArq-status">
       <div></div>
     </div>
   </div>`
-  document
-  .getElementById("message_input")
-  .addEventListener("keypress", (event) => captureEnter(event)); 
+    document
+      .getElementById("message_input")
+      .addEventListener("keypress", (event) => captureEnter(event));
   }
-
-  document.querySelector("#inp-upload-arq").addEventListener("change", () => insertImg())
+  document.querySelector("#inp-upload-file").addEventListener("change", () => insertFile())
 }
-
-function deleteImage(){
-  let divImg =document.querySelector("#image-user")
-  if(divImg)
-    divImg.parentNode.removeChild(divImg)
-}
-
 

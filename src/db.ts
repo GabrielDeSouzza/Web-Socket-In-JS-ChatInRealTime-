@@ -27,6 +27,7 @@ async function dbConnection(SQL: string, erroReturn: any) {
         return data
     }
     catch (e) {
+        console.log(e)
         return {
             erro: true,
             return: erroReturn,
@@ -87,33 +88,21 @@ const db = {
     getMessagesRoom: async (room: string) => {
         const sql: string = `SELECT users.setor, users.cargo,users.nomeFuncionario,
         ${room}.fk_name_user, 
-         ${room}.messages, ${room}.nameUpimage, ${room}.date FROM users
+         ${room}.messages, ${room}.nameFile, ${room}.date FROM users
           INNER JOIN ${room} On users.username = ${room}.fk_name_user
            ORDER BY ${room}.date ASC;`
         const data = await dbConnection(sql, [])
         return data
     },
     saveMessages: async (message: IMessage) => {
-        const connetDB = mysql.createConnection({
-            host: env.HOST,
-            user: env.USER,
-            password: env.PASSWORD,
-            database: env.DATABASE
-        })
-        const query = util.promisify(connetDB.query).bind(connetDB)
-        try {
-
-            const sql = `INSERT INTO ${message.room}(fk_name_user, messages,nameUpImage,date ) VALUES
-             ('${message.username}','${message.messages}','${message.nameUpImage}',
+        const sql = `INSERT INTO ${message.room}(fk_name_user, messages,nameFile,date ) VALUES
+             ('${message.username}','${message.messages}','${message.nameFile}',
              '${message.date}')`
-            await query(sql)
+        const result = await dbConnection(sql, "Não Foi possível add mensagem")
+        if(result.erro){
+            return result.erroReturn
         }
-        catch (e) {
-            return "Erro ao cadastrar"
-        }
-        finally {
-            connetDB.end()
-        }
+        return "Mensagem salva"
 
     },
     CreateRoom: async (data: IUserCreateRoom) => {
@@ -125,7 +114,7 @@ const db = {
             return 'erro ao criar sala'
         }
         const sql_createTable = `CREATE TABLE ${data.nameRoom} (fk_name_user VARCHAR(20) NOT NULL ,
-         messages VARCHAR(250) NULL , nameUpimage VARCHAR(50) NULL ,
+         messages VARCHAR(250) NULL , nameFile VARCHAR(50) NULL ,
          date DATETIME NOT NULL ,
            id INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (id),
         CONSTRAINT FK_user_${data.username.replace(/[^a-zA-Z]/g, "") + "_room_" + data.nameRoom} FOREIGN KEY (fk_name_user) REFERENCES users(username)
@@ -220,7 +209,7 @@ const db = {
 
     },
     alterDescriptionRoom: async (room: string, newDescription: string) => {
-        
+
         const sql = `UPDATE roomscreated SET description = '${newDescription}'
         WHERE name_room = '${room}'`
         const data = await dbConnection(sql, "Não Foi possivel atualizar a Sala")

@@ -3,8 +3,8 @@ export default interface IMessage{
     date:Date,
     messages:string,
     username:string,
-    url_Image?:string
-    nameUpImage?:string,
+    url_file?:string
+    nameFile?:string,
     setor:string,
     cargo: string,
     nomeFuncionario: string

@@ -3,6 +3,7 @@ import bcrtypt from 'bcryptjs'
 import { Request, Response } from "express";
 import IUserData from '../src/types/IUserData';
 import { createToken } from '../src/tokens/tokens/controller_Tokens';
+import {v2 as cloudinary } from "cloudinary"
 declare module "express-session" {
     interface SessionData  {
      msg_error: string;
@@ -18,7 +19,9 @@ const express = require('express');
 const router = express.Router();
 router.get('/', async(req:Request,res:Response)=>{
     const rooms  = await db.getRooms()
-
+    console.log(cloudinary.url("uploadsFiles/1683492841955CartadeEncaminhamento.pdf",{
+        resource_type: "raw"
+    }))
     const msg_error = req.session.msg_error
     delete req.session.msg_error
     res.render("index",{
