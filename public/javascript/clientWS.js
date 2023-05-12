@@ -113,9 +113,11 @@ function createMessage(data) {
                 </p>
                 <div class="image-div">
                   <img src="${urlImg}" 
-                  onerror="this.onerror=null; this.src='${"/uploads/" + data.nameFile}'"
+                  onerror="this.src='${"/uploads/" + data.nameFile}'"
                    alt="image from ${data.username}"
                     name="userUp" class= "uploadArq">
+                    <a href="${data.url_file?data.url_file: "/uploads/" + data.nameFile}"  target="_blank"
+                    onerror="this.onerror=null; this.src='${"/uploads/" + data.nameFile}'" download="${data.nameFile}">Download</a>
                 </div>
             </label>
         </div>
@@ -240,4 +242,16 @@ function insertFile() {
   }
   document.querySelector("#inp-upload-file").addEventListener("change", () => insertFile())
 }
+function verificarURLCloudinary(url) {
+  var http = new XMLHttpRequest();
+  http.open('HEAD', url);
+  http.onreadystatechange = function() {
+    if (this.readyState === this.DONE) {
+      return true
+    }
+  };
+  http.send();
+  return false;
+}
+
 

@@ -18,9 +18,8 @@ const upload = multer({
 
 });
 
-router.post("/uploads", auth, upload.single('userUpload'),async (req: Request, res: Response) => {
+router.post("/uploads", auth, upload.single('userUpload'), async(req: Request, res: Response) => {
   const filename = req.file?.originalname
-  console.log("Test")
   if (filename) {
     const extesionFile = filename.split('.').pop()
     console.log(extesionFile)
@@ -28,10 +27,16 @@ router.post("/uploads", auth, upload.single('userUpload'),async (req: Request, r
       cloudinary.uploader.upload("public/uploads/" + filename.replace(/[^a-zA-Z0-9\.]/g, ""), {
         folder: "uploadsImage",
         use_filename: true,
-        unique_filename: false
-      }).then((result: any) => console.log(result)).catch((e:any)=>{
-        console.log(e)})
-        console.log("merda")
+        unique_filename: false,
+        timeout: 50000
+      }, (erro:any,result:any)=>{
+        if(erro){
+          req.session.msg_error="Erro ao subir arquivo, tente novamente"
+          res.redirect("/socialArea")
+          return
+        }
+        console.log(result)
+      })
     }
     else{
       cloudinary.uploader.upload("public/uploads/" + filename.replace(/[^a-zA-Z0-9\.]/g, ""), {
@@ -40,10 +45,14 @@ router.post("/uploads", auth, upload.single('userUpload'),async (req: Request, r
         unique_filename: false,
         resource_type: "raw",
         public_id: filename.replace(/[^a-zA-Z0-9\.]/g, "")
-      }).then((result: any) => console.log(result)).catch((e:any)=>{
-        console.log(e)
+      }, (erro:any,result:any)=>{
+        if(erro){
+          req.session.msg_error="Erro ao subir arquivo, tente novamente"
+          res.redirect("/socialArea")
+          return
+        }
+        console.log(result)
       })
-      
     }
   }
 })
