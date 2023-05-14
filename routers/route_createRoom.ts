@@ -11,6 +11,7 @@ router.get('/createRoom', auth, async (req: Request, res: Response) => {
         msg_error: req.session.msg_error,
         user: req.session.user
     })
+    delete req.session.msg_error
 })
 
 router.post('/createRoom',auth, async (req: Request, res: Response) => {

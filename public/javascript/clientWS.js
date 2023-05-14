@@ -13,7 +13,7 @@ document
   .addEventListener("keypress", (event) => captureEnter(event));
 
 //enviando dados e mensagens para o servidor
-socket.emit( 
+socket.emit(
   "userData",
   {
     username,
@@ -28,8 +28,8 @@ socket.emit(
 );
 
 //recebendo messagens do servidor
-socket.on("message", (data) => {
-  createMessage(data);
+ socket.on("message",(data) => {
+   createMessage(data);
 });
 
 
@@ -53,7 +53,7 @@ function captureEnter(event) {
         }
       }
       request.onerror = function (e) {
-        deleteDivUpload()
+        deleteDivUploadFile()
       };
       request.upload.onload = function () {
         const messages = event.target.value;
@@ -68,7 +68,7 @@ function captureEnter(event) {
         };
         event.target.value = "";
         socket.emit("message", data);
-        deleteDivUpload()
+        deleteDivUploadFile()
       };
       request.send(formData)
     }
@@ -100,7 +100,9 @@ function createMessage(data) {
     classMessage = 'user_input'
 
   if (data.nameFile !== "undefined" && data.nameFile !== undefined) {
-    const urlImg = retornImgTypeFiles(data.nameFile.split(".").pop().toLowerCase()) || data.url_file
+    let urlImg = retornImgTypeFiles(data.nameFile.split(".").pop().toLowerCase())
+    if(urlImg === true)
+      urlImg = data.url_file
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
@@ -116,8 +118,8 @@ function createMessage(data) {
                   onerror="this.src='${"/uploads/" + data.nameFile}'"
                    alt="image from ${data.username}"
                     name="userUp" class= "uploadArq">
-                    <a href="${data.url_file?data.url_file: "/uploads/" + data.nameFile}"  target="_blank"
-                    onerror="this.onerror=null; this.src='${"/uploads/" + data.nameFile}'" download="${data.nameFile}">Download</a>
+                    <a href="${verificarURLCloudinary(data.url_file,data.nameFile)===true?data.url_file:"/uploads/" + data.nameFile}" download="${data.nameFile}"
+                     id="file-${data.nameFile}" target="_blank"  >Download</a>
                 </div>
             </label>
         </div>
@@ -145,29 +147,33 @@ function scrollDown() {
 }
 
 //capturando imagem selecionado pelo usuario
-document.querySelector("#inp-upload-img").addEventListener("input", () => {
-  insertImg()
+document.querySelector("#inp-upload-file").addEventListener("change", (e) => {
+  insertFile()
 })
 
-function checkTipeImage(fileName) {
-  const typeFile = fileName.split('.').pop();
-  if (typeFile !== "png" && typeFile !== "jpg")
-    return false
-  return true
-}
-function insertImg() {
-  deleteDivUpload()
-  const image = document.querySelector("#inp-upload-img").files
-  uploadArq = image[0]
+
+function insertFile() {
+  deleteDivUploadFile()
+  uploadArq = document.querySelector("#inp-upload-file").files[0]
   if (uploadArq.length !== 0) {
-    if (checkTipeImage(uploadArq.name) == false) {
+    const checkResult = checkTipeFile(uploadArq.name)
+    if (checkResult == false) {
       alert("Tipo de arquivo invalido!!")
       return;
     }
+    else if (uploadArq.name.length > 45) {
+      alert("Nome muito Grande")
+      return
+    }
+    else if (uploadArq.size / 1000000 > 10) {
+      alert("Arquivo muito grande, tamanho maximo de upload é de 10Mb")
+      return
+    }
     let inputUser = document.querySelector(".input-user")
-    inputUser.innerHTML += `<div id="image-user">
-    <span onclick="deleteDivUpload()">&times;</span>
-    <img src="${URL.createObjectURL(uploadArq)}" alt="userUp" name= "uploadArq" class= "uploadArq">
+    inputUser.innerHTML += 
+    `<div id="file-user">
+    <span onclick="deleteDivUploadFile()">&times;</span>
+    <img src="${checkResult===true?URL.createObjectURL(uploadArq):checkResult}" alt="userUp" name= "uploadArq" class= "uploadArq">
     <div class="uploadArq-status">
       <div></div>
     </div>
@@ -175,26 +181,20 @@ function insertImg() {
     document
       .getElementById("message_input")
       .addEventListener("keypress", (event) => captureEnter(event));
+    document.querySelector("#inp-upload-file").addEventListener("change", () => insertFile())
   }
-  document.querySelector("#inp-upload-img").addEventListener("change", () => insertImg())
-}
 
-function deleteDivUpload() {
-  let divImg = document.querySelector("#image-user")
-  if (divImg)
-    divImg.parentNode.removeChild(divImg)
 }
-
 
 function checkTipeFile(nameFile) {
-  const typesFile = ["mp3", "txt", "docx", "pdf", "pptx"]
+  const typesFile = ["mp3", "txt", "docx", "pdf", "pptx", "png", "jpg"]
   const extension = nameFile.split('.').pop();
   if (typesFile.indexOf(extension) == -1)
     return false
   return retornImgTypeFiles(extension)
 }
-function retornImgTypeFiles(extension){
-  const typesFile = ["mp3", "txt", "docx", "pdf", "pptx"]
+function retornImgTypeFiles(extension) {
+  const typesFile = ["mp3", "txt", "docx", "pdf", "pptx", "png", "jpg"]
   if (extension.toLowerCase() == typesFile[0])
     return "/icon-mp3.png"
   else if (extension == typesFile[1])
@@ -203,55 +203,39 @@ function retornImgTypeFiles(extension){
     return "/icon-docx.png"
   else if (extension == typesFile[3])
     return "/icon-pdf.png"
-  else if (extension == typesFile[0])
+  else if (extension == typesFile[4])
     return "/icon-pptx.png"
+  else if(extension == typesFile[5])
+    return true
+    else if(extension == typesFile[6])
+    return true
   else
-    return null
+    return false
+}
+function deleteDivUploadFile() {
+  let divImg = document.querySelector("#file-user")
+  if (divImg) {
+    divImg.parentNode.removeChild(divImg)
+    document.querySelector("#inp-upload-file").removeEventListener("input", () => { })
+  }
 }
 
-document.querySelector("#inp-upload-file").addEventListener("input", (e) => {
-  insertFile()
-})
 
-function insertFile() {
-  deleteDivUpload()
-  const file = document.querySelector("#inp-upload-file").files
-  if(file[0].name.length > 45){
-    alert("Nome do arquivo muito longo!")
-    return
-  }
-  uploadArq = file[0]
-  if (uploadArq.length!== 0) {
-    const extension = checkTipeFile(uploadArq.name.toLowerCase())
-    if (extension == false) {
-      alert("Tipo de arquivo invalido!!")
-      return;
-    }
+ function verificarURLCloudinary(url,fileName) {
+fetch(url)
+  .then(response => {
 
-    let inputUser = document.querySelector(".input-user")
-    inputUser.innerHTML += `<div id="image-user">
-    <span onclick="deleteDivUpload()">&times;</span>
-    <img src="${extension}" alt="userUp" name= "uploadArq" class= "uploadArq">
-    <div class= uploadArq-status">
-      <div></div>
-    </div>
-  </div>`
-    document
-      .getElementById("message_input")
-      .addEventListener("keypress", (event) => captureEnter(event));
-  }
-  document.querySelector("#inp-upload-file").addEventListener("change", () => insertFile())
-}
-function verificarURLCloudinary(url) {
-  var http = new XMLHttpRequest();
-  http.open('HEAD', url);
-  http.onreadystatechange = function() {
-    if (this.readyState === this.DONE) {
+    if(response.status ==200){
+      document.getElementById(`file-${fileName}`).href=url
       return true
     }
-  };
-  http.send();
-  return false;
+      
+    else
+      return false
+    
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+    return false
+  });
 }
-
-

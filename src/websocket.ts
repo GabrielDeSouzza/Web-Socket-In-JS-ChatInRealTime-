@@ -13,7 +13,7 @@ const users: IRomUser[] = []
 //conectando usuario ao servidor
 
 
-io.sockets.on("connection", (socket) => {
+io.on("connection", (socket) => {
   socket.on("userData", async (data, callback) => {
     //jogando o usuario para sala que ele selecionou
     socket.join(data.room);

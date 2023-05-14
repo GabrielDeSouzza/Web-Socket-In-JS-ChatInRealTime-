@@ -114,7 +114,7 @@ const db = {
             return 'erro ao criar sala'
         }
         const sql_createTable = `CREATE TABLE ${data.nameRoom} (fk_name_user VARCHAR(20) NOT NULL ,
-         messages VARCHAR(250) NULL , nameFile VARCHAR(50) NULL ,
+         messages VARCHAR(250) NULL , nameFile VARCHAR(100) NULL ,
          date DATETIME NOT NULL ,
            id INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (id),
         CONSTRAINT FK_user_${data.username.replace(/[^a-zA-Z]/g, "") + "_room_" + data.nameRoom} FOREIGN KEY (fk_name_user) REFERENCES users(username)

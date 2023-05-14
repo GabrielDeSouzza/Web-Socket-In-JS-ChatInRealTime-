@@ -17,6 +17,7 @@ router.get('/chat',auth,(req: Request, res:Response)=>{
         nome: req.session.user?.nomeFuncionario,
         user:req.session.user
     })
+    delete req.session.msg_error
 })
 
 export default router

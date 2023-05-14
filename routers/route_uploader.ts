@@ -22,42 +22,44 @@ router.post("/uploads", auth, upload.single('userUpload'), async(req: Request, r
   const filename = req.file?.originalname
   if (filename) {
     const extesionFile = filename.split('.').pop()
-    console.log(extesionFile)
     if (extesionFile == "png" || extesionFile == "jpg") {
-      cloudinary.uploader.upload("public/uploads/" + filename.replace(/[^a-zA-Z0-9\.]/g, ""), {
-        folder: "uploadsImage",
-        use_filename: true,
-        unique_filename: false,
-        timeout: 50000
-      }, (erro:any,result:any)=>{
-        if(erro){
-          req.session.msg_error="Erro ao subir arquivo, tente novamente"
-          res.redirect("/socialArea")
-          return
-        }
-        console.log(result)
-      })
+      uploadImage(filename)
     }
     else{
-      cloudinary.uploader.upload("public/uploads/" + filename.replace(/[^a-zA-Z0-9\.]/g, ""), {
-        folder: "uploadsFiles",
-        use_filename: true,
-        unique_filename: false,
-        resource_type: "raw",
-        public_id: filename.replace(/[^a-zA-Z0-9\.]/g, "")
-      }, (erro:any,result:any)=>{
-        if(erro){
-          req.session.msg_error="Erro ao subir arquivo, tente novamente"
-          res.redirect("/socialArea")
-          return
-        }
-        console.log(result)
-      })
+      uploadFile(filename)
     }
   }
 })
 
+function uploadImage(file:any){
+  cloudinary.uploader.upload("public/uploads/" + file.replace(/[^a-zA-Z0-9\.]/g, ""), {
+    folder: "uploadsImage",
+    use_filename: true,
+    unique_filename: false,
+    timeout: 50000
+  }, (erro:any,result:any)=>{
+    console.log(erro,+"  "+result)
+    if(erro){
+      uploadImage(file)
+    }
+    console.log(result)
+  })
+}
 
-
+function uploadFile(file:any){
+  cloudinary.uploader.upload("public/uploads/" + file.replace(/[^a-zA-Z0-9\.]/g, ""), {
+    folder: "uploadsFiles",
+    use_filename: true,
+    unique_filename: false,
+    resource_type: "raw",
+    public_id: file.replace(/[^a-zA-Z0-9\.]/g, ""),
+    timeout: 50000
+  }, (erro:any,result:any)=>{
+    if(erro){
+      uploadFile(file)
+    }
+    console.log(result)
+  })
+}
 
 export default router

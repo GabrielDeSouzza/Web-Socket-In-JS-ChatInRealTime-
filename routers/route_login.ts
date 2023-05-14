@@ -28,6 +28,7 @@ router.get('/', async(req:Request,res:Response)=>{
         rooms: rooms,
         msg_error: msg_error
     })
+    delete req.session.msg_error
 })
 router.post('/',async (req:Request,res:Response)=>{
 

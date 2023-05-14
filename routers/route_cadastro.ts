@@ -28,6 +28,7 @@ router.get('/cadastro',auth, async(req:Request,res:Response)=>{
         user: req.session.user,
         msg_error: req.session.msg_error
     })
+    delete req.session.msg_error
 })
 router.post('/cadastro', async(req:Request,res:Response)=>{
     if(await db.verifyUser(req.body.username)){

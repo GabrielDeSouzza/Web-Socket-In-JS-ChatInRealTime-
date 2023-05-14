@@ -13,6 +13,7 @@ router.get("/editProfile", auth, (req:Request, res:Response)=>{
         user: req.session.user,
         msg_error :req.session.msg_error
     })
+    delete req.session.msg_error
 })
 
 router.post("/editProfile", auth, async(req:Request, res:Response)=>{

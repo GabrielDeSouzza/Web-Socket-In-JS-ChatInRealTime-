@@ -101,7 +101,7 @@ body::-webkit-scrollbar-thumb {
 #message_input {
   margin-right: 3px;
   border-radius: 5px;
-  width: 85%;
+  width: 95%;
 }
 
 #inp-upload-arq::-webkit-file-upload-button {
@@ -148,7 +148,7 @@ body::-webkit-scrollbar-thumb {
   width: auto;
 }
 
-#image-user {
+#file-user {
   width: inherit;
   height: inherit;
   display: flex;
