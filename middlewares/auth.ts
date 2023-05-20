@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import { type } from "os";
 import { env } from "process";
 import "express-session";
-import {verifyToken} from '../src/tokens/tokens/controller_Tokens'
-import IUserData from "../src/types/IUserData";
+import {verifyToken} from '../src/tokens/tokens/ControllerTokens'
+import IUserData from "../src/Types/TUserData";
 
 
 

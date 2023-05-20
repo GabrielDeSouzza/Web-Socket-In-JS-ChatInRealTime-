@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import auth from "../middlewares/auth";
+import auth from "../Middlewares/Auth";
 
 require("dotenv").config();
 const cloudinary = require('cloudinary').v2;

@@ -50,3 +50,8 @@ body {
     outline: none;
     border-color: transparent;
 }
+
+.forms{
+    display: flex;
+    flex-direction: column;
+}

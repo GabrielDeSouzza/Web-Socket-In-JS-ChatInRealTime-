@@ -18,10 +18,10 @@
           <h1>Editar Perfil</h1>
 
           <h3>Olá <strong>
-              <%= username %>
+              <%= userName %>
             </strong></h3>
-          <label for="form-username">Editar Username</label>
-          <input type="text" name="newUsername" placeholder="Username" class="input-patter" />
+          <label for="form-userName">Editar userName</label>
+          <input type="text" name="newuserName" placeholder="userName" class="input-patter" />
           <label for="form-senha">Digite sua senha atual</label>
           <input type="password" name="oldPassword" class="input-patter" placeholder="Senha Atual">
           <label for="form-label">Mudar Senha</label>
@@ -31,5 +31,9 @@
       </div>
   </div>
 </body>
-
+<script>
+  if(document.getElementsByName("newuserName").value.trim() == ""){
+    alert("Preench")
+  }
+</script>
 </html>

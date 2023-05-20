@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import db from '../src/db'
+import db from '../src/DataBaseConnection'
 import bcrtypt from 'bcryptjs'
 
-import IUserData from "../src/types/IUserData";
-import auth from "../middlewares/auth";
+import IUserData from "../src/Types/TUserData";
+import auth from "../Middlewares/Auth";
 declare module "express-session" {
     interface SessionData  {
      msg_error: string;
@@ -31,7 +31,7 @@ router.get('/cadastro',auth, async(req:Request,res:Response)=>{
     delete req.session.msg_error
 })
 router.post('/cadastro', async(req:Request,res:Response)=>{
-    if(await db.verifyUser(req.body.username)){
+    if(await db.verifyUser(req.body.userName)){
         res.render('cadastro',{
             result_msg: 'Usuario já cadastrado'
         })
@@ -40,7 +40,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
     }
     else{
         const user: IUserData= {
-            username : req.body.username,
+            userName : req.body.userName,
             password : req.body.password,
             nomeFuncionario: req.body.nomeFuncionario,
             setor: req.body.setor,
@@ -49,7 +49,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
             isdeleted: 0
         }
    
-        if(user.username === '' || user.password === ''){
+        if(user.userName === '' || user.password === ''){
             res.render('cadastro',{
                 result_msg: "Preencha todos os campos"
             })
@@ -66,7 +66,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
             delete req.session.msg_error
             return
         }
-        req.session.msg_error=`Usuario ${user.username} cadastrado com sucesso`
+        req.session.msg_error=`Usuario ${user.userName} cadastrado com sucesso`
         res.redirect('/socialArea')
         return
     }

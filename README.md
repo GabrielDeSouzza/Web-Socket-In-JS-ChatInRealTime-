@@ -18,7 +18,7 @@ $ No MySQL cole este código:
 CREATE DATABASE chat;
 USE chat;
 
-CREATE TABLE  users (id INT NOT NULL AUTO_INCREMENT, username VARCHAR(20) NOT NULL UNIQUE, password VARCHAR(150) NOT NULL, setor VARCHAR(20) NOT NULL,
+CREATE TABLE  users (id INT NOT NULL AUTO_INCREMENT, userName VARCHAR(20) NOT NULL UNIQUE, password VARCHAR(150) NOT NULL, setor VARCHAR(20) NOT NULL,
 cargo VARCHAR(20) NOT NULL, nomeFuncionario VARCHAR(20) NOT NULL, isadm TINYINT(1) DEFAULT 0, isdeleted TINYINT(1) DEFAULT 0,
 PRIMARY KEY  (id)) ENGINE = InnoDB;
 
@@ -26,13 +26,13 @@ PRIMARY KEY  (id)) ENGINE = InnoDB;
 CREATE TABLE roomscreated 
     (id INT NOT NULL AUTO_INCREMENT , fk_name_user VARCHAR(20),
     description VARCHAR(250), date DATETIME DEFAULT CURRENT_TIMESTAMP, name_room VARCHAR(20) UNIQUE, PRIMARY KEY (id), 
-    FOREIGN KEY (fk_name_user) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE = InnoDB;
+    FOREIGN KEY (fk_name_user) REFERENCES users(userName) ON DELETE CASCADE ON UPDATE CASCADE ) ENGINE = InnoDB;
 
 CREATE TABLE usersmember (nametable VARCHAR(20) NOT NULL,
-username VARCHAR(20) NOT NULL, PRIMARY KEY(nametable, username), CONSTRAINT fk_name_table FOREIGN KEY (nametable)
+userName VARCHAR(20) NOT NULL, PRIMARY KEY(nametable, userName), CONSTRAINT fk_name_table FOREIGN KEY (nametable)
 REFERENCES roomscreated(name_room)
 ON DELETE CASCADE ON UPDATE CASCADE,  
-CONSTRAINT fk_name_user FOREIGN KEY (username) REFERENCES users(username)
+CONSTRAINT fk_name_user FOREIGN KEY (userName) REFERENCES users(userName)
 ON DELETE CASCADE ON UPDATE CASCADE)
 
 $após criar o banco de dados entre na pasta do projeto e crie um arquivo com o nome '.env' e siga 

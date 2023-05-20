@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import auth from "../middlewares/auth";
-import db from "../src/db";
-import IUserData from "../src/types/IUserData";
+import auth from "../Middlewares/Auth";
+import db from "../src/DataBaseConnection";
+import IUserData from "../src/Types/TUserData";
 
 const express = require('express');
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get("/socialArea", auth, async (req: Request, res: Response) => {
         dataRooms = await db.getRooms()
     }
     else{
-        dataRooms = await db.getSpecificRoomUser(req.session.user?.username as string)
+        dataRooms = await db.getSpecificRoomUser(req.session.user?.userName as string)
     }
     res.render("socialArea", {
         dataRooms: dataRooms,
@@ -30,7 +30,7 @@ router.post("/socialArea", auth, (req: Request, res: Response) => {
         delete req.session.msg_error
     }
     else {
-        req.session.user.username = req.body.username
+        req.session.user.userName = req.body.userName
         req.session.room = req.body.room
         res.redirect("/chat")
         return

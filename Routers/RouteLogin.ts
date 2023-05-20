@@ -1,17 +1,16 @@
-import db from '../src/db'
+import db from '../src/DataBaseConnection'
 import bcrtypt from 'bcryptjs'
 import { Request, Response } from "express";
-import IUserData from '../src/types/IUserData';
-import { createToken } from '../src/tokens/tokens/controller_Tokens';
+import TUserData from '../src/Types/TUserData';
+import { createToken } from '../src/tokens/tokens/ControllerTokens';
 import {v2 as cloudinary } from "cloudinary"
 declare module "express-session" {
     interface SessionData  {
      msg_error: string;
      token: string;
-     user: IUserData;
+     user: TUserData;
      room: string;
      rooms: [];
-
      [key: string]: any;
    } 
  }
@@ -32,14 +31,15 @@ router.get('/', async(req:Request,res:Response)=>{
 })
 router.post('/',async (req:Request,res:Response)=>{
 
-    if(req.body.username ==="" || req.body.password === ""){
+    if(req.body.userName ==="" || req.body.password === ""){
         res.render("index",{
             msg_error : "Preencha todos os campos",
         })
         return
     }
-    const userData:IUserData[] = await db.getUser(req.body.username)
-    const user:IUserData|undefined= userData.find(element=> element.username ==req.body.username)
+    
+    const userData:TUserData[] = await db.getUser(req.body.userName)
+    const user:TUserData|undefined= userData.find(element=> element.userName ==req.body.userName)
     if(user == undefined ){
         res.render("index",{
             msg_error: "Usuario não encontrado",
@@ -55,7 +55,7 @@ router.post('/',async (req:Request,res:Response)=>{
 
     const token = createToken(user)
     res.cookie("token",token, {httpOnly: true})
-    req.session.username = req.body.username
+    req.session.userName = req.body.userName
     res.redirect('/socialArea')
 })
 

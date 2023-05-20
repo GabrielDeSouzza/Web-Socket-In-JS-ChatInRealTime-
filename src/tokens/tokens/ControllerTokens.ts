@@ -1,13 +1,13 @@
 import { env } from "process"
 import  jwt  from "jsonwebtoken"
-import IUserData from '../../types/IUserData'
+import IUserData from '../../Types/TUserData'
 
 
 function createToken(user: IUserData){
     const secret = env.SECRET_TOKEN
     const token = jwt.sign({
         id: user.id,
-        username: user.username,
+        userName: user.userName,
         isadm: user.isadm,
         isdeleted: user.isdeleted,
         cargo: user.cargo,

@@ -1,7 +1,7 @@
-import { httpServer } from "./http";
-import './websocket'
-import '../jobs/removeLocalUploads'
+import { HttpServer } from "./HttpServer";
+import './WebsocketServer'
+import '../jobs/RemoveLocalUploads'
 
 
-httpServer.listen(3000)
+HttpServer.listen(3000)
 

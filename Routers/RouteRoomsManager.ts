@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import db from "../src/db";
-import IUserData from "../src/types/IUserData";
-import IAlterRoom from "../src/types/IAlterRoom";
-import auth from "../middlewares/auth";
+import db from "../src/DataBaseConnection";
+import IUserData from "../src/Types/TUserData";
+import IAlterRoom from "../src/Types/TAlterRoom";
+import auth from "../Middlewares/Auth";
 
 const express = require('express');
 const router = express.Router();
@@ -17,7 +17,7 @@ declare module "express-session" {
     }
 }
 router.get("/roomsManager",auth, async (req: Request, res: Response) => {
-    const rooms = await db.getRoomsCreatedBy(req.session.user?.username as string)
+    const rooms = await db.getRoomsCreatedBy(req.session.user?.userName as string)
     const usersMember = await db.getAllUsersMember()
     const allUsers = await db.getUsersNotAdm()
     res.render("roomsManager", {
@@ -40,7 +40,7 @@ router.post("/roomsManager",auth, async (req: Request, res: Response) => {
         const newUsers = req.body.usersMember || []
         usersMember.filter(async (user:any)=>{
             if(newUsers.indexOf(user) == -1){
-                await db.delMemberRoom(user.username, req.body.nameRoom)
+                await db.delMemberRoom(user.userName, req.body.nameRoom)
             }
         })
         if( !(newUsers instanceof(Array))){

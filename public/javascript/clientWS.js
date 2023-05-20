@@ -2,7 +2,7 @@ const socket = io();
 
 let uploadArq = null;
 
-const username = document.querySelector("#username").textContent
+const userName = document.querySelector("#userName").textContent
 const room = document.querySelector("#room").textContent
 const nomeFuncionario = document.querySelector("#nomeFuncionario").textContent
 const setor = document.querySelector("#setor").textContent
@@ -16,7 +16,7 @@ document
 socket.emit(
   "userData",
   {
-    username,
+    userName,
     room,
   },
   (messages) => {
@@ -60,7 +60,7 @@ function captureEnter(event) {
         const data = {
           room,
           messages,
-          username,
+          userName,
           nameFile: filename,
           nomeFuncionario,
           setor,
@@ -77,7 +77,7 @@ function captureEnter(event) {
       const data = {
         room,
         messages,
-        username,
+        userName,
         fileName: null,
         nomeFuncionario,
         setor,
@@ -96,7 +96,7 @@ function createMessage(data) {
   console.log(data)
   const messagesDiv = document.getElementById("messages");
   let classMessage = 'new_message'
-  if (data.username === username)
+  if (data.userName === userName)
     classMessage = 'user_input'
 
   if (data.nameFile !== "undefined" && data.nameFile !== undefined) {
@@ -106,7 +106,7 @@ function createMessage(data) {
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
-                <span>${data.username}(${data.nomeFuncionario}) <br/>
+                <span>${data.userName}(${data.nomeFuncionario}) <br/>
                 Cargo: ${data.cargo} - Setor: ${data.setor} <br/>
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
                 </span>
@@ -116,7 +116,7 @@ function createMessage(data) {
                 <div class="image-div">
                   <img src="${urlImg}" 
                   onerror="this.src='${"/uploads/" + data.nameFile}'"
-                   alt="image from ${data.username}"
+                   alt="image from ${data.userName}"
                     name="userUp" class= "uploadArq">
                     <a href="${verificarURLCloudinary(data.url_file,data.nameFile)===true?data.url_file:"/uploads/" + data.nameFile}" download="${data.nameFile}"
                      id="file-${data.nameFile}" target="_blank"  >Download</a>
@@ -129,7 +129,7 @@ function createMessage(data) {
     messagesDiv.innerHTML += `
         <div class="${classMessage}">
             <label class="form-label">
-            <span>${data.username}(${data.nomeFuncionario}) <br/>
+            <span>${data.userName}(${data.nomeFuncionario}) <br/>
             Cargo: ${data.cargo} - Setor: ${data.setor} <br/>
             ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
             </span>

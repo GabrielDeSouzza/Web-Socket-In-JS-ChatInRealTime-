@@ -35,32 +35,32 @@
                             <div class="users-checkbox">
                             <% users.forEach(user => { %>
                                 <%if (usersMember.find((member)=>{
-                                    if(member.username == user.username && member.nametable == room.name_room)
+                                    if(member.userName == user.userName && member.nametable == room.name_room)
                                         return true
                                     return false
                                 })) { %>
                                     <div class="div-usersPermission">
                                         <span>
                                             Nome:<%= user.nomeFuncionario%> <br>
-                                            Username:<%= user.username%> <br>
+                                            userName:<%= user.userName%> <br>
                                             Setor: <%= user.setor%>
                                             Cargo: <%= user.cargo%>
 
                                         </span>
                                         <div class="div-checkbox">
-                                            <input type="checkbox" name="usersMember" value="<%= user.username %>" checked>
+                                            <input type="checkbox" name="usersMember" value="<%= user.userName %>" checked>
                                         </div>
                                     </div>
                                 <% } else { %>
                                     <div class="div-usersPermission">
                                         <span>
                                             Nome:<%= user.nomeFuncionario%> <br>
-                                            Username:<%= user.username%> <br>
+                                            userName:<%= user.userName%> <br>
                                             Setor: <%= user.setor%>
                                             Cargo: <%= user.cargo%>
                                         </span>
                                         <div class="div-checkbox">
-                                            <input type="checkbox" name="usersMember" value="<%= user.username %>" >
+                                            <input type="checkbox" name="usersMember" value="<%= user.userName %>" >
                                         </div>
                                     </div>
                             <% } %>

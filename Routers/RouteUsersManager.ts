@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import auth from "../middlewares/auth";
-import db from "../src/db";
+import auth from "../Middlewares/Auth";
+import db from "../src/DataBaseConnection";
 
 const express = require('express');
 const router = express.Router();
@@ -23,7 +23,7 @@ router.get("/usersManager", auth, async(req:Request, res: Response)=>{
 
 router.post("/usersManager", auth, async(req:Request, res: Response)=>{
     const usersNotAdm = await db.getUsersNotAdm();
-    if(await db.desableUser(req.body.username) == false){
+    if(await db.desableUser(req.body.userName) == false){
         res.render("usersManager", {
             msg_error: "Não foi possível deletar usuario",
             user: req.session.user,
@@ -31,7 +31,7 @@ router.post("/usersManager", auth, async(req:Request, res: Response)=>{
         })
         return
     }
-    db.delMemberAllRoom(req.body.username)
+    db.delMemberAllRoom(req.body.userName)
     req.session.msg_error= `Funcionario ${req.body.nomeFuncionario} deletado com sucesso`
     res.redirect("/usersManager")
     delete req.session.msg_error

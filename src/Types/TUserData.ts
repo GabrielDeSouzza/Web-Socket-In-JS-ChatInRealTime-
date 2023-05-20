@@ -1,6 +1,9 @@
-export default interface IUserData{
+import { type } from "os";
+
+
+type TUserData = {
     id?: number;
-    username:string,
+    userName:string,
     password?:string,
     nomeFuncionario: string,
     setor: string,
@@ -8,3 +11,4 @@ export default interface IUserData{
     isadm: number,
     isdeleted?: number
 }
+export default TUserData

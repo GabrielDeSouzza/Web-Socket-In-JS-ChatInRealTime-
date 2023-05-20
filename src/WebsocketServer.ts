@@ -1,8 +1,8 @@
 
-import { io } from "./http";
-import db from "./db";
-import IRomUser from "./types/IRoomUser";
-import IMessage from "./types/IMessage";
+import { IO } from "./HttpServer";
+import db from "./DataBaseConnection";
+import IRomUser from "./Types/TRoomUser";
+import IMessage from "./Types/TMessage";
 const moment = require('moment')
 require("dotenv").config();
 
@@ -13,14 +13,14 @@ const users: IRomUser[] = []
 //conectando usuario ao servidor
 
 
-io.on("connection", (socket) => {
+IO.on("connection", (socket) => {
   socket.on("userData", async (data, callback) => {
     //jogando o usuario para sala que ele selecionou
     socket.join(data.room);
     //verificando se o usuario já está sala que entrou
     const userInRoom = users.find(
       (user) =>
-        user.username === data.username && user.room === data.room
+        user.userName === data.userName && user.room === data.room
     );
 
     //caso o usuario já esteja na sala basta atualizar seu socketId
@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
       //add novo usuario a sala
       users.push({
         room: data.room,
-        username: data.username,
+        userName: data.userName,
         socketId: socket.id,
       });
     }
@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
         room: data.room,
         date: moment().format("YYYY/MM/DD HH:mm:ss"),
         messages: data.messages,
-        username: data.username,
+        userName: data.userName,
         setor: data.setor,
         cargo: data.cargo,
         nomeFuncionario: data.nomeFuncionario,
@@ -57,7 +57,7 @@ io.on("connection", (socket) => {
         room: data.room,
         date: moment().format("YYYY/MM/DD HH:mm:ss"),
         messages: data.messages,
-        username: data.username,
+        userName: data.userName,
         cargo: data.cargo,
         setor: data.setor,
         nomeFuncionario: data.nomeFuncionario,
@@ -66,13 +66,14 @@ io.on("connection", (socket) => {
     db.saveMessages(messagem);
     //enviando mensagem para todos os usuarios na sala
     //observação caso eu quisesse mandar a mensagem apenas para um usuario
-    //usa-se o socket não o io
-    io.to(data.room).emit("message", messagem);
+    //usa-se o socket não o IO
+    IO.to(data.room).emit("message", messagem);
   });
 
   async function getMessagensRoom(room: string) {
     const messageInRoom = await db.getMessagesRoom(room);
     const messages = new Array<IMessage>();
+    console.log(messageInRoom)
     messageInRoom.forEach((element: any) => {
       const extension = element.nameFile.split(".").pop().toLowerCase();
       let folderClodinary: string = "uploadsImage/";
@@ -82,7 +83,7 @@ io.on("connection", (socket) => {
         typecontent = "raw";
       }
       messages.push({
-        username: element.fk_name_user,
+        userName: element.fk_name_user,
         messages: element.messages,
         nameFile: element.nameFile,
         url_file: cloudinary.url(folderClodinary + element.nameFile, {

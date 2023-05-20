@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import auth from "../middlewares/auth";
-import db from "../src/db";
+import auth from "../Middlewares/Auth";
+import DbConnection from "../src/DataBaseConnection";
 import bcrtypt from 'bcryptjs'
-import IUserData from "../src/types/IUserData";
+import IUserData from "../src/Types/TUserData";
 const express = require('express');
 const router = express.Router();
 
 
 router.get("/editProfile", auth, (req:Request, res:Response)=>{
     res.render("editProfile",{
-        username: req.session.user?.username,
+        userName: req.session.user?.userName,
         user: req.session.user,
         msg_error :req.session.msg_error
     })
@@ -17,17 +17,17 @@ router.get("/editProfile", auth, (req:Request, res:Response)=>{
 })
 
 router.post("/editProfile", auth, async(req:Request, res:Response)=>{
-    if(!(req.session.user?.username)){
+    if(!(req.session.user?.userName)){
         req.session.msg_error = "erro tente novamente"
         res.redirect("/editProfile")
         return
     }
-    if(await db.verifyUser(req.body.newUsername)){
+    if(await DbConnection.verifyUser(req.body.newuserName)){
         req.session.msg_error = "Usuario já em uso"
         res.redirect("/editProfile")
     }
    
-    const user: IUserData = await db.getUser(req.session.user.username as string).then((response)=>{
+    const user: IUserData = await DbConnection.getUser(req.session.user.userName as string).then((response)=>{
         return response[0]
     })
     if(!(await bcrtypt.compare(req.body.oldPassword, user.password as string))){
@@ -35,11 +35,11 @@ router.post("/editProfile", auth, async(req:Request, res:Response)=>{
         res.redirect("/editProfile")
         return
     }
-    const username = req.body.newUsername? req.body.newUsername: req.session.user.username
+    const userName = req.body.newuserName? req.body.newuserName: req.session.user.userName
     const password = req.body.newPassword? req.body.newPassword: req.body.oldPassword
-    user.username = username
+    user.userName = userName
     user.password = await bcrtypt.hash(password, 8)
-    const msgError = await db.updateUser(user)
+    const msgError = await DbConnection.updateUser(user)
     if(msgError ==false){
         req.session.msg_error = "Não foi possível atualizar perfil"
         res.redirect("/editProfile")

@@ -20,12 +20,12 @@
                     <div class="card-user">
                         <p>
                             nome: <%= element.nomeFuncionario %><br>
-                            username: <%= element.username %><br>
+                            userName: <%= element.userName %><br>
                             cargo: <%= element.cargo %><br>
                             setor: <%= element.setor %><br>
                         </p>
                         <form method="post" class="form-delete">
-                            <input type="hidden" value="<%= element.username %>" name="username">
+                            <input type="hidden" value="<%= element.userName %>" name="userName">
                             <input type="hidden" value="<%= element.nomeFuncionario %>" name="nomeFuncionario">
                             <button type="submit">
                                 Deletar Usuario
