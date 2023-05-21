@@ -47,7 +47,7 @@ const DbConnection = {
         return data
     },
     getUsersNotAdm: async () => {
-        const sql: string = `Select nomeFuncionario, username, setor,
+        const sql: string = `Select nomeFuncionario, userName, setor,
          cargo FROM users WHERE isadm = 0 AND isdeleted =0`
         const data = await ConnectionMysql(sql, [])
         return data
@@ -174,7 +174,7 @@ const DbConnection = {
         })
     },
     delMemberRoom: async (userName: string, room: string) => {
-        const sql = `DELETE FROM usersmember WHERE usersmember.username= '${userName}'
+        const sql = `DELETE FROM usersmember WHERE usersmember.userName= '${userName}'
         AND usersmember.nametable = '${room}'`
         const data = ConnectionMysql(sql, "Erro ao deletar usuario").then(response => {
             if (response.erro == true) {

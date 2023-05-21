@@ -35,7 +35,8 @@
                             <div class="users-checkbox">
                             <% users.forEach(user => { %>
                                 <%if (usersMember.find((member)=>{
-                                    if(member.userName == user.userName && member.nametable == room.name_room)
+                                    console.log(member)
+                                    if(member.username == user.userName && member.nametable == room.name_room)
                                         return true
                                     return false
                                 })) { %>

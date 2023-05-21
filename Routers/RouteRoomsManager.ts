@@ -38,9 +38,10 @@ router.post("/roomsManager",auth, async (req: Request, res: Response) => {
         } 
         const usersMember = await db.getAllUsersMember()
         const newUsers = req.body.usersMember || []
+        console.log(newUsers)
         usersMember.filter(async (user:any)=>{
             if(newUsers.indexOf(user) == -1){
-                await db.delMemberRoom(user.userName, req.body.nameRoom)
+                await db.delMemberRoom(user.username, req.body.nameRoom)
             }
         })
         if( !(newUsers instanceof(Array))){
