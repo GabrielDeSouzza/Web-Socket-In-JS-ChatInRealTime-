@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import db from '../src/DataBaseConnection'
+import dbConnection from '../src/DataBaseConnection'
 import bcrtypt from 'bcryptjs'
 
 import IUserData from "../src/Types/TUserData";
@@ -31,7 +31,7 @@ router.get('/cadastro',auth, async(req:Request,res:Response)=>{
     delete req.session.msg_error
 })
 router.post('/cadastro', async(req:Request,res:Response)=>{
-    if(await db.verifyUser(req.body.userName)){
+    if(await dbConnection.verifyUser(req.body.userName)){
         res.render('cadastro',{
             result_msg: 'Usuario já cadastrado'
         })
@@ -58,7 +58,7 @@ router.post('/cadastro', async(req:Request,res:Response)=>{
         }
         const passwordEncry = await bcrtypt.hash(user.password as string, 8)
         user.password = passwordEncry
-        const isSucess= await db.registerUser(user)
+        const isSucess= await dbConnection.registerUser(user)
         if(isSucess== false){
             res.render('cadastro',{
                 result_msg: "Erro ao cadastrar usuario"

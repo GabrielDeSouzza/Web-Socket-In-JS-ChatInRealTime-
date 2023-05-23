@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import auth from "../Middlewares/Auth";
 import IUserCreateRoom from "../src/Types/TUserCreateRoom";
-import db from "../src/DataBaseConnection";
+import dbConnection from "../src/DataBaseConnection";
 const express = require('express');
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get('/createRoom', auth, async (req: Request, res: Response) => {
 })
 
 router.post('/createRoom',auth, async (req: Request, res: Response) => {
-    const roomsAlreadyCreated = await db.getRooms()
+    const roomsAlreadyCreated = await dbConnection.getRooms()
     if (req.session.user?.userName && req.body.nameRoom && req.body.descriptionRoom) {
         const usedNameRoom = roomsAlreadyCreated.find((room:any)=>{
             return room.name_room.toLowerCase().trim() === req.body.nameRoom.toLowerCase().trim()
@@ -30,7 +30,7 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
             nameRoom: req.body.nameRoom.trim(),
             descriptionRoom: req.body.descriptionRoom.trim()
         }
-        const erroCriate = await db.createRoom(dataNewRoom)
+        const erroCriate = await dbConnection.createRoom(dataNewRoom)
         if (erroCriate) {
             res.render("createRoom", {
                 msg_error: "Não foi possivel criar a sala"

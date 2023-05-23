@@ -1,9 +1,9 @@
-import db from '../src/DataBaseConnection'
+import dbConnection from '../src/DataBaseConnection'
 import bcrtypt from 'bcryptjs'
 import { Request, Response } from "express";
 import TUserData from '../src/Types/TUserData';
 import { createToken } from '../src/tokens/tokens/ControllerTokens';
-import {v2 as cloudinary } from "cloudinary"
+
 declare module "express-session" {
     interface SessionData  {
      msg_error: string;
@@ -13,14 +13,11 @@ declare module "express-session" {
      rooms: [];
      [key: string]: any;
    } 
- }
+}
 const express = require('express');
 const router = express.Router();
 router.get('/', async(req:Request,res:Response)=>{
-    const rooms  = await db.getRooms()
-    console.log(cloudinary.url("uploadsFiles/1683492841955CartadeEncaminhamento.pdf",{
-        resource_type: "raw"
-    }))
+    const rooms  = await dbConnection.getRooms()
     const msg_error = req.session.msg_error
     delete req.session.msg_error
     res.render("index",{
@@ -38,7 +35,7 @@ router.post('/',async (req:Request,res:Response)=>{
         return
     }
     
-    const userData:TUserData[] = await db.getUser(req.body.userName)
+    const userData:TUserData[] = await dbConnection.getUser(req.body.userName)
     const user:TUserData|undefined= userData.find(element=> element.userName ==req.body.userName)
     if(user == undefined ){
         res.render("index",{

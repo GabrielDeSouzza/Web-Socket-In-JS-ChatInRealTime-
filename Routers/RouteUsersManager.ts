@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import auth from "../Middlewares/Auth";
-import db from "../src/DataBaseConnection";
+import dbConnection from "../src/DataBaseConnection";
 
 const express = require('express');
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get("/usersManager", auth, async(req:Request, res: Response)=>{
         delete req.session.msg_error
         return
     }
-    const usersNotAdm = await db.getUsersNotAdm();
+    const usersNotAdm = await dbConnection.getUsersNotAdm();
     res.render("usersManager", {
         msg_error: req.session.msg_error,
         user: req.session.user,
@@ -22,8 +22,8 @@ router.get("/usersManager", auth, async(req:Request, res: Response)=>{
 })
 
 router.post("/usersManager", auth, async(req:Request, res: Response)=>{
-    const usersNotAdm = await db.getUsersNotAdm();
-    if(await db.desableUser(req.body.userName) == false){
+    const usersNotAdm = await dbConnection.getUsersNotAdm();
+    if(await dbConnection.desableUser(req.body.userName) == false){
         res.render("usersManager", {
             msg_error: "Não foi possível deletar usuario",
             user: req.session.user,
@@ -31,7 +31,7 @@ router.post("/usersManager", auth, async(req:Request, res: Response)=>{
         })
         return
     }
-    db.delMemberAllRoom(req.body.userName)
+    dbConnection.delMemberAllRoom(req.body.userName)
     req.session.msg_error= `Funcionario ${req.body.nomeFuncionario} deletado com sucesso`
     res.redirect("/usersManager")
     delete req.session.msg_error
