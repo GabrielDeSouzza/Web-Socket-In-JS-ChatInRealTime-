@@ -181,3 +181,7 @@ body::-webkit-scrollbar-thumb {
   text-align: right;
   width: 0%;
 }
+
+#icon-upload{
+  color: white;
+}
