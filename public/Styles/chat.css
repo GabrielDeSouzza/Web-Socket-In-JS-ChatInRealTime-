@@ -123,6 +123,15 @@ body::-webkit-scrollbar-thumb {
   height: 100%;
   cursor: pointer;
 }
+#div-upload-arq svg{
+  fill: black;
+  transition: 300ms ;
+}
+
+#div-upload-arq svg:hover {
+  fill: white;
+  
+}
 
 .image-div {
   margin: 2px;
@@ -166,22 +175,3 @@ body::-webkit-scrollbar-thumb {
   cursor: pointer;
 }
 
-.uploadArq-status {
-
-  margin-top: 10px;
-  height: 10px;
-  width: inherit;
-  border: solid 1px gray;
-}
-
-.uploadArq-status>div {
-  background-color: rgb(49, 49, 49);
-  color: rgb(141, 3, 3);
-  height: 100%;
-  text-align: right;
-  width: 0%;
-}
-
-#icon-upload{
-  color: white;
-}
