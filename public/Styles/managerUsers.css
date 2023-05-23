@@ -55,6 +55,7 @@ body {
 .conteiner-users{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .card-user{
     width: 220px;

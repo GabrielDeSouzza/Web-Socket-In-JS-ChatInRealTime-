@@ -40,8 +40,8 @@
                                 <span>Nenhum usuario Cadastrado</span>
                             <% } %>
                             <% users.forEach(user => { %>
+                                
                                 <%if (usersMember.find((member)=>{
-                                    console.log(member)
                                     if(member.username == user.userName && member.nametable == room.name_room)
                                         return true
                                     return false
