@@ -1,63 +1,80 @@
-html{
-    width: 100%;
-    height: 100%;
+html {
+  width: 100%;
+  height: 100%;
 }
 body {
-    outline: none;
-    background-color: #1A1924;
-    color: white;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+  outline: none;
+  background-color: #1a1924;
+  color: white;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
-form{
-    margin: 8px;
+form {
+  margin: 8px;
 }
-form:first-child{
-    margin-top: 10%;
-}
-
-.container{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
+form:first-child {
+  margin-top: 10%;
 }
 
-.row{
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px;
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
 }
 #descriptionTxtArea {
-    height: 100px;
-    resize: none;
+  height: 100px;
+  resize: none;
 }
 
 .input-patter {
-    width: 395px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #07847E;
-    color: #E1E1E6;
-    padding: 5px 6px;
-    outline: none;
-    border-color: transparent;
+  width: 395px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #07847e;
+  color: #e1e1e6;
+  padding: 5px 6px;
+  outline: none;
+  border-color: transparent;
 }
-.input-patter::placeholder{
-    color: #E1E1E6;
+.input-patter::placeholder {
+  color: #e1e1e6;
 }
 .logout {
-    width: 400px;
-    height: 40px;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    background: rgb(56, 3, 3);
-    cursor: pointer;
+  width: 400px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  background: rgb(56, 3, 3);
+  cursor: pointer;
 }
-
+.logout:hover{
+    background-color: #691500;
+    transition: background-color 200ms linear;
+}
+.button-patter {
+  width: 400px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  background: #0e4953;
+  cursor: pointer;
+}
+.button-patter:hover{
+    background-color: #07847e;
+    transition: background-color 200ms linear;
+}
 .msgError {
-    color: rgb(245, 48, 48);
+  color: rgb(245, 48, 48);
 }

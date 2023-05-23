@@ -16,6 +16,9 @@
         <main>
             <h3>Gerenciar Salas</h3>
             <div class="manager-rooms">
+                 <% if (rooms == 0) { %>
+                 <span>Nenhuma sala cadastrado</span>
+                <% } %>
                 <% rooms.forEach(room=> { %>
                     <form method="post" class="room">
                         <label for="name-room">Nome da Sala</label>
@@ -33,6 +36,9 @@
                         <div class="div-usersManager" style="display: none;">
                             <span>Selecione os usuarios que terão acesso a sala </span>
                             <div class="users-checkbox">
+                            <% if (users.length ==0) { %>
+                                <span>Nenhum usuario Cadastrado</span>
+                            <% } %>
                             <% users.forEach(user => { %>
                                 <%if (usersMember.find((member)=>{
                                     console.log(member)

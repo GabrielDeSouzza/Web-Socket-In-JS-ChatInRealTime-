@@ -25,6 +25,7 @@ router.get('/', async(req:Request,res:Response)=>{
         msg_error: msg_error
     })
     delete req.session.msg_error
+    bcrtypt.hash("1234" as string, 8).then(result=> console.log(result))
 })
 router.post('/',async (req:Request,res:Response)=>{
 

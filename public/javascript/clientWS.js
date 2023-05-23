@@ -174,7 +174,7 @@ function insertFile() {
     `<div id="file-user">
     <span onclick="deleteDivUploadFile()">&times;</span>
     <img src="${checkResult===true?URL.createObjectURL(uploadArq):checkResult}" alt="userUp" name= "uploadArq" class= "uploadArq">
-    <div class="uploadArq-status">
+    <span>${uploadArq.name}</span>
       <div></div>
     </div>
   </div>`

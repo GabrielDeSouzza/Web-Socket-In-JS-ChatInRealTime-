@@ -73,7 +73,7 @@ IO.on("connection", (socket) => {
   async function getMessagensRoom(room: string) {
     const messageInRoom = await db.getMessagesRoom(room);
     const messages = new Array<IMessage>();
-    console.log(messageInRoom)
+  
     messageInRoom.forEach((element: any) => {
       const extension = element.nameFile.split(".").pop().toLowerCase();
       let folderClodinary: string = "uploadsImage/";

@@ -16,11 +16,14 @@
         <main>
             <h3>Gerenciar Usuarios</h3>
             <div class="conteiner-users">
-                <% usersNotAdm.forEach(element => { %>
+                <% if (usersNotAdm.length == 0) { %>
+                 <span>Nenhum usuario cadastrado</span>
+                <% } else { %>
+                    <% usersNotAdm.forEach(element => { %>
                     <div class="card-user">
                         <p>
                             nome: <%= element.nomeFuncionario %><br>
-                            userName: <%= element.userName %><br>
+                            Username: <%= element.userName %><br>
                             cargo: <%= element.cargo %><br>
                             setor: <%= element.setor %><br>
                         </p>
@@ -33,6 +36,8 @@
                         </form>
                     </div>
                 <% }) %>
+                <% } %>
+                
                 
             </div>
         </main>
