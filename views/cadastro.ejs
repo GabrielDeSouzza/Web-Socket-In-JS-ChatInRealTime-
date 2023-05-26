@@ -1,45 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./Styles/cadastro.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./Styles/cadastro.css" />
     <%- include('./partials/latealMenuHead') %>
-        <title>Document</title>
-</head>
-<body>
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('./partials/lateralMenu',{user}) %>
     <div class="container">
-        <%- include('./partials/lateralMenu',{user}) %>
-            
-                <div class="div-register">
-                    <form method="post" class="forms">
-                    <label for="form-label">Crie um Username </label>
-                    <input type="text" name="userName" placeholder="Username" class="input-patter">
-                    <label for="form-label">Crie um senha</label>
-                    <input type="text" name="password" placeholder="senha" class="input-patter">
-                    <label for="form-label">Nome do funcionario</label>
-                    <input type="text" name="nomeFuncionario" placeholder="Nome do funcionario" class="input-patter">
-                    <label for="form-label">Cargo</label>
-                    <input type="text" name="cargo" placeholder="Digite o cargo" class="input-patter">
-                    <label for="form-label">Setor</label>
-                    <input type="text" name="setor" placeholder="Digite o setor" class="input-patter">
-                    <label for="">É administrador?</label>
-                    <input type="checkbox" class="input-patter" name="isadm">
+      <div class="div-register">
+        <form method="post" class="forms">
+          <label for="form-label">Crie um Username </label>
+          <input
+            type="text"
+            name="userName"
+            placeholder="Username"
+            class="input-patter"
+          />
+          <label for="form-label">Crie um senha</label>
+          <input
+            type="text"
+            name="password"
+            placeholder="senha"
+            class="input-patter"
+          />
+          <label for="form-label">Nome do funcionario</label>
+          <input
+            type="text"
+            name="nomeFuncionario"
+            placeholder="Nome do funcionario"
+            class="input-patter"
+          />
+          <label for="form-label">Cargo</label>
+          <input
+            type="text"
+            name="cargo"
+            placeholder="Digite o cargo"
+            class="input-patter"
+          />
+          <label for="form-label">Setor</label>
+          <input
+            type="text"
+            name="setor"
+            placeholder="Digite o setor"
+            class="input-patter"
+          />
+          <label for="">É administrador?</label>
+          <input type="checkbox" class="input-patter" name="isadm" />
 
-                    <button type="submit" class="btn-cadastrar">
-                        Cadastrar
-                    </button>
-                    <% if (typeof(result_msg)!="undefined" ) { %>
-                        <p>
-                            <%=result_msg%>
-                        </p>
-                        <%} %>
-                    </form>
-                </div>
-            
+          <button type="submit" class="btn-cadastrar">Cadastrar</button>
+          <% if (typeof(result_msg)!="undefined" ) { %>
+          <p><%=result_msg%></p>
+          <%} %>
+        </form>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>

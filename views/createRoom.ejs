@@ -14,7 +14,7 @@
   <div class="container">
     <%- include('./partials/lateralMenu',{user}) %>
       <div class="div-createdRoom">
-        <form method="post">
+        <form method="post" class="form-style">
 
           <div class="row">
 
@@ -36,7 +36,7 @@
               <%} %>
           </div>
         </form>
-        <form action="/logout" method="post">
+        <form action="/logout" method="post" class="form-style">
           <button type="submit" class="logout">Logout</button>
         </form>
         <form action="/" method="post">

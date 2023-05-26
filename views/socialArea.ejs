@@ -17,16 +17,12 @@
       <%- include('./partials/lateralMenu',{user}) %>
         <div class="div-room">
           <h3>Salas de Bate Papo</h3>
-          <% if (user.isadm==1) { %>
-            <div class="create-room">
-              <span class="sp-name-room">Criar Sala</span>
-              <p class="p-description-room">
-                Crie Suas Proprias Salas Para Discutir Assuntos do seu setor
-                ou qualquer outro assunto
-              </p>
-            </div>
-            <% } %>
               <div class="div-rooms-created">
+                <% if (dataRooms.length ==0 && user.isadm==1) { %>
+                  <h3>Nenhuma Sala Cadastrada</h3>
+                <% } else if (dataRooms.length ==0 && user.isadm==0) { %>
+                 <h2>Você não esta cadastrado em Nenhuma sala, contate um admistrador</h2>
+                 <% } %>
                 <% for( let i=0; i < dataRooms.length; i++ ) { %>
                   <div div class="room-created">
                     <span>Criador: <span id="nameUser">

@@ -9,8 +9,9 @@
     <%- include('./partials/latealMenuHead') %>
   </head>
   <body>
+    <%- include('./partials/lateralMenu',{user}) %> 
     <div class="container">
-      <%- include('./partials/lateralMenu',{user}) %>   
+        
       <div class="chat-content"> 
         <div>
           <span>olá <strong id="userName"><%=userName%></strong> (<strong id="nomeFuncionario"><%= nome %></strong>)

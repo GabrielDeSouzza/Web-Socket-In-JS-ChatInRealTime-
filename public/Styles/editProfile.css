@@ -13,6 +13,7 @@ body {
 
 
 .container{
+    margin-left: 255px;
     display: flex;
     flex-direction: row;
     width: 100%;
