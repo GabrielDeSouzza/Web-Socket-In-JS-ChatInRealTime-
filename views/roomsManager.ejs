@@ -11,9 +11,10 @@
 </head>
 
 <body>
+    <%- include('./partials/lateralMenu',{user}) %>
     <div class="container">
-        <%- include('./partials/lateralMenu',{user}) %>
-        <main>
+     
+        <main class="main-container">
             <h3>Gerenciar Salas</h3>
             <div class="manager-rooms">
                  <% if (rooms == 0) { %>

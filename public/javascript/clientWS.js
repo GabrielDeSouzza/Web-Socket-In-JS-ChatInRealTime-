@@ -98,7 +98,7 @@ function createMessage(data) {
   let classMessage = 'new_message'
   if (data.userName === userName)
     classMessage = 'user_input'
-
+  const message = addLinkInMessage(data.messages)
   if (data.nameFile !== "undefined" && data.nameFile !== undefined) {
     let urlImg = retornImgTypeFiles(data.nameFile.split(".").pop().toLowerCase())
     if(urlImg === true)
@@ -111,7 +111,7 @@ function createMessage(data) {
                 ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
                 </span>
                 <p>
-                  ${data.messages}
+                  ${message}
                 </p>
                 <div class="image-div">
                   <img src="${urlImg}" 
@@ -119,7 +119,7 @@ function createMessage(data) {
                    alt="image from ${data.userName}"
                     name="userUp" class= "uploadArq">
                     <a href="${verificarURLCloudinary(data.url_file,data.nameFile)===true?data.url_file:"/uploads/" + data.nameFile}" download="${data.nameFile}"
-                     id="file-${data.nameFile}" target="_blank"  >Download</a>
+                     id="file-${data.nameFile}" target="_blank">Download</a>
                 </div>
             </label>
         </div>
@@ -134,13 +134,47 @@ function createMessage(data) {
             ${dayjs(data.date).format("DD/MM/YYYY HH:mm")}
             </span>
               <p>
-                ${data.messages}
-              </p> 
+                ${message}
+              <p>
           </label>
         </div>`
   }
   scrollDown()
 }
+function addLinkInMessage( message){
+  console.log("foi")
+  const links = extractLink(message)
+
+  if(!links)
+    return message
+  let x = links.map((link) =>{
+    const index = message.indexOf(link)
+    if(index < 0){
+      return message
+    }
+    message = message.substring(0,index)+ `<a target='_blank' href='${link}'>${link}</a>${message.split(link)[1]}`
+    console.log(link)
+    return message
+  })
+  return x[x.length-1]
+}
+
+
+function extractLink(message) {
+  // Expressão regular para encontrar links
+  const regex = /(https?:\/\/[^\s]+)/g;
+
+  // Encontra todos os links na string
+  const linksEncontrados = message.match(regex);
+
+  if (linksEncontrados && linksEncontrados.length > 0) {
+    // Extrai o primeiro link encontrado
+    return linksEncontrados
+  } else {
+    false
+  }
+}
+
 
 function scrollDown() {
   window.scrollTo(0, document.body.scrollHeight);

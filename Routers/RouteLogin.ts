@@ -37,6 +37,7 @@ router.post('/',async (req:Request,res:Response)=>{
     }
     
     const userData:TUserData[] = await dbConnection.getUser(req.body.userName)
+    console.log(userData)
     const user:TUserData|undefined= userData.find(element=> element.userName ==req.body.userName)
     if(user == undefined ){
         res.render("index",{

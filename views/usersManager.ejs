@@ -11,9 +11,10 @@
 </head>
 
 <body>
+    <%- include('./partials/lateralMenu',{user}) %>
     <div class="container">
-        <%- include('./partials/lateralMenu',{user}) %>
-        <main>
+        
+        <main class="main-container">
             <h3>Gerenciar Usuarios</h3>
             <div class="conteiner-users">
                 <% if (usersNotAdm.length == 0) { %>

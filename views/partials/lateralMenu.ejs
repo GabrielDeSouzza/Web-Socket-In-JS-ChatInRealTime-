@@ -3,7 +3,9 @@
   <span> userName: <%= user.userName %></span>
   <span>Setor: <%= user.setor %></span>
   <span>Cargo: <%= user.cargo %></span>
-  <section>Pessoal Online: </section>
+  <form action="/socialArea">
+    <button class="btn-patter" type="submit">Volta para social Area</button>
+  </form>
    <% if (user.isadm==1) { %>
     <form action="/createRoom" method="post">
       <button class="btn-patter">Criar Salas</button>
@@ -22,9 +24,7 @@
     <button class="btn-patter">Editar conta</button>
   </form>
  
-      <form action="/socialArea">
-        <button class="btn-patter" type="submit">Volta para social Area</button>
-      </form>
+      
       <form action="/logout" method="post">
         <button id="btn-logout">Logout</button>
       </form>
