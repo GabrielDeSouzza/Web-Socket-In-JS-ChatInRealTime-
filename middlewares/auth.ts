@@ -20,7 +20,6 @@ declare module "express-session" {
  
 
 export default  
-
      async(req: Request, res: Response, next: Function)=>{
         
         type msg_error = {

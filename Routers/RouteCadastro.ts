@@ -3,7 +3,7 @@ import dbConnection from '../src/DataBaseConnection'
 import bcrtypt from 'bcryptjs'
 
 import IUserData from "../src/Types/TUserData";
-import auth from "../middlewares/auth";
+import auth from "../Middlewares/Auth";
 declare module "express-session" {
     interface SessionData  {
      msg_error: string;

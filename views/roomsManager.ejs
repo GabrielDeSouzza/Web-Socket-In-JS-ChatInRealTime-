@@ -23,8 +23,8 @@
                 <% rooms.forEach(room=> { %>
                     <form method="post" class="room">
                         <label for="name-room">Nome da Sala</label>
-                        <span class="name-erro">Caractere invalido</span>
                         <input type="text" value="<%=room.name_room%>" name="nameRoom" id="name-room">
+                        <span class="name-erro">Caractere invalido</span>
                         <label for="description-room">Descrição</label>
                         <textarea type="text" name="description" id="description-room" maxlength="240" rows="10"
                         cols="50"><%=room.description%></textarea>

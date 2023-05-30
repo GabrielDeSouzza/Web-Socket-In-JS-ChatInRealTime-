@@ -94,4 +94,8 @@ body {
     border-radius: 5px;
 }
 
+.name-erro{
+    display: none;
+    color: #fa6565;
+}
 

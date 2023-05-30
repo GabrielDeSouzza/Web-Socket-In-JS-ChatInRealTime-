@@ -22,6 +22,7 @@ document.querySelectorAll(".btn-permisionUsers").forEach((element) => {
 document.querySelectorAll(".room").forEach((room) => {
   room.querySelector("#name-room").addEventListener("keyup", (e) => {
     const regex = new RegExp(/^[a-zA-Z][a-zA-Z0-9]*$/);
+    console.log(regex.test(e.target.value))
     if (regex.test(e.target.value) == false) {
       room.querySelector(".name-erro").style.display = 'block';
       e.target.value = e.target.value.slice(0, -1);
