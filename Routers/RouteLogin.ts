@@ -25,7 +25,7 @@ router.get('/', async(req:Request,res:Response)=>{
         msg_error: msg_error
     })
     delete req.session.msg_error
-    bcrtypt.hash("1234" as string, 8).then(result=> console.log(result))
+    bcrtypt.hash("1234" as string, 8)
 })
 router.post('/',async (req:Request,res:Response)=>{
 
@@ -37,8 +37,8 @@ router.post('/',async (req:Request,res:Response)=>{
     }
     
     const userData:TUserData[] = await dbConnection.getUser(req.body.userName)
-    console.log(userData)
-    const user:TUserData|undefined= userData.find(element=> element.userName ==req.body.userName)
+
+    const user:TUserData|undefined= userData.find(element=> element.userName.toLowerCase() ==req.body.userName.toLowerCase())
     if(user == undefined ){
         res.render("index",{
             msg_error: "Usuario não encontrado",

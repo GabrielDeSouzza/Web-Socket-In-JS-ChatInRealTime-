@@ -24,7 +24,7 @@
                     <form method="post" class="room">
                         <label for="name-room">Nome da Sala</label>
                         <input type="text" value="<%=room.name_room%>" name="nameRoom" id="name-room">
-                        <span class="name-erro">Caractere invalido</span>
+                        <span class="name-erro">Nome invalido</span>
                         <label for="description-room">Descrição</label>
                         <textarea type="text" name="description" id="description-room" maxlength="240" rows="10"
                         cols="50"><%=room.description%></textarea>
@@ -57,7 +57,7 @@
 
                                         </span>
                                         <div class="div-checkbox">
-                                            <input type="checkbox" name="usersMember" value="<%= user.userName %>" checked>
+                                            <input type="checkbox"  class="usersMember" value="<%= user.userName %>" checked>
                                         </div>
                                     </div>
                                 <% } else { %>
@@ -69,7 +69,7 @@
                                             Cargo: <%= user.cargo%>
                                         </span>
                                         <div class="div-checkbox">
-                                            <input type="checkbox" name="usersMember" value="<%= user.userName %>" >
+                                            <input type="checkbox"  class="usersMember" value="<%= user.userName %>"  >
                                         </div>
                                     </div>
                             <% } %>

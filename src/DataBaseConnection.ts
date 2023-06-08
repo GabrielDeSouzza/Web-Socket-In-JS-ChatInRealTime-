@@ -30,7 +30,7 @@ async function ConnectionMysql(SQL: string, erroReturn: any) {
         console.log(e)
         return {
             erro: true,
-            return: erroReturn,
+            erroReturn: erroReturn,
             messageErro: e
         }
     }

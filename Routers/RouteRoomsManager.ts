@@ -16,7 +16,7 @@ declare module "express-session" {
         [key: string]: any;
     }
 }
-router.get("/roomsManager",auth, async (req: Request, res: Response) => {
+router.get("/roomsManager", auth, async (req: Request, res: Response) => {
     const rooms = await dbConnection.getRoomsCreatedBy(req.session.user?.userName as string)
     const usersMember = await dbConnection.getAllUsersMember()
     const allUsers = await dbConnection.getUsersNotAdm()
@@ -29,31 +29,42 @@ router.get("/roomsManager",auth, async (req: Request, res: Response) => {
     })
     delete req.session.msg_error
 })
-router.post("/roomsManager",auth, async (req: Request, res: Response) => {
+router.post("/roomsManager", auth, async (req: Request, res: Response) => {
+    console.log(req.body)
     if (req.body.action == "alterar") {
         const room: IAlterRoom = {
             description: req.body.description.trim(),
             newName: req.body.nameRoom.trim(),
             oldName: req.body.oldName.trim()
-        } 
+        }
         const usersMember = await dbConnection.getAllUsersMember()
-        const newUsers = req.body.usersMember || []
-        usersMember.filter(async (user:any)=>{
-            if(newUsers.indexOf(user) == -1){
+        const newUsers = req.body.usersMemberAdd? req.body.usersMemberAdd instanceof(Array)? req.body.usersMemberAdd : [req.body.usersMemberAdd] : []
+        const delUsers = req.body.usersMemberDel? req.body.usersMemberDel instanceof(Array)? req.body.usersMemberDel : [req.body.usersMemberDel] : []
+        console.log("add")
+        console.log(newUsers)
+        console.log("del")
+        console.log(delUsers)
+        console.log(req.body)
+        usersMember.filter(async (user: any) => {
+            if (delUsers.indexOf(user.username) != -1) {
                 await dbConnection.delMemberRoom(user.username, req.body.nameRoom)
             }
         })
-        if( !(newUsers instanceof(Array))){
-            await dbConnection.addUsersMember(newUsers, req.body.nameRoom)
-        }
-        else if(newUsers.length > 1){
-            newUsers.forEach(async (newUser:any) => {
+            
+        if (newUsers) {
+            newUsers.forEach(async (newUser: any) => { 
+                const contains =  usersMember.find((e: any) => {
+                return e.username == newUser && e.nametable == req.body.nameRoom
+            })
+            if (!contains) {
                 await dbConnection.addUsersMember(newUser, req.body.nameRoom)
+            }
             });
         }
         let message: string
         if (room.newName != room.oldName) {
             message = await dbConnection.alterNameRoom(room)
+            console.log(message)
         }
         else {
             message = await dbConnection.alterDescriptionRoom(room.oldName as string, room.description)
@@ -62,8 +73,8 @@ router.post("/roomsManager",auth, async (req: Request, res: Response) => {
         res.redirect("/roomsManager")
         return
     }
-    else if (req.body.action == "excluir"){
-        req.session.msg_error =  await dbConnection.deleteRoom(req.body.nameRoom)
+    else if (req.body.action == "excluir") {
+        req.session.msg_error = await dbConnection.deleteRoom(req.body.nameRoom)
         res.redirect("/roomsManager")
         return
     }

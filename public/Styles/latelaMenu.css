@@ -10,6 +10,7 @@ body{
     display: flex;
     flex-direction: column;
     min-width: 250px;
+    max-width: 250px;
     height: 100%;
     z-index: 1;
     left: 0;
@@ -32,6 +33,7 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }
+
 .btn-patter:hover {
     background-color: #07847E;
     transition: background-color 200ms linear;

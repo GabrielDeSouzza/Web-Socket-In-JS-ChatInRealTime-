@@ -7,17 +7,17 @@ const router = express.Router();
 
 
 router.get('/createRoom', auth, async (req: Request, res: Response) => {
-    res.render('createRoom',{
+    res.render('createRoom', {
         msg_error: req.session.msg_error,
         user: req.session.user
     })
     delete req.session.msg_error
 })
 
-router.post('/createRoom',auth, async (req: Request, res: Response) => {
+router.post('/createRoom', auth, async (req: Request, res: Response) => {
     const roomsAlreadyCreated = await dbConnection.getRooms()
     if (req.session.user?.userName && req.body.nameRoom && req.body.descriptionRoom) {
-        const usedNameRoom = roomsAlreadyCreated.find((room:any)=>{
+        const usedNameRoom = roomsAlreadyCreated.find((room: any) => {
             return room.name_room.toLowerCase().trim() === req.body.nameRoom.toLowerCase().trim()
         })
         if (usedNameRoom) {
@@ -44,7 +44,6 @@ router.post('/createRoom',auth, async (req: Request, res: Response) => {
     }
     req.session.msg_error = ""
     res.redirect("/createRoom")
-
 })
 
 
