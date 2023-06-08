@@ -23,10 +23,10 @@
                 <% rooms.forEach(room=> { %>
                     <form method="post" class="room">
                         <label for="name-room">Nome da Sala</label>
-                        <input type="text" value="<%=room.name_room%>" name="nameRoom" id="name-room">
+                        <input type="text" value="<%=room.name_room%>" name="nameRoom" id="name-room" maxlength="20">
                         <span class="name-erro">Nome invalido</span>
                         <label for="description-room">Descrição</label>
-                        <textarea type="text" name="description" id="description-room" maxlength="240" rows="10"
+                        <textarea type="text" name="description" id="description-room" maxlength="245" rows="10"
                         cols="50"><%=room.description%></textarea>
                         <div class="div-buttons">
                             <input type="hidden" name="oldName" value="<%=room.name_room%> " >
