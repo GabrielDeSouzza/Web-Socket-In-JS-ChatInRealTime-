@@ -11,7 +11,7 @@ router.get("/editProfile", auth, (req:Request, res:Response)=>{
     res.render("editProfile",{
         userName: req.session.user?.userName,
         user: req.session.user,
-        msg_error :req.session.msg_error
+        msg_error :req.session.msg_error || ""
     })
     delete req.session.msg_error
 })
@@ -25,6 +25,7 @@ router.post("/editProfile", auth, async(req:Request, res:Response)=>{
     if(await DbConnection.verifyUser(req.body.newuserName)){
         req.session.msg_error = "Usuario já em uso"
         res.redirect("/editProfile")
+        return
     }
    
     const user: IUserData = await DbConnection.getUser(req.session.user.userName as string).then((response)=>{

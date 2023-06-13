@@ -14,7 +14,7 @@ router.get("/usersManager", auth, async(req:Request, res: Response)=>{
     }
     const usersNotAdm = await dbConnection.getUsersNotAdm();
     res.render("usersManager", {
-        msg_error: req.session.msg_error,
+        msg_error: req.session.msg_error || "",
         user: req.session.user,
         usersNotAdm
     })

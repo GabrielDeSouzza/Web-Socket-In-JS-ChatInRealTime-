@@ -26,11 +26,19 @@ router.get('/cadastro',auth, async(req:Request,res:Response)=>{
     }
     res.render('cadastro',{
         user: req.session.user,
-        msg_error: req.session.msg_error
+        msg_error: req.session.msg_error || ""
     })
     delete req.session.msg_error
 })
 router.post('/cadastro', async(req:Request,res:Response)=>{
+    if(
+        !req.body.userName || !req.body.password || !req.body.nomeFuncionario
+        || !req.body.setor || !req.body.cargo
+    ){
+        res.redirect("cadastro")
+        req.session.msg_error= "Não foi possível cadastrar"
+        return
+    }
     if(await dbConnection.verifyUser(req.body.userName)){
         res.render('cadastro',{
             result_msg: 'Usuario já cadastrado'

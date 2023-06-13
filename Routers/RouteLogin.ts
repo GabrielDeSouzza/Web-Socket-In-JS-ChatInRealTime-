@@ -22,7 +22,7 @@ router.get('/', async(req:Request,res:Response)=>{
     delete req.session.msg_error
     res.render("index",{
         rooms: rooms,
-        msg_error: msg_error
+        msg_error: msg_error || ""
     })
     delete req.session.msg_error
     bcrtypt.hash("1234" as string, 8)

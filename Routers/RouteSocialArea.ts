@@ -16,8 +16,8 @@ router.get("/socialArea", auth, async (req: Request, res: Response) => {
     }
     res.render("socialArea", {
         dataRooms: dataRooms,
-        msg_error: req.session.msg_error,
-        user: req.session.user
+        msg_error: req.session.msg_error || "",
+        user: req.session.user 
     })
     delete req.session.msg_error
 })

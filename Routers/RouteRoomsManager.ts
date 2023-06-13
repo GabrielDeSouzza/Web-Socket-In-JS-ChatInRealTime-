@@ -22,7 +22,7 @@ router.get("/roomsManager", auth, async (req: Request, res: Response) => {
     const allUsers = await dbConnection.getUsersNotAdm()
     res.render("roomsManager", {
         rooms: rooms,
-        msg_error: req.session.msg_error,
+        msg_error: req.session.msg_error || "",
         usersMember: usersMember,
         users: allUsers,
         user: req.session.user

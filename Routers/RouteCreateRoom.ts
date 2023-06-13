@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/createRoom', auth, async (req: Request, res: Response) => {
     res.render('createRoom', {
-        msg_error: req.session.msg_error,
+        msg_error: req.session.msg_error || "",
         user: req.session.user
     })
     delete req.session.msg_error
