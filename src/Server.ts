@@ -1,6 +1,6 @@
 import { HttpServer } from "./HttpServer";
 import './WebsocketServer'
-import '../jobs/RemoveLocalUploads'
+import '../jobs/removeLocalUploads'
 
 
 HttpServer.listen(3000)

@@ -118,8 +118,8 @@ function createMessage(data) {
                   onerror="this.src='${"/uploads/" + data.nameFile}'"
                    alt="image from ${data.userName}"
                     name="userUp" class= "uploadArq">
-                    <a href="${verificarURLCloudinary(data.url_file,data.nameFile)===true?data.url_file:"/uploads/" + data.nameFile}" download="${data.nameFile}"
-                     id="file-${data.nameFile}" target="_blank">Download</a>
+                    <a href="${verificarURLCloudinary(data.url_file,data.nameFile)===true?data.url_file:"/uploads/" + data.nameFile}" 
+                     id="file-${data.nameFile}" target="_blank">Ver</a>
                 </div>
             </label>
         </div>

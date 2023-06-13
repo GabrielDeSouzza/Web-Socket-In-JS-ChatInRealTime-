@@ -140,6 +140,7 @@ body::-webkit-scrollbar-thumb {
   min-height: 50px;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: auto;
   width: auto;
   max-width: 330px;
